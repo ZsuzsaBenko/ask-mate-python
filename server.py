@@ -1,15 +1,30 @@
-from flask import Flask, render_template, redirect
+import os
+from flask import Flask, render_template, redirect, request, url_for
+from werkzeug.utils import secure_filename
 import data_manager
-import util
 
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = "images"
 
 
 @app.route("/")
 def route_index():
     questions = data_manager.convert_questions_data()
     return render_template("index.html", title="Home page", questions=questions)
+
+
+@app.route('/form', methods=['GET', 'POST'])
+def route_form():
+    if request.method == 'POST':
+        f = request.files['file']
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        item_data = {"image": filename}
+        data_manager.add_new_question(item_data)
+        return redirect('/')
+    else:
+        return render_template('form.html', title="Add a question")
 
 
 if __name__ == "__main__":

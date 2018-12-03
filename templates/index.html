@@ -1,4 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Questions</h1>
+    <ul>
+        {% for question in questions %}
+            <li>
+                {% for key, value in question.items() %}
+                    <p>{{ question[key] }}</p>
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

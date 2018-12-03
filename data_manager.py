@@ -1,5 +1,6 @@
 # This module handles all the data received from the user.
 
+import time
 import connection
 import util
 
@@ -9,7 +10,7 @@ answer_headers = ["id", "submission_time", "vote_number", "question_id", "messag
 
 
 def convert_questions_data():
-    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
+    questions = connection.read_csv_file("sample_data/questions.csv", question_headers)
     for question in questions:
         question["id"] = int(question["id"])
         question["submission_time"] = util.convert_timestamp_to_date(question["submission_time"])
@@ -26,3 +27,17 @@ def convert_answers_data():
         answer["vote_number"] = int(answer["vote_number"])
         answer["question_id"] = int(answer["question_id"])
     return answers
+
+
+def add_new_question(item_data):
+    new_question = {}
+    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
+    new_question["id"] = util.generate__id(questions)
+    new_question["submission_time"] = str(int(time.time()))
+    # new_question["view_number"] = item_data["view_number"]
+    # new_question["vote_number"] = item_data["vote_number"]
+    # new_question["title"] = item_data["title"]
+    # new_question["message"] = item_data["message"]
+    new_question["image"] = item_data["image"]
+    questions.append(new_question)
+    connection.write_csv_file("sample_data/test.csv", questions, question_headers)
