@@ -15,5 +15,10 @@ def read_csv_file(filename, headers):
         return content
 
 
-def write_csv_file(filename):
-    pass
+def write_csv_file(filename, content, headers):
+    with open(filename, mode="w", encoding="utf-8") as csv_file:
+        fieldnames = headers
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in content:
+            writer.writerow(row)
