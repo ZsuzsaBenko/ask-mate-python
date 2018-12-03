@@ -20,8 +20,6 @@ def route_form():
         f = request.files['file']
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        item_data = {"image": filename}
-        data_manager.add_new_question(item_data)
         return redirect('/')
     else:
         return render_template('form.html', title="Add a question")
