@@ -25,7 +25,5 @@
             </div></li>
         {%  endfor  %}
     </ul>
-    <form>
-        <input type="submit" name="get_answer"  value="Submit your answer">
-    </form>
+    <a href="{{ chosen_question['id']}}/new_answer">Add your own answer</a>
 {% endblock %}

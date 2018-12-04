@@ -41,3 +41,4 @@ def add_new_question(item_data):
     new_question["image"] = item_data["image"]
     questions.append(new_question)
     connection.write_csv_file("sample_data/question.csv", questions, question_headers)
+    return new_question["id"]

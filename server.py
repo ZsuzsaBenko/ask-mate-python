@@ -18,12 +18,15 @@ def route_index():
 def route_form():
     if request.method == 'POST':
         item_data = {"title": request.form["title"], "message": request.form["message"]}
-        f = request.files['file']
-        filename = secure_filename(f.filename)
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        item_data["image"] = "images/" + filename
-        data_manager.add_new_question(item_data)
-        return redirect('/')
+        f = request.files.get("file", None)
+        if f:
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            item_data["image"] = "images/" + filename
+        else:
+            item_data["image"] = ""
+        question_id = data_manager.add_new_question(item_data)
+        return redirect(url_for("route_question", question_id=question_id))
     else:
         return render_template('form.html', title="Add a question")
 
@@ -43,9 +46,9 @@ def route_question(question_id):
     return render_template('question.html', chosen_question=chosen_question, answers=related_answers)
 
 
-@app.route('/answer')
-def route_answer():
-    render_template('answer.html')
+@app.route('/question/<question_id>/new_answer')
+def route_new_answer(question_id):
+    return render_template('form.html', title="Add an answer", question_id=question_id)
 
 
 if __name__ == "__main__":
