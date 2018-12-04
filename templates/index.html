@@ -1,19 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-<table bgcolor="#00008b", width="100%" height="80">
-    <tr>
-        <td> </td>
-    </tr>
-</table>
-    <center><h1>Ask Mate!</h1></center>
-    <center><h2>Questions</h2></center>
-<input type="submit" name="ask" value="Ask a question!">
-<center><p>{%  for list in questions  %}
-    <p><li>{%  for i in list.values()  %}
-    {{ i }}</li>
-    {%  endfor  %}</p>
-{%  endfor  %}
 
-</lo></center>
-
+    <h1>Ask Mate!</h1>
+    <h2>Questions</h2>
+    <a href="/form">Ask a question</a>
+    <ul>
+        {% for item in questions %}
+            <li><div>
+                <p>{{ item["submission_time"] }}</p>
+                <p>{{ item["title"] }}</p>
+                <p>{{ item["message"] }}</p>
+                <img src="{{ item["image"] }}" alt="message-image">
+            </div></li>
+        {%  endfor  %}
+    </ul>
 {% endblock %}
