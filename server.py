@@ -28,9 +28,16 @@ def route_form():
         return render_template('form.html', title="Add a question")
 
 
-@app.route('/question')
-def route_question():
-    render_template('question.html')
+@app.route('/question/<question_id>')
+def route_question(question_id):
+    questions = data_manager.convert_questions_data()
+    answers = data_manager.convert_answers_data()
+    related_answers = []
+    for item in answers:
+        if item['question_id'] == question_id:
+            related_answers.append(item)
+
+    render_template('question.html', questions=questions, answers=related_answers)
 
 
 @app.route('/answer')
