@@ -25,6 +25,16 @@ def route_form():
         return render_template('form.html', title="Add a question")
 
 
+@app.route('/question')
+def route_question():
+    render_template('question.html')
+
+
+@app.route('/answer')
+def route_answer():
+    render_template('answer.html')
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,
