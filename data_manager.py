@@ -10,7 +10,7 @@ answer_headers = ["id", "submission_time", "vote_number", "question_id", "messag
 
 
 def convert_questions_data():
-    questions = connection.read_csv_file("sample_data/questions.csv", question_headers)
+    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
     for question in questions:
         question["id"] = int(question["id"])
         question["submission_time"] = util.convert_timestamp_to_date(question["submission_time"])

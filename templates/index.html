@@ -1,13 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Questions</h1>
+    <h1>Ask Mate!</h1>
+    <h2>Questions</h2>
+    <a href="/form">Ask a question</a>
     <ul>
-        {% for question in questions %}
-            <li>
-                {% for key, value in question.items() %}
-                    <p>{{ question[key] }}</p>
-                {% endfor %}
-            </li>
-        {% endfor %}
+        {% for item in questions %}
+            <li><div>
+                <p>{{ item["submission_time"] }}</p>
+                <p>{{ item["title"] }}</p>
+                <p>{{ item["message"] }}</p>
+                <img src="{{ item["image"] }}" alt="message-image">
+            </div></li>
+        {%  endfor  %}
     </ul>
 {% endblock %}
