@@ -5,7 +5,7 @@ import data_manager
 
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = "images"
+app.config['UPLOAD_FOLDER'] = "static/images"
 
 
 @app.route("/")
@@ -17,9 +17,12 @@ def route_index():
 @app.route('/form', methods=['GET', 'POST'])
 def route_form():
     if request.method == 'POST':
+        item_data = {"title": request.form["title"], "message": request.form["message"]}
         f = request.files['file']
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        item_data["image"] = "images/" + filename
+        data_manager.add_new_question(item_data)
         return redirect('/')
     else:
         return render_template('form.html', title="Add a question")
