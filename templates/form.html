@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
     <form action="" method="post" enctype=multipart/form-data>
-        <label for="title">Title</label>
-        <input  id='title' name="title" type="text" minlength="4" maxlength="30" value="Place for title"required>
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="10" cols="40" required></textarea>
+        <label for="title">Title</label><br>
+        <input  id='title' name="title" type="text" minlength="4" maxlength="30" required><br>
+        <label for="message">Message</label><br>
+        <textarea id="message" name="message" rows="10" cols="40" required></textarea><br>
         <label for="file">Image:</label><br>
         <input type="file" id="file" name="file"><br>
         <input type="submit" value="Upload image"><br>

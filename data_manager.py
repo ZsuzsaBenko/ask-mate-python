@@ -34,10 +34,10 @@ def add_new_question(item_data):
     questions = connection.read_csv_file("sample_data/question.csv", question_headers)
     new_question["id"] = util.generate__id(questions)
     new_question["submission_time"] = str(int(time.time()))
-    # new_question["view_number"] = item_data["view_number"]
-    # new_question["vote_number"] = item_data["vote_number"]
-    # new_question["title"] = item_data["title"]
-    # new_question["message"] = item_data["message"]
+    new_question["view_number"] = 0
+    new_question["vote_number"] = 0
+    new_question["title"] = item_data["title"]
+    new_question["message"] = item_data["message"]
     new_question["image"] = item_data["image"]
     questions.append(new_question)
     connection.write_csv_file("sample_data/question.csv", questions, question_headers)
