@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Answer Mate!</h1>
+    <ul>
+        {% for item in questions %}
+            <li><div>
+                <p>{{ item["submission_time"] }}</p>
+                <p>{{ item["title"] }}</p>
+                <p>{{ item["message"] }}</p>
+                <img src="{{ item['image'] }}" alt="message-image">
+                <p>{{ item["view_number"] }}</p>
+                <p>{{ item["vote_number"] }}</p>
+            </div></li>
+        {%  endfor  %}
+    </ul>
+    <h1>Answers:</h1>
+    <ul>
+        {% for item in answers %}
+            <li><div>
+                <p>{{item["submission_time"]}}</p>
+                <p>{{item["message"]}}</p>
+                <p>{{item["vote_number"]}}</p>
+            </div></li>
+        {%  endfor  %}
+    </ul>
+    <form>
+        <input type="submit" name="get_answer"  value="Submit your answer">
+    </form>
+{% endblock %}

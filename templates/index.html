@@ -7,7 +7,7 @@
         {% for item in questions %}
             <li><div>
                 <p>{{ item["submission_time"] }}</p>
-                <a href="/question"><p>{{ item["title"] }}</p></a>
+                <p><a href="question/{{ item['id'] }}">{{ item["title"] }}</a></p>
                 <p>{{ item["message"] }}</p>
                 {% if item["image"] %}
                     <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
