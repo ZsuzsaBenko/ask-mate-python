@@ -2,16 +2,18 @@
 {% block content %}
     <h1>Answer Mate!</h1>
     <ul>
-        {% for item in questions %}
-            <li><div>
-                <p>{{ item["submission_time"] }}</p>
-                <p>{{ item["title"] }}</p>
-                <p>{{ item["message"] }}</p>
-                <img src="{{ item['image'] }}" alt="message-image">
-                <p>{{ item["view_number"] }}</p>
-                <p>{{ item["vote_number"] }}</p>
-            </div></li>
-        {%  endfor  %}
+        <li><div>
+            <p>{{ chosen_question["submission_time"] }}</p>
+            <p>{{ chosen_question["title"] }}</p>
+            <p>{{ chosen_question["message"] }}</p>
+            {% if chosen_question["image"] %}
+                    <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
+            {% else %}
+                    <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
+            {% endif %}
+            <p>{{ chosen_question["view_number"] }}</p>
+            <p>{{ chosen_question["vote_number"] }}</p>
+        </div></li>
     </ul>
     <h1>Answers:</h1>
     <ul>

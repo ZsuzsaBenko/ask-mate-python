@@ -31,13 +31,16 @@ def route_form():
 @app.route('/question/<question_id>')
 def route_question(question_id):
     questions = data_manager.convert_questions_data()
+    for item in questions:
+        if item['id'] == int(question_id):
+            chosen_question = item
     answers = data_manager.convert_answers_data()
     related_answers = []
     for item in answers:
-        if item['question_id'] == question_id:
+        if item['question_id'] == int(question_id):
             related_answers.append(item)
 
-    render_template('question.html', questions=questions, answers=related_answers)
+    return render_template('question.html', chosen_question=chosen_question, answers=related_answers)
 
 
 @app.route('/answer')
