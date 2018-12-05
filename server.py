@@ -9,8 +9,12 @@ app.config['UPLOAD_FOLDER'] = "static/images"
 
 
 @app.route("/")
+@app.route("/list")
 def route_index():
     questions = data_manager.convert_questions_data()
+    order_by = request.args.get("order_by")
+    order_direction = request.args.get("order_direction")
+    questions = data_manager.sort_questions(questions, order_by=order_by, order_direction=order_direction)
     return render_template("index.html", title="Home page", questions=questions)
 
 
@@ -61,6 +65,18 @@ def route_new_answer(question_id):
         return redirect(url_for("route_question", question_id=question_id))
     else:
         return render_template('form.html', title="Add an answer", question_id=question_id)
+
+
+@app.route('/answer/<answer_id>/delete')
+def route_delete_answer(answer_id):
+    data_manager.delete_answer(answer_id)
+    return redirect(url_for('route_index'))
+
+
+@app.route('/question/<question_id>/delete')
+def route_delete_question(question_id):
+    data_manager.delete_question(question_id)
+    return redirect(url_for('route_index'))
 
 
 if __name__ == "__main__":
