@@ -55,6 +55,18 @@ def route_new_answer(question_id):
     return render_template('form.html', title="Add an answer", question_id=question_id)
 
 
+@app.route('/answer/<answer_id>/delete')
+def route_delete_answer(answer_id):
+    data_manager.delete_answer(answer_id)
+    return redirect(url_for('route_index'))
+
+
+@app.route('/question/<question_id>/delete')
+def route_delete_question(question_id):
+    data_manager.delete_question(question_id)
+    return redirect(url_for('route_index'))
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,

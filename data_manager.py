@@ -62,3 +62,24 @@ def add_new_question(item_data):
     questions.append(new_question)
     connection.write_csv_file("sample_data/question.csv", questions, question_headers)
     return new_question["id"]
+
+
+def delete_answer(id):
+    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
+    for answer in answers:
+        if id == answer["id"]:
+            answers.remove(answer)
+    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
+
+
+def delete_question(id):
+    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
+    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
+    for question in questions:
+        if id == question["id"]:
+            questions.remove(question)
+    for answer in answers:
+        if id == answer["question_id"]:
+            answers.remove(answer)
+    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
+    connection.write_csv_file("sample_data/question.csv", questions, question_headers)
