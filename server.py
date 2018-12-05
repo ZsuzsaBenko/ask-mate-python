@@ -48,13 +48,13 @@ def route_question(question_id):
     for item in answers:
         if item['question_id'] == int(question_id):
             related_answers.append(item)
-
     return render_template('question.html', chosen_question=chosen_question, answers=related_answers)
 
 
 @app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
     if request.method == 'POST':
+        add_answer = True
         item_data = {"message": request.form["message"], "question_id": question_id}
         f = request.files.get("file", None)
         if f:
@@ -66,7 +66,7 @@ def route_new_answer(question_id):
         data_manager.add_new_answer(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
-        return render_template('form.html', title="Add an answer", question_id=question_id)
+        return render_template('form.html', title="Add an answer", question_id=question_id, add_answer=add_answer)
 
 
 @app.route('/answer/<answer_id>/delete')
@@ -107,7 +107,7 @@ def route_vote_down_question(question_id):
     return redirect(url_for("route_question", question_id=question_id))
 
 
-@app.route('/answer/<answer_id>/vote-up')
+@app.route("/answer/<answer_id>/vote-up")
 def route_vote_up_answer(answer_id):
     answers = data_manager.convert_answers_data()
     for answer in answers:
@@ -120,7 +120,7 @@ def route_vote_up_answer(answer_id):
     return redirect(url_for("route_question", question_id=question_id))
 
 
-@app.route('/answer/<answer_id>/vote-down')
+@app.route("/answer/<answer_id>/vote-down")
 def route_vote_down_answer(answer_id):
     answers = data_manager.convert_answers_data()
     for answer in answers:
@@ -131,6 +131,37 @@ def route_vote_down_answer(answer_id):
         if answer["id"] == int(answer_id):
             question_id = answer["question_id"]
     return redirect(url_for("route_question", question_id=question_id))
+
+
+@app.route("/question/<question_id>/edit", methods=["GET", "POST"])
+def route_edit_question(question_id):
+    if request.method == "POST":
+        questions = data_manager.convert_questions_data()
+        for question in questions:
+            if question["id"] == int(question_id):
+                question["title"] = request.form["title"]
+                question["message"] = request.form["message"]
+                f = request.files.get("file", None)
+                if f:
+                    filename = secure_filename(f.filename)
+                    f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    question["image"] = "images/" + filename
+                else:
+                    question["image"] = ""
+        data_manager.change_question_data(questions)
+        return redirect(url_for("route_question", question_id=question_id))
+    else:
+        questions = data_manager.convert_questions_data()
+        for question in questions:
+            if question["id"] == int(question_id):
+                current = {"id": question["id"],
+                           "submission_time": question["submission_time"],
+                           "view_number": question["view_number"],
+                           "vote_number": question["vote_number"],
+                           "title": question["title"],
+                           "message": question["message"],
+                           "image": question["image"]}
+        return render_template("form.html", title="Edit question", question_id=question_id, current=current)
 
 
 if __name__ == "__main__":
