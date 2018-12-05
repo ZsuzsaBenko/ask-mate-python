@@ -42,3 +42,18 @@ def add_new_question(item_data):
     questions.append(new_question)
     connection.write_csv_file("sample_data/question.csv", questions, question_headers)
     return new_question["id"]
+
+
+def add_new_answer(item_data):
+    new_answer = {}
+    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
+    new_answer["id"] = util.generate__id(answers)
+    new_answer["submission_time"] = str(int(time.time()))
+    new_answer["vote_number"] = 0
+    new_answer["question_id"] = item_data["question_id"]
+    new_answer["message"] = item_data["message"]
+    new_answer["image"] = item_data["image"]
+    answers.append(new_answer)
+    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
+    return new_answer["id"]
+

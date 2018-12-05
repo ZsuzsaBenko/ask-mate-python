@@ -46,9 +46,21 @@ def route_question(question_id):
     return render_template('question.html', chosen_question=chosen_question, answers=related_answers)
 
 
-@app.route('/question/<question_id>/new_answer')
+@app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
-    return render_template('form.html', title="Add an answer", question_id=question_id)
+    if request.method == 'POST':
+        item_data = {"message": request.form["message"], "question_id": question_id}
+        f = request.files.get("file", None)
+        if f:
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            item_data["image"] = "images/" + filename
+        else:
+            item_data["image"] = ""
+        data_manager.add_new_answer(item_data)
+        return redirect(url_for("route_question", question_id=question_id))
+    else:
+        return render_template('form.html', title="Add an answer", question_id=question_id)
 
 
 if __name__ == "__main__":
