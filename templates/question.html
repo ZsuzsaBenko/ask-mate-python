@@ -1,29 +1,37 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Answer Mate!</h1>
-    <ul>
-        <li><div>
-            <p>{{ chosen_question["submission_time"] }}</p>
-            <p>{{ chosen_question["title"] }}</p>
-            <p>{{ chosen_question["message"] }}</p>
-            {% if chosen_question["image"] %}
-                    <img src="{{ url_for("static", filename=chosen_question['image']) }}" alt="message-image">
-            {% else %}
-                    <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
-            {% endif %}
-            <p>{{ chosen_question["view_number"] }}</p>
-            <p>{{ chosen_question["vote_number"] }}</p>
-        </div></li>
-    </ul>
-    <a href="{{ chosen_question['id']}}/delete">Delete question</a>
+    <div>
+        <p>{{ chosen_question["submission_time"] }}</p>
+        <p>{{ chosen_question["title"] }}</p>
+        <p>{{ chosen_question["message"] }}</p>
+        {% if chosen_question["image"] %}
+                <img src="{{ url_for("static", filename=chosen_question['image']) }}" alt="message-image">
+        {% else %}
+                <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
+        {% endif %}
+        <p>{{ chosen_question["view_number"] }}</p>
+        <p>{{ chosen_question["vote_number"] }}</p>
+        <a href="/question/{{ chosen_question["id"] }}/vote-up">Vote up!</a>
+        <a href="/question/{{ chosen_question["id"] }}/vote-down">Vote down!</a>
+        <a href="{{ chosen_question['id']}}/delete">Delete question</a>
+    </div>
+
     <h1>Answers:</h1>
     <ul>
         {% for item in answers %}
             <li><div>
-                <p>{{chosen_question["submission_time"]}}</p>
-                <p>{{chosen_question["message"]}}</p>
-                <p>{{chosen_question["vote_number"]}}</p>
-                <a href="http://0.0.0.0:8000/answer/{{ item['id']}}/delete">Delete answer</a>
+                <p>{{item["submission_time"]}}</p>
+                <p>{{item["message"]}}</p>
+                <p>{{item["vote_number"]}}</p>
+                {% if item["image"] %}
+                    <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
+                {% endif %}
+                <form action="" method="get">
+                    <input type="submit" name="upvote" value="Vote up!">
+                    <input type="submit" name="downvote" value="Vote down!">
+                </form>
+                <a href="/answer/{{ item['id']}}/delete">Delete answer</a>
             </div></li>
         {%  endfor  %}
     </ul>

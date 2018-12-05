@@ -69,14 +69,38 @@ def route_new_answer(question_id):
 
 @app.route('/answer/<answer_id>/delete')
 def route_delete_answer(answer_id):
+    answers = data_manager.convert_answers_data()
+    for answer in answers:
+        if answer["id"] == int(answer_id):
+            question_id = answer["question_id"]
     data_manager.delete_answer(answer_id)
-    return redirect(url_for('route_index'))
+    return redirect(url_for('route_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/delete')
 def route_delete_question(question_id):
     data_manager.delete_question(question_id)
     return redirect(url_for('route_index'))
+
+
+@app.route("/question/<question_id>/vote-up")
+def route_vote_up(question_id):
+    questions = data_manager.convert_questions_data()
+    for question in questions:
+        if question["id"] == question_id:
+            question["vote_number"] += 1
+    data_manager.change_question_data(questions)
+    return redirect(url_for("route_question", question_id=question_id))
+
+
+@app.route("/question/<question_id>/vote-down")
+def route_vote_down(question_id):
+    questions = data_manager.convert_questions_data()
+    for question in questions:
+        if question["id"] == question_id:
+            question["vote_number"] -= 1
+    data_manager.change_question_data(questions)
+    return redirect(url_for("route_question", question_id=question_id))
 
 
 if __name__ == "__main__":

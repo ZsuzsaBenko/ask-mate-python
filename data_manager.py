@@ -19,26 +19,6 @@ def convert_questions_data():
     return questions
 
 
-def sort_questions(questions, order_by=None, order_direction=None):
-    if not order_by and not order_direction or order_by == "submission_time" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["submission_time"], reverse=True)
-    elif order_by == "submission_time" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["submission_time"])
-    elif order_by == "view_number" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["view_number"], reverse=True)
-    elif order_by == "view_number" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["view_number"])
-    elif order_by == "vote_number" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["vote_number"], reverse=True)
-    elif order_by == "vote_number" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["vote_number"])
-    elif order_by == "title" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["title"])
-    elif order_by == "title" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["title"], reverse=True)
-    return questions
-
-
 def convert_answers_data():
     answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
     for answer in answers:
@@ -98,3 +78,28 @@ def add_new_answer(item_data):
     connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
     return new_answer["id"]
 
+
+def change_question_data(questions):
+    for question in questions:
+        question["submission_time"] = util.convert_date_to_timestamp(question["submission_time"])
+    connection.write_csv_file("sample_data/question.csv", questions, question_headers)
+
+
+def sort_questions(questions, order_by=None, order_direction=None):
+    if not order_by and not order_direction or order_by == "submission_time" and order_direction == "desc":
+        questions = sorted(questions, key=lambda k: k["submission_time"], reverse=True)
+    elif order_by == "submission_time" and order_direction == "asc":
+        questions = sorted(questions, key=lambda k: k["submission_time"])
+    elif order_by == "view_number" and order_direction == "desc":
+        questions = sorted(questions, key=lambda k: k["view_number"], reverse=True)
+    elif order_by == "view_number" and order_direction == "asc":
+        questions = sorted(questions, key=lambda k: k["view_number"])
+    elif order_by == "vote_number" and order_direction == "desc":
+        questions = sorted(questions, key=lambda k: k["vote_number"], reverse=True)
+    elif order_by == "vote_number" and order_direction == "asc":
+        questions = sorted(questions, key=lambda k: k["vote_number"])
+    elif order_by == "title" and order_direction == "asc":
+        questions = sorted(questions, key=lambda k: k["title"])
+    elif order_by == "title" and order_direction == "desc":
+        questions = sorted(questions, key=lambda k: k["title"], reverse=True)
+    return questions

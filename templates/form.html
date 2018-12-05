@@ -3,13 +3,17 @@
     <form action="" method="post" enctype=multipart/form-data>
         {% if not question_id %}
             <label for="title">Title</label><br>
-            <input  id='title' name="title" type="text" minlength="4" maxlength="30" required><br>
+            <input  id='title' name="title" type="text" required><br>
         {% endif %}
          <label for="message">Message</label><br>
          <textarea id="message" name="message" rows="10" cols="40" required></textarea><br>
          <label for="file">Image:</label><br>
          <input type="file" id="file" name="file"><br>
-         <input type="submit" value="Submit question"><br>
+        {% if not question_id %}
+            <input type="submit" value="Submit question"><br>
+        {% else %}
+            <input type="submit" value="Submit answer"><br>
+        {% endif %}
     </form>
 
 {% endblock %}
