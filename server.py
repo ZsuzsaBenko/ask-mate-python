@@ -38,13 +38,11 @@ def route_form():
 @app.route('/question/<question_id>')
 def route_question(question_id):
     questions = data_manager.convert_questions_data()
-    '''for question in questions:
-        if question['id'] == int(question_id):
-            question['vote_number'] += 1'''
     for item in questions:
         if item['id'] == int(question_id):
-            item['vote_number'] += 1
+            item['view_number'] += 1
             chosen_question = item
+            data_manager.change_question_data(questions)
     answers = data_manager.convert_answers_data()
     related_answers = []
     for item in answers:
