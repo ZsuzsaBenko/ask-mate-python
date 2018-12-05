@@ -7,7 +7,7 @@
             <p>{{ chosen_question["title"] }}</p>
             <p>{{ chosen_question["message"] }}</p>
             {% if chosen_question["image"] %}
-                    <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
+                    <img src="{{ url_for("static", filename=chosen_question['image']) }}" alt="message-image">
             {% else %}
                     <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
             {% endif %}
@@ -19,9 +19,9 @@
     <ul>
         {% for item in answers %}
             <li><div>
-                <p>{{item["submission_time"]}}</p>
-                <p>{{item["message"]}}</p>
-                <p>{{item["vote_number"]}}</p>
+                <p>{{chosen_question["submission_time"]}}</p>
+                <p>{{chosen_question["message"]}}</p>
+                <p>{{chosen_question["vote_number"]}}</p>
             </div></li>
         {%  endfor  %}
     </ul>
