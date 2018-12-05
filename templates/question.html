@@ -2,7 +2,7 @@
 {% block content %}
     <h1>Answer Mate!</h1>
     <div>
-        <p>{{ chosen_question["submission_time"] }}</p>
+        <p>Date: {{ chosen_question["submission_time"] }}</p>
         <p>{{ chosen_question["title"] }}</p>
         <p>{{ chosen_question["message"] }}</p>
         {% if chosen_question["image"] %}
@@ -10,8 +10,8 @@
         {% else %}
                 <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
         {% endif %}
-        <p>{{ chosen_question["view_number"] }}</p>
-        <p>{{ chosen_question["vote_number"] }}</p>
+        <p>Views: {{ chosen_question["view_number"] }}</p>
+        <p>Votes: {{ chosen_question["vote_number"] }}</p>
         <a href="/question/{{ chosen_question["id"] }}/vote-up">Vote up!</a>
         <a href="/question/{{ chosen_question["id"] }}/vote-down">Vote down!</a>
         <a href="{{ chosen_question['id']}}/delete">Delete question</a>
@@ -21,16 +21,14 @@
     <ul>
         {% for item in answers %}
             <li><div>
-                <p>{{item["submission_time"]}}</p>
+                <p>Date: {{item["submission_time"]}}</p>
                 <p>{{item["message"]}}</p>
-                <p>{{item["vote_number"]}}</p>
+                <p>Votes: {{item["vote_number"]}}</p>
                 {% if item["image"] %}
                     <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                 {% endif %}
-                <form action="" method="get">
-                    <input type="submit" name="upvote" value="Vote up!">
-                    <input type="submit" name="downvote" value="Vote down!">
-                </form>
+                <a href="/answer/{{ item["id"] }}/vote-up">Vote up!</a>
+                <a href="/answer/{{ item["id"] }}/vote-down">Vote down!</a>
                 <a href="/answer/{{ item['id']}}/delete">Delete answer</a>
             </div></li>
         {%  endfor  %}

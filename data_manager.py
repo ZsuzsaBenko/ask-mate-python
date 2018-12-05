@@ -95,6 +95,12 @@ def change_question_data(questions):
     connection.write_csv_file("sample_data/question.csv", questions, question_headers)
 
 
+def change_answer_data(answers):
+    for answer in answers:
+        answer["submission_time"] = util.convert_date_to_timestamp(answer["submission_time"])
+    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
+
+
 def sort_questions(questions, order_by=None, order_direction=None):
     if not order_by and not order_direction or order_by == "submission_time" and order_direction == "desc":
         questions = sorted(questions, key=lambda k: k["submission_time"], reverse=True)
