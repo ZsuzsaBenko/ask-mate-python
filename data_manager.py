@@ -3,6 +3,7 @@
 import time
 import connection
 import util
+import os
 
 
 question_headers = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
@@ -68,6 +69,9 @@ def delete_answer(id):
     answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
     for answer in answers:
         if id == answer["id"]:
+            if answer["image"] != '':
+                image = "static/" + answer["image"]
+                os.remove(image)
             answers.remove(answer)
     connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
 
@@ -77,9 +81,15 @@ def delete_question(id):
     questions = connection.read_csv_file("sample_data/question.csv", question_headers)
     for question in questions:
         if id == question["id"]:
+            if question["image"] != '':
+                image = "static/" + question["image"]
+                os.remove(image)
             questions.remove(question)
     for answer in answers:
         if id == answer["question_id"]:
+            if answer["image"] != '':
+                image = "static/" + answer["image"]
+                os.remove(image)
             answers.remove(answer)
     connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
     connection.write_csv_file("sample_data/question.csv", questions, question_headers)
