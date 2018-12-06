@@ -91,6 +91,7 @@ def route_vote_up_question(question_id):
     for question in questions:
         if question["id"] == int(question_id):
             question["vote_number"] += 1
+            question["view_number"] -= 1
     data_manager.change_question_data(questions)
     return redirect(url_for("route_question", question_id=question_id))
 
@@ -98,9 +99,10 @@ def route_vote_up_question(question_id):
 @app.route("/question/<question_id>/vote-down")
 def route_vote_down_question(question_id):
     questions = data_manager.convert_questions_data()
-    for question in questions:
-        if question["id"] == int(question_id):
-            question["vote_number"] -= 1
+    for item in questions:
+        if item['id'] == int(question_id):
+            item['vote_number'] -= 1
+            item["view_number"] -= 1
     data_manager.change_question_data(questions)
     return redirect(url_for("route_question", question_id=question_id))
 
