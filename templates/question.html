@@ -1,38 +1,45 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Answer Mate!</h1>
-    <div>
-        <p>Date: {{ chosen_question["submission_time"] }}</p>
-        <p>{{ chosen_question["title"] }}</p>
-        <p>{{ chosen_question["message"] }}</p>
+    <div class="chosen-question">
         {% if chosen_question["image"] %}
-                <img src="{{ url_for("static", filename=chosen_question['image']) }}" alt="message-image">
+            <img src="{{ url_for("static", filename=chosen_question['image']) }}" alt="message-image">
         {% else %}
                 <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
         {% endif %}
-        <p>Views: {{ chosen_question["view_number"] }}</p>
-        <p>Votes: {{ chosen_question["vote_number"] }}</p>
-        <a href="/question/{{ chosen_question["id"] }}/vote-up">Vote up!</a>
-        <a href="/question/{{ chosen_question["id"] }}/vote-down">Vote down!</a>
-        <a href="/question/{{ chosen_question["id"] }}/edit">Edit question</a>
-        <a href="{{ chosen_question['id']}}/delete">Delete question</a>
+        <p><span>Date: </span>{{ chosen_question["submission_time"] }}</p>
+        <p>{{ chosen_question["title"] }}</p>
+        <p>{{ chosen_question["message"] }}</p>
+
+        <p><span>Views: </span><span>{{ chosen_question["view_number"] }}</span><span>Votes: </span><span>{{ chosen_question["vote_number"] }}</span></p>
+        <div class="question-options">
+            <a href="/question/{{ chosen_question["id"] }}/vote-up">Vote up!</a>
+            <a href="/question/{{ chosen_question["id"] }}/vote-down">Vote down!</a>
+            <a href="/question/{{ chosen_question["id"] }}/edit">Edit question</a>
+            <a href="{{ chosen_question['id']}}/delete">Delete question</a>
+        </div>
     </div>
 
-    <h1>Answers:</h1>
-    <ul>
+    <h2 id="answer-h2">Answers:</h2>
+    <div class="answers">
+        <ul>
         {% for item in answers %}
             <li><div>
-                <p>Date: {{item["submission_time"]}}</p>
+                <p><span>Date: </span>{{item["submission_time"]}}</p>
                 <p>{{item["message"]}}</p>
-                <p>Votes: {{item["vote_number"]}}</p>
+                <p><span>Votes: </span>{{item["vote_number"]}}</p>
                 {% if item["image"] %}
                     <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                 {% endif %}
-                <a href="/answer/{{ item["id"] }}/vote-up">Vote up!</a>
-                <a href="/answer/{{ item["id"] }}/vote-down">Vote down!</a>
-                <a href="/answer/{{ item['id']}}/delete">Delete answer</a>
+                <div class="answer-options">
+                    <a href="/answer/{{ item["id"] }}/vote-up">Vote up!</a>
+                    <a href="/answer/{{ item["id"] }}/vote-down">Vote down!</a>
+                    <a href="/answer/{{ item['id']}}/delete">Delete answer</a>
+                </div>
             </div></li>
         {%  endfor  %}
-    </ul>
-    <a href="{{ chosen_question['id']}}/new_answer">Add your own answer</a>
+        </ul>
+    </div>
+    <a id="add-answer" href="{{ chosen_question['id']}}/new_answer">Add your own answer</a>
+
 {% endblock %}

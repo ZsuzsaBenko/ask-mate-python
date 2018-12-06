@@ -41,8 +41,11 @@ def route_question(question_id):
     for item in questions:
         if item['id'] == int(question_id):
             item['view_number'] += 1
-            chosen_question = item
             data_manager.change_question_data(questions)
+    questions = data_manager.convert_questions_data()
+    for item in questions:
+        if item['id'] == int(question_id):
+            chosen_question = item
     answers = data_manager.convert_answers_data()
     related_answers = []
     for item in answers:
@@ -55,7 +58,6 @@ def route_question(question_id):
 @app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
     if request.method == 'POST':
-        add_answer = True
         item_data = {"message": request.form["message"], "question_id": question_id}
         f = request.files.get("file", None)
         if f:
@@ -67,6 +69,7 @@ def route_new_answer(question_id):
         data_manager.add_new_answer(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
+        add_answer = True
         return render_template('form.html', title="Add an answer", question_id=question_id, add_answer=add_answer)
 
 
