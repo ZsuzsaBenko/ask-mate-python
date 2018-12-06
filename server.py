@@ -48,7 +48,8 @@ def route_question(question_id):
     for item in answers:
         if item['question_id'] == int(question_id):
             related_answers.append(item)
-    return render_template('question.html', chosen_question=chosen_question, answers=related_answers)
+    return render_template('question.html', chosen_question=chosen_question, answers=related_answers,
+                           title=chosen_question["title"])
 
 
 @app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])
