@@ -110,26 +110,32 @@ def route_vote_down_question(question_id):
 @app.route("/answer/<answer_id>/vote-up")
 def route_vote_up_answer(answer_id):
     answers = data_manager.convert_answers_data()
+    questions = data_manager.convert_questions_data()
     for answer in answers:
         if answer["id"] == int(answer_id):
             answer["vote_number"] += 1
+            for question in questions:
+                if question['id'] == answer["question_id"]:
+                    question["view_number"] -= 1
+                    question_id = question["id"]
+    data_manager.change_question_data(questions)
     data_manager.change_answer_data(answers)
-    for answer in answers:
-        if answer["id"] == int(answer_id):
-            question_id = answer["question_id"]
     return redirect(url_for("route_question", question_id=question_id))
 
 
 @app.route("/answer/<answer_id>/vote-down")
 def route_vote_down_answer(answer_id):
     answers = data_manager.convert_answers_data()
+    questions = data_manager.convert_questions_data()
     for answer in answers:
         if answer["id"] == int(answer_id):
             answer["vote_number"] -= 1
+            for question in questions:
+                if question['id'] == answer["question_id"]:
+                    question["view_number"] -= 1
+                    question_id = question["id"]
+    data_manager.change_question_data(questions)
     data_manager.change_answer_data(answers)
-    for answer in answers:
-        if answer["id"] == int(answer_id):
-            question_id = answer["question_id"]
     return redirect(url_for("route_question", question_id=question_id))
 
 
