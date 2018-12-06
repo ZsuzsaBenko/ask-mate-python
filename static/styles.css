@@ -161,7 +161,7 @@ h2{
     clear: both;
     display: table;
 }
-.questions ul li div img, .chosen-question img{
+.questions ul li div img, .chosen-question img, .answers ul li div img{
     float: right;
     height: 150px;
     width: auto;

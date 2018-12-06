@@ -25,12 +25,12 @@
         <ul>
         {% for item in answers %}
             <li><div {% if loop.index is even %} class="even clearfix" {% else %} class="odd clearfix" {% endif %}>
-                <p><span>Date: </span>{{item["submission_time"]}}</p>
-                <p>{{item["message"]}}</p>
-                <p><span>Votes: </span>{{item["vote_number"]}}</p>
                 {% if item["image"] %}
                     <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                 {% endif %}
+                <p><span>Date: </span>{{item["submission_time"]}}</p>
+                <p>{{item["message"]}}</p>
+                <p><span>Votes: </span>{{item["vote_number"]}}</p>
                 <div class="answer-options">
                     <div><a href="/answer/{{ item["id"] }}/vote-up" class="link">Vote up!</a></div>
                     <div><a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a></div>
