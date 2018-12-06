@@ -1,4 +1,4 @@
 id,submission_time,vote_number,question_id,message,image
 0,1493398140,4,0,You need to use brackets: my_list = [],
-1,1493088120,34,0,Look it up in the Python docs,
-2,1544014200,2,3,You should use request.args.get().,
+1,1493088120,33,0,Look it up in the Python docs,
+2,1544014200,3,3,You should use request.args.get().,

@@ -2,7 +2,7 @@
 {% block content %}
     <h1>Ask Mate!</h1>
     <h2>Questions</h2>
-    <a id="ask" href="/form">Ask a question</a>
+    <a class="link" href="/form">Ask a question</a>
     <div class="flex-container">
         <div class="choices">
             <form action="/list" method="get">
@@ -24,7 +24,7 @@
         <div class="questions">
              <ul>
                 {% for item in questions %}
-                    <li><div {% if item['id'] is even %} class="even" {% else %} class="odd" {% endif %}>
+                    <li><div {% if item['id'] is even %} class="even clearfix" {% else %} class="odd clearfix" {% endif %}>
                         {% if item["image"] %}
                             <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                         {% else %}

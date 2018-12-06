@@ -1,19 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
-    <form action="" method="post" enctype=multipart/form-data>
+    <div class="form">
         {% if not add_answer %}
-            <label for="title">Title</label><br>
-            <input  id='title' name="title" type="text" {% if current %} value="{{ current['title'] }}" {% endif %} required><br>
-        {% endif %}
-         <label for="message">Message</label><br>
-         <textarea id="message" name="message" rows="10" cols="40" required>{% if current %} {{ current['message'] }} {% endif %} </textarea><br>
-         <label for="file">Image:</label><br>
-         <input type="file" id="file" name="file" {% if current %} value="{{ current['image'] }}" {% endif %}><br>
-        {% if not add_answer %}
-            <input type="submit" {% if current %} value="Edit question" {% else %} value="Submit question" {%  endif %}><br>
+            {% if current %}
+                <h1>Edit your question</h1>
+            {% else %}
+                <h1>Add your question</h1>
+            {% endif %}
         {% else %}
-            <input type="submit" value="Submit answer"><br>
+            <h1>Add your answer</h1>
         {% endif %}
-    </form>
-
+        <form action="" method="post" enctype=multipart/form-data>
+            {% if not add_answer %}
+                <label for="title">Title:</label>
+                <input  id='title' name="title" type="text" {% if current %} value="{{ current['title'] }}" {% endif %} required>
+            {% endif %}
+             <label for="message">Message:</label>
+             <textarea id="message" name="message" rows="10" cols="40" required>{% if current %} {{ current['message'] }} {% endif %} </textarea>
+             <label for="file">Image:</label>
+             <input type="file" id="file" name="file" {% if current %} value="{{ current['image'] }}" {% endif %}>
+            {% if not add_answer %}
+                <input type="submit" {% if current %} value="Edit question" {% else %} value="Submit question" {%  endif %}>
+            {% else %}
+                <input type="submit" value="Submit answer">
+            {% endif %}
+        </form>
+    </div>
 {% endblock %}
