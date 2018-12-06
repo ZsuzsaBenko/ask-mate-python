@@ -156,8 +156,6 @@ def route_edit_question(question_id):
                     filename = secure_filename(f.filename)
                     f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                     question["image"] = "images/" + filename
-                else:
-                    question["image"] = ""
         data_manager.change_question_data(questions)
         return redirect(url_for("route_question", question_id=question_id))
     else:
