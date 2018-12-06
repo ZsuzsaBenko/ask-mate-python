@@ -213,16 +213,19 @@ h2{
 .chosen-question p span:nth-child(2){
     padding-right: 20px;
 }
-.chosen-question :last-child{
-    margin-top: 30px;
-}
 #add-answer{
     width: 250px;
     margin: 70px auto;
 }
 .question-options{
     width: 90%;
+    height: auto;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+.question-options div{
+    flex-direction: column;
 }
 #answer-h2{
     margin-top: 40px;
@@ -233,7 +236,13 @@ h2{
 }
 .answer-options{
     width: 70%;
+    height: auto;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+.answer-options div{
+    flex-direction: column;
 }
 
 /* Form page */

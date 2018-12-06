@@ -13,10 +13,10 @@
 
         <p><span>Views: </span><span>{{ chosen_question["view_number"] }}</span><span>Votes: </span><span>{{ chosen_question["vote_number"] }}</span></p>
         <div class="question-options">
-            <a href="/question/{{ chosen_question["id"] }}/vote-up" class="link">Vote up!</a>
-            <a href="/question/{{ chosen_question["id"] }}/vote-down" class="link">Vote down!</a>
-            <a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a>
-            <a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a>
+            <div><a href="/question/{{ chosen_question["id"] }}/vote-up" class="link">Vote up!</a></div>
+            <div><a href="/question/{{ chosen_question["id"] }}/vote-down" class="link">Vote down!</a></div>
+            <div><a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a></div>
+            <div><a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
         </div>
     </div>
 
@@ -32,9 +32,9 @@
                     <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                 {% endif %}
                 <div class="answer-options">
-                    <a href="/answer/{{ item["id"] }}/vote-up" class="link">Vote up!</a>
-                    <a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a>
-                    <a href="/answer/{{ item['id']}}/delete" class="link">Delete answer</a>
+                    <div><a href="/answer/{{ item["id"] }}/vote-up" class="link">Vote up!</a></div>
+                    <div><a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a></div>
+                    <div><a href="/answer/{{ item['id']}}/delete" class="link">Delete answer</a></div>
                 </div>
             </div></li>
         {%  endfor  %}
