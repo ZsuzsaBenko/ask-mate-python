@@ -24,7 +24,7 @@
     <div class="answers">
         <ul>
         {% for item in answers %}
-            <li><div class="clearfix {% if item['id'] is even %} even {% else %} odd {% endif %}">
+            <li><div {% if loop.index is even %} class="even clearfix" {% else %} class="odd clearfix" {% endif %}>
                 <p><span>Date: </span>{{item["submission_time"]}}</p>
                 <p>{{item["message"]}}</p>
                 <p><span>Votes: </span>{{item["vote_number"]}}</p>

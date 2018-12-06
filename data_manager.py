@@ -1,9 +1,9 @@
 # This module handles all the data received from the user.
 
+import os
 import time
 import connection
 import util
-import os
 
 
 question_headers = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
@@ -90,14 +90,12 @@ def add_new_answer(item_data):
 
 
 def change_question_data(questions):
-    for question in questions:
-        question["submission_time"] = util.convert_date_to_timestamp(question["submission_time"])
+    questions = util.change_data(questions)
     connection.write_csv_file("sample_data/question.csv", questions, question_headers)
 
 
 def change_answer_data(answers):
-    for answer in answers:
-        answer["submission_time"] = util.convert_date_to_timestamp(answer["submission_time"])
+    answers = util.change_data(answers)
     connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
 
 

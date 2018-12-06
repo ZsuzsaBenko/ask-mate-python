@@ -10,7 +10,6 @@ def convert_timestamp_to_date(timestamp):
 
 
 def convert_date_to_timestamp(date):
-    "2017-04-28 10:29"
     dt = datetime(int(date[:4]), int(date[5:7]), int(date[8:10]), int(date[11:13]), int(date[14:]))
     timestamp = int(time.mktime(dt.timetuple()))
     return timestamp
@@ -23,3 +22,9 @@ def generate__id(content):
     else:
         id = 0
     return str(id)
+
+
+def change_data(list_of_dictionaries):
+    for item in list_of_dictionaries:
+        item["submission_time"] = convert_date_to_timestamp(item["submission_time"])
+    return list_of_dictionaries
