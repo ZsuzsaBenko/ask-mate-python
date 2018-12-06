@@ -2,8 +2,24 @@
 <html lang="en">
     <head>
         <title>{{ title }}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
-        {% block content %} {% endblock %}
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><img src="{{ url_for('static', filename='images/qa.png') }}" alt="logo"></li>
+                    <li>"The answers are easy if you have the right questions."</li>
+                    <li><a href="{{ url_for('route_index') }}">Home</a></li>
+                </ul>
+            </nav>
+            <main>
+                {% block content %} {% endblock %}
+            </main>
+            <footer>
+                <p>Made by: Gergely Geiszlinger, Réka Pető and Zsuzsanna Benkő</p>
+            </footer>
+        </div>
     </body>
 </html>

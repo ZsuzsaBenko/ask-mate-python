@@ -2,37 +2,41 @@
 {% block content %}
     <h1>Ask Mate!</h1>
     <h2>Questions</h2>
-    <a href="/form">Ask a question</a>
-    <div>
-        <form action="/list" method="get">
-            <label for="order_by">Sort by: </label>
-            <select name="order_by" id="order_by">
-                <option value="submission_time">Submission time</option>
-                <option value="title">Title</option>
-                <option value="view_number">View number</option>
-                <option value="vote_number">Vote number</option>
-            </select>
-            <label for="order_direction">Order direction: </label>
-            <select name="order_direction" id="order_direction">
-                <option value="asc">Ascending order</option>
-                <option value="desc">Descending order</option>
-            </select>
-            <input type="submit" value="Sort questions">
-        </form>
+    <a id="ask" href="/form">Ask a question</a>
+    <div class="flex-container">
+        <div class="choices">
+            <form action="/list" method="get">
+                <label for="order_by">Sort by: </label>
+                <select name="order_by" id="order_by">
+                    <option value="submission_time">Submission time</option>
+                    <option value="title">Title</option>
+                    <option value="view_number">View number</option>
+                    <option value="vote_number">Vote number</option>
+                </select>
+                <label for="order_direction">Order direction: </label>
+                <select name="order_direction" id="order_direction">
+                    <option value="asc">Ascending order</option>
+                    <option value="desc">Descending order</option>
+                </select>
+                <input type="submit" value="Sort questions">
+            </form>
+        </div>
+        <div class="questions">
+             <ul>
+                {% for item in questions %}
+                    <li><div {% if item['id'] is even %} class="even" {% else %} class="odd" {% endif %}>
+                        {% if item["image"] %}
+                            <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
+                        {% else %}
+                            <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
+                        {% endif %}
+                        <p>{{ item["submission_time"] }}</p>
+                        <p><a href="question/{{ item['id'] }}">{{ item["title"] }}</a></p>
+                        <p>{{ item["message"] }}</p>
+                    </div></li>
+                {%  endfor  %}
+            </ul>
+        </div>
     </div>
 
-    <ul>
-        {% for item in questions %}
-            <li><div>
-                <p>{{ item["submission_time"] }}</p>
-                <p><a href="question/{{ item['id'] }}">{{ item["title"] }}</a></p>
-                <p>{{ item["message"] }}</p>
-                {% if item["image"] %}
-                    <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
-                {% else %}
-                    <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
-                {% endif %}
-            </div></li>
-        {%  endfor  %}
-    </ul>
 {% endblock %}
