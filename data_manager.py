@@ -70,13 +70,13 @@ def get_question_with_given_id(cursor, question_id):
 
 
 @connection.connection_handler
-def update_view_number(cursor, question_id):
+def update_view_number(cursor, question_id, number):
     cursor.execute("""
                     UPDATE question
-                    SET view_number = view_number + 1
+                    SET view_number = view_number + %(number)s
                     WHERE id = %(question_id)s;
                    """,
-                   {'question_id': question_id})
+                   {'question_id': question_id, 'number': number})
 
 
 @connection.connection_handler
@@ -103,6 +103,39 @@ def insert_new_answer(cursor, item_data):
                        'question_id': item_data['question_id'], 'message': item_data['message'],
                        'image': item_data['image']
                    })
+
+
+@connection.connection_handler
+def update_question_vote(cursor, question_id, number):
+    cursor.execute("""
+                   UPDATE question
+                   SET vote_number = vote_number + %(number)s
+                   WHERE id = %(question_id)s; 
+                   """,
+                   {'number': number, 'question_id': question_id})
+
+
+@connection.connection_handler
+def update_answer_vote(cursor, answer_id, number):
+    cursor.execute("""
+                   UPDATE answer
+                   SET vote_number = vote_number + %(number)s
+                   WHERE id = %(answer_id)s; 
+                   """,
+                   {'number': number, 'answer_id': answer_id})
+
+
+@connection.connection_handler
+def get_question_id_from_answer(cursor, answer_id):
+    cursor.execute("""
+                    SELECT question_id FROM answer
+                    WHERE id = %(answer_id)s;
+                   """,
+                   {'answer_id': answer_id})
+    question_id = cursor.fetchone()
+    return question_id['question_id']
+
+
 
 
 def delete_answer(id):
