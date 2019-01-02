@@ -21,13 +21,14 @@ def route_index():
 
 @app.route("/list")
 def route_all_questions():
+    is_all = True
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
     if order_by and order_direction:
         questions = data_manager.get_all_questions(order_by, order_direction)
     else:
         questions = data_manager.get_all_questions()
-    return render_template("index.html", title="All questions", questions=questions)
+    return render_template("index.html", title="All questions", questions=questions, is_all=is_all)
 
 
 @app.route('/form', methods=['GET', 'POST'])

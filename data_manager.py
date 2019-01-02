@@ -10,7 +10,6 @@ from datetime import datetime
 
 @connection.connection_handler
 def get_ordered_questions(cursor, order_by='submission_time', order_direction='DESC'):
-
     cursor.execute(
         sql.SQL("""SELECT * FROM question
                    ORDER BY {order_by} {order_direction}
