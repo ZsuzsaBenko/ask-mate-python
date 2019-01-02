@@ -5,42 +5,61 @@ import time
 import connection
 import util
 from psycopg2 import sql
+from datetime import datetime
 
 
 @connection.connection_handler
-def get_ordered_questions(cursor, order_by = 'submission_time', order_direction = 'ASC' ):
+def get_ordered_questions(cursor, order_by='submission_time', order_direction='DESC'):
+
     cursor.execute(
-        sql.SQL("""SELECT * FROM question 
-                   ORDER BY {order_by} {order_direction} LIMIT 5; """).
-        format(order_by=sql.Identifier(order_by),
-                order_direction=sql.SQL(order_direction))
+        sql.SQL("""SELECT * FROM question
+                   ORDER BY {order_by} {order_direction}
+                   LIMIT 5;
+                """).format(order_by=sql.Identifier(order_by),
+                            order_direction=sql.SQL(order_direction))
     )
     questions = cursor.fetchall()
     return questions
 
+
 @connection.connection_handler
-def get_all_questions(cursor):
+def get_all_questions(cursor, order_by='submission_time', order_direction='DESC'):
     cursor.execute(
-        sql.SQL("""SELECT * FROM question https://codecool.gitlab.io/codecool-curriculum/web-python/#/../assignments/sql/application-process-basic-sql
-                   ORDER BY {order_by} {order_direction}; """).
-        format(order_by=sql.Identifier(order_by),
-                order_direction=sql.SQL(order_direction))
+        sql.SQL("""SELECT * FROM question
+                   ORDER BY {order_by} {order_direction};
+                """).format(order_by=sql.Identifier(order_by),
+                            order_direction=sql.SQL(order_direction))
     )
     questions = cursor.fetchall()
     return questions
-#    cursor.execute("""SELECT * FROM question
-#                      ORDER BY submission_time DESC; """)
-#    questions = cursor.fetchall()
-#    return questions
 
-def convert_questions_data():
-    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
-    for question in questions:
-        question["id"] = int(question["id"])
-        question["submission_time"] = util.convert_timestamp_to_date(question["submission_time"])
-        question["view_number"] = int(question["view_number"])
-        question["vote_number"] = int(question["vote_number"])
-    return questions
+
+@connection.connection_handler
+def insert_new_question(cursor, item_data):
+    submission_time = datetime.now()
+    view_number = 0
+    vote_number = 0
+    title = item_data['title']
+    message = item_data['message']
+    image = item_data['image']
+    cursor.execute(
+        sql.SQL("""INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
+                   VALUES ({}, {}, {}, {}, {}, {});
+                """).format(sql.Composable(submission_time), sql.Composable(view_number),
+                            sql.Composable(vote_number), sql.Identifier(title),
+                            sql.Identifier(message), sql.Identifier(image))
+    )
+
+
+@connection.connection_handler
+def get_question_id(cursor):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = (SELECT max(id) FROM question);
+                   """)
+    new_question = cursor.fetchone()
+    return new_question
+
 
 
 def convert_answers_data():

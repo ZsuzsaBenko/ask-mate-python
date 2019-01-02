@@ -30,6 +30,17 @@ def route_all_questions():
         questions = data_manager.get_ordered_questions()
     return render_template("index.html", questions=questions, title='All questions')
 
+@app.route("/list")
+def route_all_questions():
+    order_by = request.args.get("order_by")
+    order_direction = request.args.get("order_direction")
+    if order_by and order_direction:
+        questions = data_manager.get_all_questions(order_by, order_direction)
+    else:
+        questions = data_manager.get_all_questions()
+    return render_template("index.html", title="All questions", questions=questions)
+
+
 @app.route('/form', methods=['GET', 'POST'])
 def route_form():
     if request.method == 'POST':
@@ -41,7 +52,7 @@ def route_form():
             item_data["image"] = "images/" + filename
         else:
             item_data["image"] = ""
-        question_id = data_manager.add_new_question(item_data)
+        question_id = data_manager.get_question_id()
         return redirect(url_for("route_question", question_id=question_id))
     else:
         return render_template('form.html', title="Add a question")
