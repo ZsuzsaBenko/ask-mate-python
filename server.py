@@ -41,7 +41,7 @@ def route_form():
             item_data["image"] = "images/" + filename
         else:
             item_data["image"] = ""
-        question_id = data_manager.add_new_question(item_data)
+        question_id = data_manager.get_question_id()
         return redirect(url_for("route_question", question_id=question_id))
     else:
         return render_template('form.html', title="Add a question")
@@ -49,12 +49,12 @@ def route_form():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    questions = data_manager.convert_questions_data()
+    questions = data_manager.get_all_questions()
     for item in questions:
         if item['id'] == int(question_id):
             item['view_number'] += 1
             data_manager.change_question_data(questions)
-    questions = data_manager.convert_questions_data()
+    questions = data_manager.get_all_questions()
     for item in questions:
         if item['id'] == int(question_id):
             chosen_question = item
