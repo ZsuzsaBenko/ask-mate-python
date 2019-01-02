@@ -62,7 +62,7 @@ def route_form():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    data_manager.update_view_number(question_id)
+    data_manager.update_view_number(question_id, 1)
     chosen_question = data_manager.get_question_with_given_id(question_id)
     answers = data_manager.get_answers(question_id)
     return render_template('question.html', chosen_question=chosen_question, answers=answers,
@@ -105,55 +105,31 @@ def route_delete_question(question_id):
 
 @app.route("/question/<question_id>/vote-up")
 def route_vote_up_question(question_id):
-    questions = data_manager.convert_questions_data()
-    for question in questions:
-        if question["id"] == int(question_id):
-            question["vote_number"] += 1
-            question["view_number"] -= 1
-    data_manager.change_question_data(questions)
+    data_manager.update_question_vote(question_id, 1)
+    data_manager.update_view_number(question_id, -1)
     return redirect(url_for("route_question", question_id=question_id))
 
 
 @app.route("/question/<question_id>/vote-down")
 def route_vote_down_question(question_id):
-    questions = data_manager.convert_questions_data()
-    for item in questions:
-        if item['id'] == int(question_id):
-            item['vote_number'] -= 1
-            item["view_number"] -= 1
-    data_manager.change_question_data(questions)
+    data_manager.update_question_vote(question_id, -1)
+    data_manager.update_view_number(question_id, -1)
     return redirect(url_for("route_question", question_id=question_id))
 
 
 @app.route("/answer/<answer_id>/vote-up")
 def route_vote_up_answer(answer_id):
-    answers = data_manager.convert_answers_data()
-    questions = data_manager.convert_questions_data()
-    for answer in answers:
-        if answer["id"] == int(answer_id):
-            answer["vote_number"] += 1
-            for question in questions:
-                if question['id'] == answer["question_id"]:
-                    question["view_number"] -= 1
-                    question_id = question["id"]
-    data_manager.change_question_data(questions)
-    data_manager.change_answer_data(answers)
+    data_manager.update_answer_vote(answer_id, 1)
+    question_id = data_manager.get_question_id_from_answer(answer_id)
+    data_manager.update_view_number(question_id, -1)
     return redirect(url_for("route_question", question_id=question_id))
 
 
 @app.route("/answer/<answer_id>/vote-down")
 def route_vote_down_answer(answer_id):
-    answers = data_manager.convert_answers_data()
-    questions = data_manager.convert_questions_data()
-    for answer in answers:
-        if answer["id"] == int(answer_id):
-            answer["vote_number"] -= 1
-            for question in questions:
-                if question['id'] == answer["question_id"]:
-                    question["view_number"] -= 1
-                    question_id = question["id"]
-    data_manager.change_question_data(questions)
-    data_manager.change_answer_data(answers)
+    data_manager.update_answer_vote(answer_id, -1)
+    question_id = data_manager.get_question_id_from_answer(answer_id)
+    data_manager.update_view_number(question_id, -1)
     return redirect(url_for("route_question", question_id=question_id))
 
 
