@@ -9,13 +9,25 @@ app.config['UPLOAD_FOLDER'] = "static/images"
 
 
 @app.route("/")
-@app.route("/list")
 def route_index():
-    questions = data_manager.convert_questions_data()
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
-    questions = data_manager.sort_questions(questions, order_by=order_by, order_direction=order_direction)
+    if order_by and order_direction:
+        questions = data_manager.get_ordered_questions(order_by, order_direction)
+    else:
+        questions = data_manager.get_ordered_questions()
     return render_template("index.html", title="Home page", questions=questions)
+
+
+@app.route("/list")
+def route_all_questions():
+    order_by = request.args.get("order_by")
+    order_direction = request.args.get("order_direction")
+    if order_by and order_direction:
+        questions = data_manager.get_all_questions(order_by, order_direction)
+    else:
+        questions = data_manager.get_all_questions()
+    return render_template("index.html", title="All questions", questions=questions)
 
 
 @app.route('/form', methods=['GET', 'POST'])

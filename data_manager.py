@@ -4,20 +4,36 @@ import os
 import time
 import connection
 import util
+from psycopg2 import sql
 
 
-question_headers = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
-answer_headers = ["id", "submission_time", "vote_number", "question_id", "message", "image"]
+@connection.connection_handler
+def get_ordered_questions(cursor, order_by='submission_time', order_direction='DESC'):
 
-
-def convert_questions_data():
-    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
-    for question in questions:
-        question["id"] = int(question["id"])
-        question["submission_time"] = util.convert_timestamp_to_date(question["submission_time"])
-        question["view_number"] = int(question["view_number"])
-        question["vote_number"] = int(question["vote_number"])
+    cursor.execute(
+        sql.SQL("""SELECT * FROM question
+                   ORDER BY {order_by} {order_direction}
+                   LIMIT 5;
+                """).format(order_by=sql.Identifier(order_by),
+                            order_direction=sql.SQL(order_direction))
+    )
+    questions = cursor.fetchall()
     return questions
+
+
+@connection.connection_handler
+def get_all_questions(cursor, order_by='submission_time', order_direction='DESC'):
+    cursor.execute(
+        sql.SQL("""SELECT * FROM question
+                       ORDER BY {order_by} {order_direction};
+                    """).format(order_by=sql.Identifier(order_by),
+                                order_direction=sql.SQL(order_direction))
+    )
+    questions = cursor.fetchall()
+    return questions
+
+
+@connection.connection_handler
 
 
 def convert_answers_data():
