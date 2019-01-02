@@ -10,7 +10,8 @@
         {% else %}
             <h1>Add your answer</h1>
         {% endif %}
-        <form action="{{ url_for('route_form') }}" method="post" enctype=multipart/form-data>
+        <form {% if not add_answer %} action="{{ url_for('route_form') }}" {%  else %}
+                  action="/question/{{ question_id }}/new_answer" {% endif %} method="post" enctype=multipart/form-data>
             {% if not add_answer %}
                 <label for="title">Title:</label>
                 <input  id='title' name="title" type="text" {% if current %} value="{{ current['title'] }}" {% endif %} required>

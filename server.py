@@ -13,9 +13,9 @@ def route_index():
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
     if order_by and order_direction:
-        questions = data_manager.get_ordered_questions(order_by, order_direction)
+        questions = data_manager.get_five_questions_ordered(order_by, order_direction)
     else:
-        questions = data_manager.get_ordered_questions()
+        questions = data_manager.get_five_questions_ordered()
     return render_template("index.html", title="Home page", questions=questions)
 
 
@@ -25,9 +25,9 @@ def route_all_questions():
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
     if order_by and order_direction:
-        questions = data_manager.get_all_questions(order_by, order_direction)
+        questions = data_manager.get_all_questions_ordered(order_by, order_direction)
     else:
-        questions = data_manager.get_all_questions()
+        questions = data_manager.get_all_questions_ordered()
     return render_template("index.html", title="All questions", questions=questions, is_all=is_all)
 
 
@@ -69,7 +69,7 @@ def route_new_answer(question_id):
             item_data["image"] = "images/" + filename
         else:
             item_data["image"] = ""
-        data_manager.add_new_answer(item_data)
+        data_manager.insert_new_answer(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
         add_answer = True
