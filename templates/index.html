@@ -15,11 +15,12 @@
                 </select>
                 <label for="order_direction">Order direction: </label>
                 <select name="order_direction" id="order_direction">
-                    <option value="asc">Ascending order</option>
-                    <option value="desc">Descending order</option>
+                    <option value="ASC">Ascending order</option>
+                    <option value="DESC">Descending order</option>
                 </select>
                 <input type="submit" value="Sort questions">
             </form>
+            <a href= {{ url_for("route_all_questions") }}>See all questions</a>
         </div>
         <div class="questions">
              <ul>

@@ -4,11 +4,34 @@ import os
 import time
 import connection
 import util
+from psycopg2 import sql
 
 
-question_headers = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
-answer_headers = ["id", "submission_time", "vote_number", "question_id", "message", "image"]
+@connection.connection_handler
+def get_ordered_questions(cursor, order_by = 'submission_time', order_direction = 'ASC' ):
+    cursor.execute(
+        sql.SQL("""SELECT * FROM question 
+                   ORDER BY {order_by} {order_direction} LIMIT 5; """).
+        format(order_by=sql.Identifier(order_by),
+                order_direction=sql.SQL(order_direction))
+    )
+    questions = cursor.fetchall()
+    return questions
 
+@connection.connection_handler
+def get_all_questions(cursor):
+    cursor.execute(
+        sql.SQL("""SELECT * FROM question https://codecool.gitlab.io/codecool-curriculum/web-python/#/../assignments/sql/application-process-basic-sql
+                   ORDER BY {order_by} {order_direction}; """).
+        format(order_by=sql.Identifier(order_by),
+                order_direction=sql.SQL(order_direction))
+    )
+    questions = cursor.fetchall()
+    return questions
+#    cursor.execute("""SELECT * FROM question
+#                      ORDER BY submission_time DESC; """)
+#    questions = cursor.fetchall()
+#    return questions
 
 def convert_questions_data():
     questions = connection.read_csv_file("sample_data/question.csv", question_headers)

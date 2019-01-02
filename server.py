@@ -4,19 +4,31 @@ from werkzeug.utils import secure_filename
 import data_manager
 
 
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static/images"
 
 
 @app.route("/")
-@app.route("/list")
 def route_index():
-    questions = data_manager.convert_questions_data()
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
-    questions = data_manager.sort_questions(questions, order_by=order_by, order_direction=order_direction)
+    if order_by and order_direction:
+        questions = data_manager.get_ordered_questions(order_by, order_direction)
+    else:
+        questions = data_manager.get_ordered_questions()
     return render_template("index.html", title="Home page", questions=questions)
 
+@app.route("/list")
+def route_all_questions():
+    questions = data_manager.get_all_questions
+    order_by = request.args.get("order_by")
+    order_direction = request.args.get("order_direction")
+    if order_by and order_direction:
+        questions = data_manager.get_ordered_questions(order_by, order_direction)
+    else:
+        questions = data_manager.get_ordered_questions()
+    return render_template("index.html", questions=questions, title='All questions')
 
 @app.route('/form', methods=['GET', 'POST'])
 def route_form():
@@ -37,12 +49,12 @@ def route_form():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    questions = data_manager.convert_questions_data()
+    questions = data_manager.get_all_questions()
     for item in questions:
         if item['id'] == int(question_id):
             item['view_number'] += 1
             data_manager.change_question_data(questions)
-    questions = data_manager.convert_questions_data()
+    questions = data_manager.get_all_questions()
     for item in questions:
         if item['id'] == int(question_id):
             chosen_question = item

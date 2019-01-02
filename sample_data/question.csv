@@ -13,4 +13,4 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
 3,1543970760,111,2,How to create a query string?,"I'm trying to create a query string (sorting the content in various ways), using Flask, but I don't know how I can get the correct variables. Can anyone help, please?",
-4,1544134320,9,1,Index in Jinja2 for loop,I'm using Flask with Jinja2 for my website. How is is possible to get an item's index in a Jinja2 for loop?         ,images/index.jpg
+4,1544134320,10,1,Index in Jinja2 for loop,I'm using Flask with Jinja2 for my website. How is is possible to get an item's index in a Jinja2 for loop?         ,images/index.jpg
