@@ -52,6 +52,7 @@ def route_form():
             item_data["image"] = "images/" + filename
         else:
             item_data["image"] = ""
+        data_manager.insert_new_question(item_data)
         question_id = data_manager.get_question_id()
         return redirect(url_for("route_question", question_id=question_id))
     else:
