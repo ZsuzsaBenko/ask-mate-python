@@ -51,11 +51,11 @@ def insert_new_question(cursor, item_data):
 @connection.connection_handler
 def get_question_id(cursor):
     cursor.execute("""
-                    SELECT * FROM question
+                    SELECT id FROM question
                     WHERE id = (SELECT max(id) FROM question);
                    """)
-    new_question = cursor.fetchone()
-    return new_question
+    max_id = cursor.fetchone()
+    return max_id['id']
 
 
 @connection.connection_handler
