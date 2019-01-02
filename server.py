@@ -50,21 +50,10 @@ def route_form():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    questions = data_manager.get_all_questions()
-    for item in questions:
-        if item['id'] == int(question_id):
-            item['view_number'] += 1
-            data_manager.change_question_data(questions)
-    questions = data_manager.get_all_questions()
-    for item in questions:
-        if item['id'] == int(question_id):
-            chosen_question = item
-    answers = data_manager.convert_answers_data()
-    related_answers = []
-    for item in answers:
-        if item['question_id'] == int(question_id):
-            related_answers.append(item)
-    return render_template('question.html', chosen_question=chosen_question, answers=related_answers,
+    data_manager.update_view_number(question_id)
+    chosen_question = data_manager.get_question_with_given_id(question_id)
+    answers = data_manager.get_answers(question_id)
+    return render_template('question.html', chosen_question=chosen_question, answers=answers,
                            title=chosen_question["title"])
 
 

@@ -49,7 +49,6 @@ def insert_new_question(cursor, item_data):
                     'title': title, 'message': message, 'image': image})
 
 
-
 @connection.connection_handler
 def get_question_id(cursor):
     cursor.execute("""
@@ -58,6 +57,39 @@ def get_question_id(cursor):
                    """)
     new_question = cursor.fetchone()
     return new_question
+
+
+@connection.connection_handler
+def get_question_with_given_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = %(question_id)s;
+                    """,
+                   {'question_id': question_id})
+    question = cursor.fetchone()
+    return question
+
+
+@connection.connection_handler
+def update_view_number(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET view_number = view_number + 1
+                    WHERE id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+
+
+@connection.connection_handler
+def get_answers(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE question_id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+    answers = cursor.fetchall()
+    return answers
+
 
 
 
