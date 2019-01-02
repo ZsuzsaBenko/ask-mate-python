@@ -36,6 +36,7 @@ def get_all_questions_ordered(cursor, order_by='submission_time', order_directio
 @connection.connection_handler
 def insert_new_question(cursor, item_data):
     submission_time = datetime.now()
+    submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
     view_number = 0
     vote_number = 0
     title = item_data['title']
@@ -93,6 +94,7 @@ def get_answers(cursor, question_id):
 @connection.connection_handler
 def insert_new_answer(cursor, item_data):
     submission_time = datetime.now()
+    submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
     vote_number = 0
     cursor.execute("""
                     INSERT INTO answer (submission_time, vote_number, question_id, message, image)
