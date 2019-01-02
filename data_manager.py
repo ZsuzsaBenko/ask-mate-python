@@ -9,8 +9,7 @@ from datetime import datetime
 
 
 @connection.connection_handler
-def get_ordered_questions(cursor, order_by='submission_time', order_direction='DESC'):
-
+def get_five_questions_ordered(cursor, order_by='submission_time', order_direction='DESC'):
     cursor.execute(
         sql.SQL("""SELECT * FROM question
                    ORDER BY {order_by} {order_direction}
@@ -23,7 +22,7 @@ def get_ordered_questions(cursor, order_by='submission_time', order_direction='D
 
 
 @connection.connection_handler
-def get_all_questions(cursor, order_by='submission_time', order_direction='DESC'):
+def get_all_questions_ordered(cursor, order_by='submission_time', order_direction='DESC'):
     cursor.execute(
         sql.SQL("""SELECT * FROM question
                    ORDER BY {order_by} {order_direction};
@@ -49,7 +48,6 @@ def insert_new_question(cursor, item_data):
                     'title': title, 'message': message, 'image': image})
 
 
-
 @connection.connection_handler
 def get_question_id(cursor):
     cursor.execute("""
@@ -60,30 +58,51 @@ def get_question_id(cursor):
     return new_question
 
 
+@connection.connection_handler
+def get_question_with_given_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = %(question_id)s;
+                    """,
+                   {'question_id': question_id})
+    question = cursor.fetchone()
+    return question
 
-def convert_answers_data():
-    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
-    for answer in answers:
-        answer["id"] = int(answer["id"])
-        answer["submission_time"] = util.convert_timestamp_to_date(answer["submission_time"])
-        answer["vote_number"] = int(answer["vote_number"])
-        answer["question_id"] = int(answer["question_id"])
+
+@connection.connection_handler
+def update_view_number(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET view_number = view_number + 1
+                    WHERE id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+
+
+@connection.connection_handler
+def get_answers(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE question_id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+    answers = cursor.fetchall()
     return answers
 
 
-def add_new_question(item_data):
-    new_question = {}
-    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
-    new_question["id"] = util.generate__id(questions)
-    new_question["submission_time"] = str(int(time.time()))
-    new_question["view_number"] = 0
-    new_question["vote_number"] = 0
-    new_question["title"] = item_data["title"]
-    new_question["message"] = item_data["message"]
-    new_question["image"] = item_data["image"]
-    questions.append(new_question)
-    connection.write_csv_file("sample_data/question.csv", questions, question_headers)
-    return new_question["id"]
+@connection.connection_handler
+def insert_new_answer(cursor, item_data):
+    submission_time = datetime.now()
+    vote_number = 0
+    cursor.execute("""
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image)
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s);
+                   """,
+                   {
+                       'submission_time': submission_time, 'vote_number': vote_number,
+                       'question_id': item_data['question_id'], 'message': item_data['message'],
+                       'image': item_data['image']
+                   })
 
 
 def delete_answer(id):

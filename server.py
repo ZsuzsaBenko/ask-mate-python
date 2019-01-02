@@ -14,9 +14,9 @@ def route_index():
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
     if order_by and order_direction:
-        questions = data_manager.get_ordered_questions(order_by, order_direction)
+        questions = data_manager.get_five_questions_ordered(order_by, order_direction)
     else:
-        questions = data_manager.get_ordered_questions()
+        questions = data_manager.get_five_questions_ordered()
     return render_template("index.html", title="Home page", questions=questions)
 
 @app.route("/list")
@@ -32,13 +32,14 @@ def route_all_questions():
 
 @app.route("/list")
 def route_all_questions():
+    is_all = True
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
     if order_by and order_direction:
-        questions = data_manager.get_all_questions(order_by, order_direction)
+        questions = data_manager.get_all_questions_ordered(order_by, order_direction)
     else:
-        questions = data_manager.get_all_questions()
-    return render_template("index.html", title="All questions", questions=questions)
+        questions = data_manager.get_all_questions_ordered()
+    return render_template("index.html", title="All questions", questions=questions, is_all=is_all)
 
 
 @app.route('/form', methods=['GET', 'POST'])
@@ -61,21 +62,10 @@ def route_form():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    questions = data_manager.get_all_questions()
-    for item in questions:
-        if item['id'] == int(question_id):
-            item['view_number'] += 1
-            data_manager.change_question_data(questions)
-    questions = data_manager.get_all_questions()
-    for item in questions:
-        if item['id'] == int(question_id):
-            chosen_question = item
-    answers = data_manager.convert_answers_data()
-    related_answers = []
-    for item in answers:
-        if item['question_id'] == int(question_id):
-            related_answers.append(item)
-    return render_template('question.html', chosen_question=chosen_question, answers=related_answers,
+    data_manager.update_view_number(question_id)
+    chosen_question = data_manager.get_question_with_given_id(question_id)
+    answers = data_manager.get_answers(question_id)
+    return render_template('question.html', chosen_question=chosen_question, answers=answers,
                            title=chosen_question["title"])
 
 
@@ -90,7 +80,7 @@ def route_new_answer(question_id):
             item_data["image"] = "images/" + filename
         else:
             item_data["image"] = ""
-        data_manager.add_new_answer(item_data)
+        data_manager.insert_new_answer(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
         add_answer = True
