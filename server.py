@@ -44,7 +44,7 @@ def route_form():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             item_data["image"] = "images/" + filename
         else:
-            item_data["image"] = ""
+            item_data["image"] = None
         data_manager.insert_new_question(item_data)
         question_id = data_manager.get_question_id()
         return redirect(url_for("route_question", question_id=question_id))
@@ -74,7 +74,7 @@ def route_new_answer(question_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             item_data["image"] = "images/" + filename
         else:
-            item_data["image"] = ""
+            item_data["image"] = None
         data_manager.insert_new_answer(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
@@ -84,7 +84,7 @@ def route_new_answer(question_id):
 
 @app.route('/answer/<answer_id>/delete')
 def route_delete_answer(answer_id):
-    question_id=data_manager.get_question_id_from_answer(answer_id)
+    question_id = data_manager.get_question_id_from_answer(answer_id)
     data_manager.delete_answer(answer_id)
     return redirect(url_for('route_question', question_id=question_id))
 
@@ -93,8 +93,8 @@ def route_delete_answer(answer_id):
 def route_delete_question(question_id):
     answer_id = data_manager.get_answers_id_from_question(question_id)
     try:
-        for list in answer_id:
-            for value in list.values():
+        for _list in answer_id:
+            for value in _list.values():
                 data_manager.delete_answer(value)
     except:
         pass
@@ -142,7 +142,7 @@ def route_edit_question(question_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             updated_data["image"] = "images/" + filename
         else:
-            updated_data["image"] = ''
+            updated_data["image"] = None
         data_manager.update_question(question_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
@@ -164,14 +164,14 @@ def route_edit_answer(answer_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             updated_data["image"] = "images/" + filename
         else:
-            updated_data["image"] = ''
+            updated_data["image"] = None
             data_manager.update_answer(answer_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
         question = data_manager.get_answers(question_id)
         question = question[0]
         current_answer = {"message": question["message"],
-                   "image": question["image"]}
+                          "image": question["image"]}
         return render_template("form.html", title="Edit Answer", answer_id=answer_id, current_answer=current_answer)
 
 
