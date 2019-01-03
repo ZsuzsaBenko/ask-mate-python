@@ -246,6 +246,13 @@ h2{
 .question-options div{
     flex-direction: column;
 }
+.question-comments{
+    margin-top: 50px;
+}
+.comment{
+    margin-left: 50px;
+    margin-bottom: 40px;
+}
 #answer-h2{
     margin-top: 40px;
 }

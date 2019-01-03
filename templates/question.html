@@ -18,6 +18,17 @@
             <div><a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a></div>
             <div><a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
         </div>
+        <div class="question-comments">
+        <h3>Comments: </h3>
+            {% for comment in question_comments %}
+                <div class="comment">
+                    <p><span>{{ comment.submission_time }} </span>
+                        <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
+                        {% else %} (Edited: 0 times) {% endif %}</span></p>
+                    <p>{{ comment.message }}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     <h2 id="answer-h2">Answers:</h2>
@@ -36,6 +47,19 @@
                     <div><a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a></div>
                     <div><a href="/answer/{{ item["id"] }}/edit" class="link">Edit answer</a></div>
                     <div><a href="/answer/{{ item['id']}}/delete" class="link">Delete answer</a></div>
+                </div>
+                <div class="answer-comments">
+                <h3>Comments:</h3>
+                   {% for comment in answer_comments %}
+                        {% if comment.answer_id == item["id"] %}
+                            <div class="comment">
+                            <p><span>{{ comment.submission_time }} </span>
+                                <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
+                                {% else %} (Edited: 0 times) {% endif %}</span></p>
+                            <p>{{ comment.message }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div></li>
         {%  endfor  %}
