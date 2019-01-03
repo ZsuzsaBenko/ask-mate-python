@@ -153,6 +153,28 @@ def route_edit_question(question_id):
         return render_template("form.html", title="Edit question", question_id=question_id, current=current)
 
 
+@app.route("/answer/<answer_id>/edit", methods=["GET", "POST"])
+def route_edit_answer(answer_id):
+    question_id=data_manager.get_question_id_from_answer(answer_id)
+    if request.method == "POST":
+        updated_data = {'message': request.form["message"]}
+        f = request.files.get("file", None)
+        if f:
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            updated_data["image"] = "images/" + filename
+        else:
+            updated_data["image"] = ''
+            data_manager.update_answer(answer_id, updated_data)
+        return redirect(url_for("route_question", question_id=question_id))
+    else:
+        question = data_manager.get_answers(question_id)
+        question = question[0]
+        current_answer = {"message": question["message"],
+                   "image": question["image"]}
+        return render_template("form.html", title="Edit Answer", answer_id=answer_id, current_answer=current_answer)
+
+
 @app.route("/question/<question_id>/new_comment", methods=["GET", "POST"])
 def route_new_question_comment(question_id):
     if request.method == 'POST':
