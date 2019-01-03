@@ -138,6 +138,15 @@ def get_question_id_from_answer(cursor, answer_id):
     return question_id['question_id']
 
 
+@connection.connection_handler
+def update_question(cursor, question_id, updated_data):
+    cursor.execute("""
+                    UPDATE question
+                    SET (%(title)s, %(message)s, %(image)s)
+                    WHERE id = %(question_id)s;
+                   """,
+                   {'title': updated_data['title'], 'message': updated_data['message'],
+                    'question_id': question_id})
 
 
 def delete_answer(id):
