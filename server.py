@@ -143,11 +143,7 @@ def route_edit_question(question_id):
         return redirect(url_for("route_question", question_id=question_id))
     else:
         question = data_manager.get_question_with_given_id(question_id)
-        current = {"id": question["id"],
-                   "submission_time": question["submission_time"],
-                   "view_number": question["view_number"],
-                   "vote_number": question["vote_number"],
-                   "title": question["title"],
+        current = {"title": question["title"],
                    "message": question["message"],
                    "image": question["image"]}
         return render_template("form.html", title="Edit question", question_id=question_id, current=current)

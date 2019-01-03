@@ -137,23 +137,25 @@ def get_question_id_from_answer(cursor, answer_id):
     question_id = cursor.fetchone()
     return question_id['question_id']
 
-@connection.connection_handler
-def get_image_path_answer(cursor,answer_id):
-    cursor.execute("""SELECT image FROM answer
-                      WHERE id = %(answer_id)s
-                   """,
-                   {'answer_id': answer_id})
-    path_for_image = cursor.fetchone()[0]
-    return path_for_image['image']
 
 @connection.connection_handler
-def delete_answer(cursor,answer_id):
+def get_image_path_answer(cursor, answer_id):
+    cursor.execute("""SELECT image FROM answer
+                      WHERE id = %(answer_id)s;
+                   """,
+                   {'answer_id': answer_id})
+    path_for_image = cursor.fetchone()
+    return path_for_image['image']
+
+
+@connection.connection_handler
+def delete_answer(cursor, answer_id):
     cursor.execute("""
                     DELETE FROM answer
                     WHERE id =%(answer_id)s;
                    """,
                    {'answer_id': answer_id})
-    path_for_image=get_image_path_answer(answer_id)
+    path_for_image = get_image_path_answer(answer_id)
     image = "static/" + path_for_image
     os.remove(image)
 
@@ -186,11 +188,11 @@ def delete_question(cursor, question_id):
 def update_question(cursor, question_id, updated_data):
     cursor.execute("""
                     UPDATE question
-                    SET (%(title)s, %(message)s, %(image)s)
+                    SET title = %(title)s, message = %(message)s, image = %(image)s
                     WHERE id = %(question_id)s;
                    """,
                    {'title': updated_data['title'], 'message': updated_data['message'],
-                    'question_id': question_id})
+                    'image': updated_data['image'], 'question_id': question_id})
 
 
 
