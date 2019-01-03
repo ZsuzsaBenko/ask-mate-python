@@ -57,8 +57,7 @@ def route_question(question_id):
     data_manager.update_view_number(question_id, 1)
     chosen_question = data_manager.get_question_with_given_id(question_id)
     question_comments = data_manager.get_question_comments(question_id)
-    answers = data_manager.get_answers(question_id)
-    # answer_comments = data_manager.get_answer_comments(answer_id)
+    answers = data_manager.get_answers_with_their_comments(question_id)
     return render_template('question.html', chosen_question=chosen_question, answers=answers,
                            title=chosen_question["title"], question_comments=question_comments)
 

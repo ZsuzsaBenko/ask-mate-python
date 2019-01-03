@@ -239,11 +239,14 @@ def get_question_comments(cursor, question_id):
 
 
 @connection.connection_handler
-def get_answer_comments(cursor, answer_id):
+def get_answers_with_their_comments(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM comment
-                    WHERE answer_id = %(answer_id)s;
+                    SELECT answer.submission_time, answer.vote_number, answer.message, answer.image, 
+                        comment.message AS comm_mess, comment.submission_time AS comm_sub,
+                        comment.edited_count AS comm_edit FROM answer
+                    LEFT JOIN comment ON answer.id = comment.answer_id
+                    WHERE answer.question_id = %(question_id)s;
                    """,
-                   {'question_id': answer_id})
+                   {'question_id': question_id})
     answer_comments = cursor.fetchall()
     return answer_comments

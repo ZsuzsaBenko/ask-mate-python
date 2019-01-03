@@ -23,7 +23,8 @@
             {% for comment in question_comments %}
                 <div class="comment">
                     <p><span>{{ comment.submission_time }} </span>
-                        <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times) {% else %} (Edited: 0 times) {% endif %}</span></p>
+                        <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
+                        {% else %} (Edited: 0 times) {% endif %}</span></p>
                     <p>{{ comment.message }}</p>
                 </div>
             {% endfor %}
@@ -45,6 +46,17 @@
                     <div><a href="/answer/{{ item["id"] }}/vote-up" class="link">Vote up!</a></div>
                     <div><a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a></div>
                     <div><a href="/answer/{{ item['id']}}/delete" class="link">Delete answer</a></div>
+                </div>
+                <div class="answer-comments">
+                    <h3>Comments:</h3>
+                       {% if item.comm_mess %}
+                            <div class="comment">
+                            <p><span>{{ item.comm_sub }} </span>
+                                <span>{% if item.comm_edit %} (Edited: {{ item.comm_edit }} times)
+                                {% else %} (Edited: 0 times) {% endif %}</span></p>
+                            <p>{{ item.comm_mess }}</p>
+                            </div>
+                        {% endif %}
                 </div>
             </div></li>
         {%  endfor  %}
