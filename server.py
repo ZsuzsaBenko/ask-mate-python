@@ -19,16 +19,6 @@ def route_index():
         questions = data_manager.get_five_questions_ordered()
     return render_template("index.html", title="Home page", questions=questions)
 
-@app.route("/list")
-def route_all_questions():
-    questions = data_manager.get_all_questions
-    order_by = request.args.get("order_by")
-    order_direction = request.args.get("order_direction")
-    if order_by and order_direction:
-        questions = data_manager.get_ordered_questions(order_by, order_direction)
-    else:
-        questions = data_manager.get_ordered_questions()
-    return render_template("index.html", questions=questions, title='All questions')
 
 @app.route("/list")
 def route_all_questions():
@@ -89,12 +79,17 @@ def route_new_answer(question_id):
 
 @app.route('/answer/<answer_id>/delete')
 def route_delete_answer(answer_id):
-    answers = data_manager.convert_answers_data()
-    for answer in answers:
-        if answer["id"] == int(answer_id):
-            question_id = answer["question_id"]
+    question_id=data_manager.get_question_id_from_answer(answer_id)
     data_manager.delete_answer(answer_id)
     return redirect(url_for('route_question', question_id=question_id))
+
+
+    #answers = data_manager.convert_answers_data()
+    #for answer in answers:
+    #    if answer["id"] == int(answer_id):
+    #        question_id = answer["question_id"]
+    #data_manager.delete_answer(answer_id)
+    #return redirect(url_for('route_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/delete')
