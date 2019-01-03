@@ -160,16 +160,6 @@ def delete_answer(cursor, answer_id):
     os.remove(image)
 
 
-#def delete_answer(id):
-#    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
-#    for answer in answers:
-#        if id == answer["id"]:
-#            if answer["image"] != '':
-#                image = "static/" + answer["image"]
-#                os.remove(image)
-#            answers.remove(answer)
-#    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
-
 @connection.connection_handler
 def delete_question(cursor, question_id):
     cursor.execute("""
@@ -193,26 +183,3 @@ def update_question(cursor, question_id, updated_data):
                    """,
                    {'title': updated_data['title'], 'message': updated_data['message'],
                     'image': updated_data['image'], 'question_id': question_id})
-
-
-
-
-
-#    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
-#    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
-#    for question in questions:
-#        if id == question["id"]:
-#            if question["image"] != '':
-#                image = "static/" + question["image"]
-#                os.remove(image)
-#            questions.remove(question)
-#    for answer in answers:
-#        if id == answer["question_id"]:
-#            if answer["image"] != '':
-#                image = "static/" + answer["image"]
-#                os.remove(image)
-#            answers.remove(answer)
-#    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
-#    connection.write_csv_file("sample_data/question.csv", questions, question_headers)
-
-
