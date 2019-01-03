@@ -138,43 +138,55 @@ def get_question_id_from_answer(cursor, answer_id):
     return question_id['question_id']
 
 @connection.connection_handler
+def get_answers_id_from_question(cursor, question_id):
+    cursor.execute("""
+                    SELECT id FROM answer
+                    WHERE question_id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+    answer_id = cursor.fetchall()
+    return answer_id
+
+@connection.connection_handler
 def get_image_path_answer(cursor,answer_id):
     cursor.execute("""SELECT image FROM answer
-                      WHERE id = %(answer_id)s
+                      WHERE id = %(answer_id)s;
                    """,
                    {'answer_id': answer_id})
-    path_for_image = cursor.fetchone()[0]
+    path_for_image = cursor.fetchone()
     return path_for_image['image']
 
 @connection.connection_handler
 def delete_answer(cursor,answer_id):
+    try:
+        path_for_image=get_image_path_answer(answer_id)
+        image = "static/" + path_for_image
+        os.remove(image)
+    except:
+        pass
     cursor.execute("""
                     DELETE FROM answer
                     WHERE id =%(answer_id)s;
                    """,
                    {'answer_id': answer_id})
-    path_for_image=get_image_path_answer(answer_id)
-    image = "static/" + path_for_image
-    os.remove(image)
 
-
-#def delete_answer(id):
-#    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
-#    for answer in answers:
-#        if id == answer["id"]:
-#            if answer["image"] != '':
-#                image = "static/" + answer["image"]
-#                os.remove(image)
-#            answers.remove(answer)
-#    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
+@connection.connection_handler
+def get_image_path_question(cursor,question_id):
+    cursor.execute("""SELECT image FROM question
+                      WHERE id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+    path_for_image = cursor.fetchone()
+    return path_for_image['image']
 
 @connection.connection_handler
 def delete_question(cursor, question_id):
-    cursor.execute("""
-                    DELETE FROM answer
-                    WHERE question_id =%(question_id)s;
-                    """,
-                   {'question_id': question_id})
+    try:
+        path_for_image=get_image_path_question(question_id)
+        image = "static/" + path_for_image
+        os.remove(image)
+    except:
+        pass
     cursor.execute("""
                     DELETE FROM question
                     WHERE id =%(question_id)s;
@@ -191,26 +203,4 @@ def update_question(cursor, question_id, updated_data):
                    """,
                    {'title': updated_data['title'], 'message': updated_data['message'],
                     'question_id': question_id})
-
-
-
-
-
-#    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
-#    questions = connection.read_csv_file("sample_data/question.csv", question_headers)
-#    for question in questions:
-#        if id == question["id"]:
-#            if question["image"] != '':
-#                image = "static/" + question["image"]
-#                os.remove(image)
-#            questions.remove(question)
-#    for answer in answers:
-#        if id == answer["question_id"]:
-#            if answer["image"] != '':
-#                image = "static/" + answer["image"]
-#                os.remove(image)
-#            answers.remove(answer)
-#    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
-#    connection.write_csv_file("sample_data/question.csv", questions, question_headers)
-
 

@@ -84,16 +84,15 @@ def route_delete_answer(answer_id):
     return redirect(url_for('route_question', question_id=question_id))
 
 
-    #answers = data_manager.convert_answers_data()
-    #for answer in answers:
-    #    if answer["id"] == int(answer_id):
-    #        question_id = answer["question_id"]
-    #data_manager.delete_answer(answer_id)
-    #return redirect(url_for('route_question', question_id=question_id))
-
-
 @app.route('/question/<question_id>/delete')
 def route_delete_question(question_id):
+    answer_id = data_manager.get_answers_id_from_question(question_id)
+    try:
+        for list in answer_id:
+            for value in list.values():
+                data_manager.delete_answer(value)
+    except:
+        pass
     data_manager.delete_question(question_id)
     return redirect(url_for('route_index'))
 
