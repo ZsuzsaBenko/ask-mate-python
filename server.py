@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 import data_manager
 
 
-
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static/images"
 
@@ -13,8 +12,11 @@ app.config['UPLOAD_FOLDER'] = "static/images"
 def route_index():
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
+    search_phrase = request.args.get("search")
     if order_by and order_direction:
         questions = data_manager.get_five_questions_ordered(order_by, order_direction)
+    elif search_phrase:
+        questions = data_manager.get_searched_phrases(search_phrase)
     else:
         questions = data_manager.get_five_questions_ordered()
     return render_template("index.html", title="Home page", questions=questions)
@@ -82,14 +84,6 @@ def route_delete_answer(answer_id):
     question_id=data_manager.get_question_id_from_answer(answer_id)
     data_manager.delete_answer(answer_id)
     return redirect(url_for('route_question', question_id=question_id))
-
-
-    #answers = data_manager.convert_answers_data()
-    #for answer in answers:
-    #    if answer["id"] == int(answer_id):
-    #        question_id = answer["question_id"]
-    #data_manager.delete_answer(answer_id)
-    #return redirect(url_for('route_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/delete')

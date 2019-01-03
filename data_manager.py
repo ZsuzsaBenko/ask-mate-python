@@ -183,3 +183,20 @@ def update_question(cursor, question_id, updated_data):
                    """,
                    {'title': updated_data['title'], 'message': updated_data['message'],
                     'image': updated_data['image'], 'question_id': question_id})
+
+
+@connection.connection_handler
+def get_searched_phrases(cursor, phrase):
+    cursor.execute("""
+                    SELECT question.id, question.submission_time, question.title, question.message,
+                        question.image FROM question
+                    LEFT JOIN answer ON question.id = answer.question_id
+                    WHERE question.title ILIKE %(phrase)s OR
+                        question.message ILIKE %(phrase)s OR
+                        answer.message ILIKE %(phrase)s
+                    GROUP BY question.id, question.submission_time, question.title, question.message,
+                        question.image;
+                   """,
+                   {'phrase': '%' + phrase + '%'})
+    questions = cursor.fetchall()
+    return questions
