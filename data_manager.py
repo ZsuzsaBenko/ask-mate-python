@@ -249,3 +249,14 @@ def get_answers_comments(cursor, question_id):
     answer_comments = cursor.fetchall()
     return answer_comments
 
+
+@connection.connection_handler
+def insert_new_question_comment(cursor, item_data):
+    submission_time = datetime.now()
+    submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
+    cursor.execute("""
+                    INSERT INTO comment (question_id, message, submission_time)
+                    VALUES (%(question_id)s, %(message)s, %(submission_time)s); 
+                    """,
+                   {'question_id': item_data["question_id"], 'message': item_data["message"],
+                    'submission_time': submission_time})

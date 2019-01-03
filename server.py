@@ -153,6 +153,17 @@ def route_edit_question(question_id):
         return render_template("form.html", title="Edit question", question_id=question_id, current=current)
 
 
+@app.route("/question/<question_id>/new_comment", methods=["GET", "POST"])
+def route_new_question_comment(question_id):
+    if request.method == 'POST':
+        item_data = {"message": request.form["message"], "question_id": question_id}
+        data_manager.insert_new_question_comment(item_data)
+        return redirect(url_for("route_question", question_id=question_id))
+    else:
+        add_comment = True
+        return render_template('form.html', title="Add a comment", question_id=question_id, add_comment=add_comment)
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,
