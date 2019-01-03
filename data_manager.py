@@ -143,8 +143,8 @@ def get_image_path_answer(cursor,answer_id):
                       WHERE id = %(answer_id)s
                    """,
                    {'answer_id': answer_id})
-    path_for_image = cursor.fetchone()
-    return path_for_image
+    path_for_image = cursor.fetchone()[0]
+    return path_for_image['image']
 
 @connection.connection_handler
 def delete_answer(cursor,answer_id):
@@ -153,9 +153,9 @@ def delete_answer(cursor,answer_id):
                     WHERE id =%(answer_id)s;
                    """,
                    {'answer_id': answer_id})
-#    path_for_image=get_image_path_answer(answer_id)
-#    image = "static/" + path_for_image
-#    os.remove(image)
+    path_for_image=get_image_path_answer(answer_id)
+    image = "static/" + path_for_image
+    os.remove(image)
 
 
 #def delete_answer(id):
@@ -182,6 +182,17 @@ def delete_question(cursor, question_id):
                    {'question_id': question_id})
 
 
+@connection.connection_handler
+def update_question(cursor, question_id, updated_data):
+    cursor.execute("""
+                    UPDATE question
+                    SET (%(title)s, %(message)s, %(image)s)
+                    WHERE id = %(question_id)s;
+                   """,
+                   {'title': updated_data['title'], 'message': updated_data['message'],
+                    'question_id': question_id})
+
+
 
 
 
@@ -203,45 +214,3 @@ def delete_question(cursor, question_id):
 #    connection.write_csv_file("sample_data/question.csv", questions, question_headers)
 
 
-def add_new_answer(item_data):
-    new_answer = {}
-    answers = connection.read_csv_file("sample_data/answer.csv", answer_headers)
-    new_answer["id"] = util.generate__id(answers)
-    new_answer["submission_time"] = str(int(time.time()))
-    new_answer["vote_number"] = 0
-    new_answer["question_id"] = item_data["question_id"]
-    new_answer["message"] = item_data["message"]
-    new_answer["image"] = item_data["image"]
-    answers.append(new_answer)
-    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
-    return new_answer["id"]
-
-
-def change_question_data(questions):
-    questions = util.change_data(questions)
-    connection.write_csv_file("sample_data/question.csv", questions, question_headers)
-
-
-def change_answer_data(answers):
-    answers = util.change_data(answers)
-    connection.write_csv_file("sample_data/answer.csv", answers, answer_headers)
-
-
-def sort_questions(questions, order_by=None, order_direction=None):
-    if not order_by and not order_direction or order_by == "submission_time" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["submission_time"], reverse=True)
-    elif order_by == "submission_time" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["submission_time"])
-    elif order_by == "view_number" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["view_number"], reverse=True)
-    elif order_by == "view_number" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["view_number"])
-    elif order_by == "vote_number" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["vote_number"], reverse=True)
-    elif order_by == "vote_number" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["vote_number"])
-    elif order_by == "title" and order_direction == "asc":
-        questions = sorted(questions, key=lambda k: k["title"])
-    elif order_by == "title" and order_direction == "desc":
-        questions = sorted(questions, key=lambda k: k["title"], reverse=True)
-    return questions

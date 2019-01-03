@@ -131,29 +131,25 @@ def route_vote_down_answer(answer_id):
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def route_edit_question(question_id):
     if request.method == "POST":
-        questions = data_manager.convert_questions_data()
-        for question in questions:
-            if question["id"] == int(question_id):
-                question["title"] = request.form["title"]
-                question["message"] = request.form["message"]
-                f = request.files.get("file", None)
-                if f:
-                    filename = secure_filename(f.filename)
-                    f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    question["image"] = "images/" + filename
-        data_manager.change_question_data(questions)
+        updated_data = {'title': request.form["title"], 'message': request.form["message"]}
+        f = request.files.get("file", None)
+        if f:
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            updated_data["image"] = "images/" + filename
+        else:
+            updated_data["image"] = ''
+        data_manager.update_question(question_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
-        questions = data_manager.convert_questions_data()
-        for question in questions:
-            if question["id"] == int(question_id):
-                current = {"id": question["id"],
-                           "submission_time": question["submission_time"],
-                           "view_number": question["view_number"],
-                           "vote_number": question["vote_number"],
-                           "title": question["title"],
-                           "message": question["message"],
-                           "image": question["image"]}
+        question = data_manager.get_question_with_given_id(question_id)
+        current = {"id": question["id"],
+                   "submission_time": question["submission_time"],
+                   "view_number": question["view_number"],
+                   "vote_number": question["vote_number"],
+                   "title": question["title"],
+                   "message": question["message"],
+                   "image": question["image"]}
         return render_template("form.html", title="Edit question", question_id=question_id, current=current)
 
 
