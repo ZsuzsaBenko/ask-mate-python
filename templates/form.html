@@ -2,7 +2,9 @@
 {% block content %}
     <div class="form">
         {% if not add_answer %}
-            {% if current %}
+            {% if current_answer %}
+                <h1>Edit your answer</h1>
+            {% elif current %}
                 <h1>Edit your question</h1>
             {% else %}
                 <h1>Add your question</h1>
@@ -10,20 +12,21 @@
         {% else %}
             <h1>Add your answer</h1>
         {% endif %}
-        <form {% if not add_answer and not current %} action="{{ url_for('route_form') }}"
-                {%  elif not current %} action="/question/{{ question_id }}/new_answer"
+        <form {% if not add_answer and not current and not current_answer %} action="{{ url_for('route_form') }}"
+                {%  elif not current and not current_answer %} action="/question/{{ question_id }}/new_answer"
+                {%  elif not current and not add_answer %} action="/answer/{{ answer_id }}/edit"
                 {% else %} action="/question/{{ question_id }}/edit" {% endif %}
                 method="post" enctype=multipart/form-data>
-            {% if not add_answer %}
+            {% if not add_answer and not current_answer %}
                 <label for="title">Title:</label>
                 <input  id='title' name="title" type="text" {% if current %} value="{{ current['title'] }}" {% endif %} required>
             {% endif %}
              <label for="message">Message:</label>
-             <textarea id="message" name="message" rows="10" cols="40" required>{% if current %} {{ current['message'] }} {% endif %} </textarea>
+             <textarea id="message" name="message" rows="10" cols="40" required>{% if current %} {{ current['message'] }} {% elif current_answer %} {{ current_answer['message'] }} {% endif %}</textarea>
              <label for="file">Image:</label>
-             <input type="file" id="file" name="file" {% if current %} value="{{ current['image'] }}" {% endif %}>
+             <input type="file" id="file" name="file" {% if current %} value="{{ current['image'] }}" {% elif current_answer %} value="{{ current_answer['image'] }}"{% endif %}>
             {% if not add_answer %}
-                <input type="submit" {% if current %} value="Edit question" {% else %} value="Submit question" {%  endif %}>
+                <input type="submit" {% if current %} value="Edit question" {% elif current_answer %} value="Edit answer" {% else %} value="Submit question" {%  endif %}>
             {% else %}
                 <input type="submit" value="Submit answer">
             {% endif %}

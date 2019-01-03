@@ -208,6 +208,17 @@ def update_question(cursor, question_id, updated_data):
 
 
 @connection.connection_handler
+def update_answer(cursor, answer_id, updated_data):
+    cursor.execute("""
+                    UPDATE answer
+                    SET  message = %(message)s, image = %(image)s
+                    WHERE id = %(answer_id)s;
+                   """,
+                   {'message': updated_data['message'],
+                    'image': updated_data['image'], 'answer_id': answer_id})
+
+
+@connection.connection_handler
 def get_searched_phrases(cursor, phrase):
     cursor.execute("""
                     SELECT question.id, question.submission_time, question.title, question.message,
