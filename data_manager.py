@@ -148,6 +148,7 @@ def get_answers_id_from_question(cursor, question_id):
     answer_id = cursor.fetchall()
     return answer_id
 
+
 @connection.connection_handler
 def get_image_path_answer(cursor, answer_id):
     cursor.execute("""SELECT image FROM answer
@@ -172,6 +173,7 @@ def delete_answer(cursor,answer_id):
                    """,
                    {'answer_id': answer_id})
 
+
 @connection.connection_handler
 def get_image_path_question(cursor,question_id):
     cursor.execute("""SELECT image FROM question
@@ -180,6 +182,7 @@ def get_image_path_question(cursor,question_id):
                    {'question_id': question_id})
     path_for_image = cursor.fetchone()
     return path_for_image['image']
+
 
 @connection.connection_handler
 def delete_question(cursor, question_id):
@@ -222,3 +225,25 @@ def get_searched_phrases(cursor, phrase):
                    {'phrase': '%' + phrase + '%'})
     questions = cursor.fetchall()
     return questions
+
+
+@connection.connection_handler
+def get_question_comments(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE question_id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+    question_comments = cursor.fetchall()
+    return question_comments
+
+
+@connection.connection_handler
+def get_answer_comments(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE answer_id = %(answer_id)s;
+                   """,
+                   {'question_id': answer_id})
+    answer_comments = cursor.fetchall()
+    return answer_comments
