@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 import data_manager
 
 
-
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static/images"
 
@@ -13,8 +12,11 @@ app.config['UPLOAD_FOLDER'] = "static/images"
 def route_index():
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
+    search_phrase = request.args.get("search")
     if order_by and order_direction:
         questions = data_manager.get_five_questions_ordered(order_by, order_direction)
+    elif search_phrase:
+        questions = data_manager.get_searched_phrases(search_phrase)
     else:
         questions = data_manager.get_five_questions_ordered()
     return render_template("index.html", title="Home page", questions=questions)
@@ -142,11 +144,7 @@ def route_edit_question(question_id):
         return redirect(url_for("route_question", question_id=question_id))
     else:
         question = data_manager.get_question_with_given_id(question_id)
-        current = {"id": question["id"],
-                   "submission_time": question["submission_time"],
-                   "view_number": question["view_number"],
-                   "vote_number": question["vote_number"],
-                   "title": question["title"],
+        current = {"title": question["title"],
                    "message": question["message"],
                    "image": question["image"]}
         return render_template("form.html", title="Edit question", question_id=question_id, current=current)

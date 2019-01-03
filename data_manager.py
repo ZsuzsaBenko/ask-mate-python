@@ -137,6 +137,7 @@ def get_question_id_from_answer(cursor, answer_id):
     question_id = cursor.fetchone()
     return question_id['question_id']
 
+
 @connection.connection_handler
 def get_answers_id_from_question(cursor, question_id):
     cursor.execute("""
@@ -148,13 +149,14 @@ def get_answers_id_from_question(cursor, question_id):
     return answer_id
 
 @connection.connection_handler
-def get_image_path_answer(cursor,answer_id):
+def get_image_path_answer(cursor, answer_id):
     cursor.execute("""SELECT image FROM answer
                       WHERE id = %(answer_id)s;
                    """,
                    {'answer_id': answer_id})
     path_for_image = cursor.fetchone()
     return path_for_image['image']
+
 
 @connection.connection_handler
 def delete_answer(cursor,answer_id):
@@ -198,9 +200,25 @@ def delete_question(cursor, question_id):
 def update_question(cursor, question_id, updated_data):
     cursor.execute("""
                     UPDATE question
-                    SET (%(title)s, %(message)s, %(image)s)
+                    SET title = %(title)s, message = %(message)s, image = %(image)s
                     WHERE id = %(question_id)s;
                    """,
                    {'title': updated_data['title'], 'message': updated_data['message'],
-                    'question_id': question_id})
+                    'image': updated_data['image'], 'question_id': question_id})
 
+
+@connection.connection_handler
+def get_searched_phrases(cursor, phrase):
+    cursor.execute("""
+                    SELECT question.id, question.submission_time, question.title, question.message,
+                        question.image FROM question
+                    LEFT JOIN answer ON question.id = answer.question_id
+                    WHERE question.title ILIKE %(phrase)s OR
+                        question.message ILIKE %(phrase)s OR
+                        answer.message ILIKE %(phrase)s
+                    GROUP BY question.id, question.submission_time, question.title, question.message,
+                        question.image;
+                   """,
+                   {'phrase': '%' + phrase + '%'})
+    questions = cursor.fetchall()
+    return questions

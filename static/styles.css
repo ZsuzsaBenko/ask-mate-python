@@ -141,6 +141,25 @@ h2{
     background-color: whitesmoke;
     font-weight: bold;
 }
+.choices :last-child{
+    margin-top: 50px;
+}
+.search-form{
+    width: 600px;
+    margin-left: calc(100% - 600px);
+    padding: 0;
+}
+#search{
+    display: inline;
+    height: 35px;
+    width: 350px;
+    border: 1px solid darkslateblue;
+    border-radius: 5px;
+}
+#search-button{
+    display: inline;
+    margin-top: 10px;
+}
 .questions{
     width: 80%;
 }
