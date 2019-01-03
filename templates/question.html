@@ -48,15 +48,17 @@
                     <div><a href="/answer/{{ item['id']}}/delete" class="link">Delete answer</a></div>
                 </div>
                 <div class="answer-comments">
-                    <h3>Comments:</h3>
-                       {% if item.comm_mess %}
+                <h3>Comments:</h3>
+                   {% for comment in answer_comments %}
+                        {% if comment.answer_id == item["id"] %}
                             <div class="comment">
-                            <p><span>{{ item.comm_sub }} </span>
-                                <span>{% if item.comm_edit %} (Edited: {{ item.comm_edit }} times)
+                            <p><span>{{ comment.submission_time }} </span>
+                                <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
                                 {% else %} (Edited: 0 times) {% endif %}</span></p>
-                            <p>{{ item.comm_mess }}</p>
+                            <p>{{ comment.message }}</p>
                             </div>
                         {% endif %}
+                    {% endfor %}
                 </div>
             </div></li>
         {%  endfor  %}
