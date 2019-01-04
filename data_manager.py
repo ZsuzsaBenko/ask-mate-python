@@ -282,3 +282,15 @@ def insert_new_question_comment(cursor, item_data):
                     """,
                    {'question_id': item_data["question_id"], 'message': item_data["message"],
                     'submission_time': submission_time})
+
+
+@connection.connection_handler
+def insert_new_answer_comment(cursor, item_data):
+    submission_time = datetime.now()
+    submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
+    cursor.execute("""
+                    INSERT INTO comment (answer_id, message, submission_time)
+                    VALUES (%(answer_id)s, %(message)s, %(submission_time)s); 
+                    """,
+                   {'answer_id': item_data["answer_id"], 'message': item_data["message"],
+                    'submission_time': submission_time})
