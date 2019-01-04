@@ -197,7 +197,7 @@ def route_new_answer_comment(answer_id):
     else:
         answer_comment = True
         return render_template('form.html', title="Add a comment", question_id=question_id,
-                               answer_comment=answer_comment)
+                               answer_comment=answer_comment, answer_id=answer_id)
 
 
 if __name__ == "__main__":
