@@ -263,7 +263,7 @@ def get_question_comments(cursor, question_id):
 @connection.connection_handler
 def get_answers_comments(cursor, question_id):
     cursor.execute("""
-                    SELECT answer.id AS answer_id, comment.message, comment.submission_time,
+                    SELECT answer.id AS answer_id, comment.id, comment.message, comment.submission_time,
                     comment.edited_count FROM comment
                     LEFT JOIN answer ON comment.answer_id = answer.id;
                    """,
@@ -294,3 +294,35 @@ def insert_new_answer_comment(cursor, item_data):
                     """,
                    {'answer_id': item_data["answer_id"], 'message': item_data["message"],
                     'submission_time': submission_time})
+
+
+@connection.connection_handler
+def delete_comment(cursor, comment_id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
+
+
+@connection.connection_handler
+def get_question_id_from_question_comment(cursor, comment_id):
+    cursor.execute("""
+                    SELECT question_id FROM comment
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
+    question_id = cursor.fetchone()
+    return question_id['question_id']
+
+
+@connection.connection_handler
+def get_question_id_from_answer_and_comment(cursor, comment_id):
+    cursor.execute("""
+                    SELECT answer.question_id FROM answer
+                    LEFT JOIN comment c on answer.id = c.answer_id
+                    WHERE c.id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
+    question_id = cursor.fetchone()
+    return question_id['question_id']

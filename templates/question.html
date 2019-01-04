@@ -16,7 +16,7 @@
             <div><a href="/question/{{ chosen_question["id"] }}/vote-up" class="link">Vote up!</a></div>
             <div><a href="/question/{{ chosen_question["id"] }}/vote-down" class="link">Vote down!</a></div>
             <div><a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a></div>
-            <div><a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
+            <div><a href="/question/{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
         </div>
         <div class="question-comments">
             <h3>Comments: </h3>
@@ -24,8 +24,11 @@
                 <div class="comment">
                     <p><span>{{ comment.submission_time }} </span>
                         <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
-                        {% else %} (Edited: 0 times) {% endif %}</span></p>
+                        {% else %} (Edited: 0 times) {% endif %}</span>
+                        <a class="del-comm" href="/question-comments/{{ comment.id }}/delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </p>
                     <p>{{ comment.message }}</p>
+
                 </div>
             {% endfor %}
             <a class="link" href="/question/{{ chosen_question["id"] }}/new_comment">Add a comment</a>
@@ -54,10 +57,12 @@
                    {% for comment in answer_comments %}
                         {% if comment.answer_id == item["id"] %}
                             <div class="comment">
-                            <p><span>{{ comment.submission_time }} </span>
-                                <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
-                                {% else %} (Edited: 0 times) {% endif %}</span></p>
-                            <p>{{ comment.message }}</p>
+                                <p><span>{{ comment.submission_time }} </span>
+                                    <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
+                                    {% else %} (Edited: 0 times) {% endif %}</span>
+                                    <a class="del-comm" href="/answer-comments/{{ comment.id }}/delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                </p>
+                                <p>{{ comment.message }}</p>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -67,6 +72,6 @@
         {%  endfor  %}
         </ul>
     </div>
-    <a id="add-answer" class="link" href="answer/{{ chosen_question['id']}}/new_answer">Add your own answer</a>
+    <a id="add-answer" class="link" href="{{ chosen_question['id']}}/new_answer">Add your own answer</a>
 
 {% endblock %}

@@ -200,6 +200,20 @@ def route_new_answer_comment(answer_id):
                                answer_comment=answer_comment, answer_id=answer_id)
 
 
+@app.route("/question-comments/<comment_id>/delete")
+def route_delete_question_comment(comment_id):
+    question_id = data_manager.get_question_id_from_question_comment(comment_id)
+    data_manager.delete_comment(comment_id)
+    return redirect(url_for("route_question", question_id=question_id))
+
+
+@app.route("/answer-comments/<comment_id>/delete")
+def route_delete_answer_comment(comment_id):
+    question_id = data_manager.get_question_id_from_answer_and_comment(comment_id)
+    data_manager.delete_comment(comment_id)
+    return redirect(url_for("route_question", question_id=question_id))
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,

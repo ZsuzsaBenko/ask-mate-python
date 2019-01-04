@@ -270,6 +270,15 @@ h2{
 .answer-options div{
     flex-direction: column;
 }
+.del-comm{
+    color: darkslateblue;
+}
+.del-comm:hover{
+    color: deeppink;
+}
+i{
+    font-size: 20px;
+}
 
 /* Form page */
 
