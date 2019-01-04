@@ -47,7 +47,7 @@
                     <div><a href="/answer/{{ item["id"] }}/vote-up" class="link">Vote up!</a></div>
                     <div><a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a></div>
                     <div><a href="/answer/{{ item["id"] }}/edit" class="link">Edit answer</a></div>
-                    <div><a href="/answer/{{ item['id']}}/delete" class="link">Delete answer</a></div>
+                    <div><a href="/answer/{{ item['id'] }}/delete" class="link">Delete answer</a></div>
                 </div>
                 <div class="answer-comments">
                     <h3>Comments:</h3>
@@ -61,12 +61,12 @@
                             </div>
                         {% endif %}
                     {% endfor %}
-                    <a class="link" href="">Add a comment</a>
                 </div>
+                <a href="/answer/{{ item.id }}/new_comment" class="link">Add a comment</a>
             </div></li>
         {%  endfor  %}
         </ul>
     </div>
-    <a id="add-answer" class="link" href="{{ chosen_question['id']}}/new_answer">Add your own answer</a>
+    <a id="add-answer" class="link" href="answer/{{ chosen_question['id']}}/new_answer">Add your own answer</a>
 
 {% endblock %}
