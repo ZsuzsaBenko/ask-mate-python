@@ -155,7 +155,7 @@ def route_edit_question(question_id):
 
 @app.route("/answer/<answer_id>/edit", methods=["GET", "POST"])
 def route_edit_answer(answer_id):
-    question_id=data_manager.get_question_id_from_answer(answer_id)
+    question_id = data_manager.get_question_id_from_answer(answer_id)
     if request.method == "POST":
         updated_data = {'message': request.form["message"]}
         f = request.files.get("file", None)
@@ -182,8 +182,22 @@ def route_new_question_comment(question_id):
         data_manager.insert_new_question_comment(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
-        add_comment = True
-        return render_template('form.html', title="Add a comment", question_id=question_id, add_comment=add_comment)
+        question_comment = True
+        return render_template('form.html', title="Add a comment", question_id=question_id,
+                               question_comment=question_comment)
+
+
+@app.route("/answer/<answer_id>/new_comment", methods=["GET", "POST"])
+def route_new_answer_comment(answer_id):
+    question_id = data_manager.get_question_id_from_answer(answer_id)
+    if request.method == 'POST':
+        item_data = {"message": request.form["message"], "answer_id": answer_id}
+        data_manager.insert_new_answer_comment(item_data)
+        return redirect(url_for("route_question", question_id=question_id))
+    else:
+        answer_comment = True
+        return render_template('form.html', title="Add a comment", question_id=question_id,
+                               answer_comment=answer_comment, answer_id=answer_id)
 
 
 @app.route("/answer/<answer_id>/new_comment", methods=["GET", "POST"])
