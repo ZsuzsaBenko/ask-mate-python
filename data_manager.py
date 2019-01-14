@@ -316,6 +316,7 @@ def insert_new_session(cursor, session):
                    """,
                    {'session_id': session['session_id'], 'user_id': session['user_id'], 'last_access': last_access})
 
+
 @connection.connection_handler
 def insert_new_user(cursor, item_data):
     signup_date = datetime.now()
@@ -326,3 +327,12 @@ def insert_new_user(cursor, item_data):
                     """,
                    {'username': item_data['username'], 'password': item_data['hashed_pass'],
                     'signup_date': signup_date})
+
+
+@connection.connection_handler
+def delete_session(cursor, session_id):
+    cursor.execute("""
+                    DELETE FROM sessions
+                    WHERE session_id = %(session_id)s;
+                   """,
+                   {'session_id': session_id})

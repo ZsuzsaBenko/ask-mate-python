@@ -14,10 +14,10 @@
                     <li class="left">"The answers are easy if you have the right questions."</li>
                     <li><a href="{{ url_for('route_index') }}">Home</a></li>
                     {% if logged_in %}
-                        <li><a href="#" >Logout</a></li>
+                        <li><a href="{{ url_for('route_logout') }}" >Logout</a></li>
                     {% elif sign_up %}
                         <li><a href="{{ url_for('route_login') }}">Login</a></li>
-                        <li><a href="#">Sign up</a></li>
+                        <li><a href="{{ url_for('route_sign_up') }}">Sign up</a></li>
                     {% endif %}
                 </ul>
             </nav>
