@@ -295,3 +295,13 @@ def insert_new_answer_comment(cursor, item_data):
                    {'answer_id': item_data["answer_id"], 'message': item_data["message"],
                     'submission_time': submission_time})
 
+@connection.connection_handler
+def insert_new_user(cursor, item_data):
+    signup_date = datetime.now()
+    signup_date = datetime.strftime(signup_date, '%Y-%m-%d %H:%M:%S')
+    cursor.execute("""
+                    INSERT INTO users (username, password, signup_date)
+                    VALUES (%(username)s, %(password)s, %(signup_date)s);
+                    """,
+                   {'username': item_data['username'], 'password': item_data['hashed_pass'],
+                    'signup_date': signup_date})
