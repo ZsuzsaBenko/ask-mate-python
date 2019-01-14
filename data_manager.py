@@ -315,3 +315,14 @@ def insert_new_session(cursor, session):
                     VALUES ( %(session_id)s, %(user_id)s, %(last_access)s); 
                    """,
                    {'session_id': session['session_id'], 'user_id': session['user_id'], 'last_access': last_access})
+
+@connection.connection_handler
+def insert_new_user(cursor, item_data):
+    signup_date = datetime.now()
+    signup_date = datetime.strftime(signup_date, '%Y-%m-%d %H:%M:%S')
+    cursor.execute("""
+                    INSERT INTO users (username, password, signup_date)
+                    VALUES (%(username)s, %(password)s, %(signup_date)s);
+                    """,
+                   {'username': item_data['username'], 'password': item_data['hashed_pass'],
+                    'signup_date': signup_date})

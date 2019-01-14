@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 import bcrypt
 import data_manager
 import hashing
+import data_manager, hashing
 
 
 app = Flask(__name__)
@@ -54,6 +55,19 @@ def route_login():
             return render_template("login-form.html", login=login, message=message)
     return render_template("login-form.html", login=login)
 
+
+@app.route("/sign-up", methods=['GET', 'POST'])
+def route_sign_up():
+    if request.method == 'POST':
+        pass_to_hash = request.form['password']
+        hashed_pass = hashing.hash_password(pass_to_hash)
+        item_data = {"username": request.form["username"], "hashed_pass": hashed_pass}
+        login = True
+        data_manager.insert_new_user(item_data)
+        return render_template("login-form.html", login=login)
+    else:
+        sign_up = True
+        return render_template("login-form.html", sign_up=sign_up)
 
 @app.route("/list")
 def route_all_questions():
@@ -231,6 +245,7 @@ def route_new_answer_comment(answer_id):
         answer_comment = True
         return render_template('form.html', title="Add a comment", question_id=question_id,
                                answer_comment=answer_comment, answer_id=answer_id)
+
 
 
 if __name__ == "__main__":
