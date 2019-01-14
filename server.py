@@ -200,19 +200,6 @@ def route_new_answer_comment(answer_id):
                                answer_comment=answer_comment, answer_id=answer_id)
 
 
-@app.route("/answer/<answer_id>/new_comment", methods=["GET", "POST"])
-def route_new_answer_comment(answer_id):
-    question_id = data_manager.get_question_id_from_answer(answer_id)
-    if request.method == 'POST':
-        item_data = {"message": request.form["message"], "answer_id": answer_id}
-        data_manager.insert_new_answer_comment(item_data)
-        return redirect(url_for("route_question", question_id=question_id))
-    else:
-        add_comment_answer = True
-        return render_template('form.html', title="Add a comment", answer_id=answer_id,
-                               add_comment_answer=add_comment_answer)
-
-
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,
