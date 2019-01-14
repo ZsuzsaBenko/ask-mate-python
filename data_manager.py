@@ -294,3 +294,4 @@ def insert_new_answer_comment(cursor, item_data):
                     """,
                    {'answer_id': item_data["answer_id"], 'message': item_data["message"],
                     'submission_time': submission_time})
+

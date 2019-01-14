@@ -145,12 +145,12 @@ def route_edit_question(question_id):
             updated_data["image"] = None
         data_manager.update_question(question_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
-
-    question = data_manager.get_question_with_given_id(question_id)
-    current = {"title": question["title"],
-               "message": question["message"],
-               "image": question["image"]}
-    return render_template("form.html", title="Edit question", question_id=question_id, current=current)
+    else:
+        question = data_manager.get_question_with_given_id(question_id)
+        current = {"title": question["title"],
+                   "message": question["message"],
+                   "image": question["image"]}
+        return render_template("form.html", title="Edit question", question_id=question_id, current=current)
 
 
 @app.route("/answer/<answer_id>/edit", methods=["GET", "POST"])
@@ -198,8 +198,6 @@ def route_new_answer_comment(answer_id):
         answer_comment = True
         return render_template('form.html', title="Add a comment", question_id=question_id,
                                answer_comment=answer_comment, answer_id=answer_id)
-
-
 
 
 if __name__ == "__main__":
