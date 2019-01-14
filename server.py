@@ -82,7 +82,6 @@ def route_logout():
     return redirect(url_for('route_index'))
 
 
-
 @app.route("/list")
 def route_all_questions():
     is_all = True
@@ -92,7 +91,12 @@ def route_all_questions():
         questions = data_manager.get_all_questions_ordered(order_by, order_direction)
     else:
         questions = data_manager.get_all_questions_ordered()
-    return render_template("index.html", title="All questions", questions=questions, is_all=is_all)
+    if 'session_id' in session:
+        logged_in = True
+        return render_template("index.html", title="Home page", questions=questions, logged_in=logged_in, is_all=is_all)
+    else:
+        sign_up = True
+        return render_template("index.html", title="Home page", questions=questions, sign_up=sign_up, is_all=is_all)
 
 
 @app.route('/form', methods=['GET', 'POST'])

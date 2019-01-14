@@ -1,9 +1,7 @@
 # This module handles all the data received from the user.
 
 import os
-import time
 import connection
-import util
 from psycopg2 import sql
 from datetime import datetime
 
@@ -11,7 +9,8 @@ from datetime import datetime
 @connection.connection_handler
 def get_five_questions_ordered(cursor, order_by='submission_time', order_direction='DESC'):
     cursor.execute(
-        sql.SQL("""SELECT * FROM question
+        sql.SQL("""SELECT question.*, u.username AS "username" FROM question
+                   INNER JOIN users u on question.user_id = u.id
                    ORDER BY {order_by} {order_direction}
                    LIMIT 5;
                 """).format(order_by=sql.Identifier(order_by),
@@ -24,7 +23,8 @@ def get_five_questions_ordered(cursor, order_by='submission_time', order_directi
 @connection.connection_handler
 def get_all_questions_ordered(cursor, order_by='submission_time', order_direction='DESC'):
     cursor.execute(
-        sql.SQL("""SELECT * FROM question
+        sql.SQL("""SELECT question.*, u.username AS "username" FROM question
+                   INNER JOIN users u on question.user_id = u.id
                    ORDER BY {order_by} {order_direction};
                 """).format(order_by=sql.Identifier(order_by),
                             order_direction=sql.SQL(order_direction))
