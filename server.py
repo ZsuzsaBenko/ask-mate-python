@@ -19,7 +19,14 @@ def route_index():
         questions = data_manager.get_searched_phrases(search_phrase)
     else:
         questions = data_manager.get_five_questions_ordered()
-    return render_template("index.html", title="Home page", questions=questions)
+    sign_up = True
+    return render_template("index.html", title="Home page", questions=questions, sign_up=sign_up)
+
+
+@app.route("/login")
+def route_login():
+    login = True
+    return render_template("login-form.html", login=login)
 
 
 @app.route("/list")
