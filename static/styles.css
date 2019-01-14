@@ -33,20 +33,23 @@ nav ul{
 }
 nav ul li{
     padding: 0;
-    float: left;
     list-style: none;
     font-size: 30px;
+    float: right;
+    margin-right: 30px;
+    line-height: 80px;
 }
+
+.left {
+    float: left;
+}
+
 nav ul li:nth-child(2){
     font-size: 18px;
     color: yellow;
     line-height: 60px;
 }
-nav ul li:last-child{
-    float: right;
-    margin-right: 30px;
-    line-height: 80px;
-}
+
 nav ul li img{
     width: 90px;
     height: 80px;

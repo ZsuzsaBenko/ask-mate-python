@@ -145,12 +145,12 @@ def route_edit_question(question_id):
             updated_data["image"] = None
         data_manager.update_question(question_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
-    else:
-        question = data_manager.get_question_with_given_id(question_id)
-        current = {"title": question["title"],
-                   "message": question["message"],
-                   "image": question["image"]}
-        return render_template("form.html", title="Edit question", question_id=question_id, current=current)
+
+    question = data_manager.get_question_with_given_id(question_id)
+    current = {"title": question["title"],
+               "message": question["message"],
+               "image": question["image"]}
+    return render_template("form.html", title="Edit question", question_id=question_id, current=current)
 
 
 @app.route("/answer/<answer_id>/edit", methods=["GET", "POST"])
@@ -200,17 +200,6 @@ def route_new_answer_comment(answer_id):
                                answer_comment=answer_comment, answer_id=answer_id)
 
 
-@app.route("/answer/<answer_id>/new_comment", methods=["GET", "POST"])
-def route_new_answer_comment(answer_id):
-    question_id = data_manager.get_question_id_from_answer(answer_id)
-    if request.method == 'POST':
-        item_data = {"message": request.form["message"], "answer_id": answer_id}
-        data_manager.insert_new_answer_comment(item_data)
-        return redirect(url_for("route_question", question_id=question_id))
-    else:
-        add_comment_answer = True
-        return render_template('form.html', title="Add a comment", answer_id=answer_id,
-                               add_comment_answer=add_comment_answer)
 
 
 if __name__ == "__main__":
