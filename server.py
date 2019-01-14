@@ -102,7 +102,7 @@ def route_all_questions():
 @app.route('/form', methods=['GET', 'POST'])
 def route_new_question():
     if request.method == 'POST':
-        item_data = {"title": request.form["title"], "message": request.form["message"]}
+        item_data = {"title": request.form["title"], "message": request.form["message"], "user_id": session["user_id"]}
         f = request.files.get("file", None)
         if f:
             filename = secure_filename(f.filename)

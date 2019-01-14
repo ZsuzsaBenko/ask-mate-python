@@ -39,14 +39,13 @@ def insert_new_question(cursor, item_data):
     submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
     view_number = 0
     vote_number = 0
-    title = item_data['title']
-    message = item_data['message']
-    image = item_data['image']
-    cursor.execute("""INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-                   VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s);
+    cursor.execute("""INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+                   VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s,
+                           %(user_id)s);
                     """,
                    {'submission_time': submission_time, 'view_number': view_number, 'vote_number': vote_number,
-                    'title': title, 'message': message, 'image': image})
+                    'title': item_data['title'], 'message': item_data['message'], 'image': item_data['image'],
+                    'user_id': item_data['user_id']})
 
 
 @connection.connection_handler
