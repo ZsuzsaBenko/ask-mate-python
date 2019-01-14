@@ -323,10 +323,10 @@ def get_question_id_from_answer_comment(cursor, comment_id):
 def update_comment(cursor, item_data):
     cursor.execute("""
                     UPDATE comment
-                    SET message = %(message)s, edited_count = edited_count + %(number)s
+                    SET message = %(message)s, edited_count = COALESCE(edited_count, 0) + 1
                     WHERE id = %(comment_id)s;
                    """,
-                   {'message': item_data['message'], 'number': 1, 'comment_id': item_data['comment_id']})
+                   {'message': item_data['message'], 'comment_id': item_data['comment_id']})
 
 
 @connection.connection_handler
