@@ -61,8 +61,9 @@ def get_question_id(cursor):
 @connection.connection_handler
 def get_question_with_given_id(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM question
-                    WHERE id = %(question_id)s;
+                    SELECT question.*, u.username AS "username" FROM question
+                    INNER JOIN users u on question.user_id = u.id
+                    WHERE question.id = %(question_id)s;
                     """,
                    {'question_id': question_id})
     question = cursor.fetchone()

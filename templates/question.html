@@ -7,7 +7,7 @@
         {% else %}
                 <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
         {% endif %}
-        <p><span>Date: </span>{{ chosen_question["submission_time"] }}</p>
+        <p><span>Date: </span>{{ chosen_question["submission_time"] }} by {{ chosen_question["username"] }}</p>
         <p>{{ chosen_question["title"] }}</p>
         <p>{{ chosen_question["message"] }}</p>
 

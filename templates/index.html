@@ -2,7 +2,7 @@
 {% block content %}
     <h1>Ask Mate!</h1>
     <h2>Questions</h2>
-    {% if logged_in %}
+    {% if status == "logged_in" %}
         <a class="link" href="{{ url_for('route_new_question') }}">Ask a question</a>
     {% endif %}
     <div class="flex-container">

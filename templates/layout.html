@@ -13,9 +13,9 @@
                     <li class="left"><img src="{{ url_for('static', filename='images/qa.png') }}" alt="logo"></li>
                     <li class="left">"The answers are easy if you have the right questions."</li>
                     <li><a href="{{ url_for('route_index') }}">Home</a></li>
-                    {% if logged_in %}
+                    {% if  status == "logged_in" %}
                         <li><a href="{{ url_for('route_logout') }}" >Logout</a></li>
-                    {% elif sign_up %}
+                    {% elif status == "sign_up" %}
                         <li><a href="{{ url_for('route_login') }}">Login</a></li>
                         <li><a href="{{ url_for('route_sign_up') }}">Sign up</a></li>
                     {% endif %}

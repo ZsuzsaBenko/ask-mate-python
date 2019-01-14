@@ -25,16 +25,15 @@ def route_index():
         questions = data_manager.get_five_questions_ordered()
 
     if 'session_id' in session:
-        logged_in = True
-        return render_template("index.html", title="Home page", questions=questions, logged_in=logged_in)
+        status = "logged_in"
     else:
-        sign_up = True
-        return render_template("index.html", title="Home page", questions=questions, sign_up=sign_up)
+        status = "sign_up"
+    return render_template("index.html", title="Home page", questions=questions, status=status)
 
 
 @app.route("/sign-up", methods=['GET', 'POST'])
 def route_sign_up():
-    sign_up = True
+    status = "sign_up"
     if request.method == 'POST':
         pass_to_hash = request.form['password']
         hashed_pass = hashing.hash_password(pass_to_hash)
@@ -46,14 +45,14 @@ def route_sign_up():
             return redirect(url_for('route_login'))
         else:
             message = True
-            return render_template("login-form.html", sign_up=sign_up, message=message)
+            return render_template("login-form.html", status=status, message=message)
     else:
-        return render_template("login-form.html", sign_up=sign_up)
+        return render_template("login-form.html", status=status)
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def route_login():
-    login = True
+    status = "login"
     if request.method == 'POST':
         username = request.form['username']
         user_data = data_manager.get_user_data(username)
@@ -67,11 +66,11 @@ def route_login():
                 return redirect(url_for('route_index'))
             else:
                 message = True
-                return render_template("login-form.html", login=login, message=message)
+                return render_template("login-form.html", status=status, message=message)
         else:
             message = True
-            return render_template("login-form.html", login=login, message=message)
-    return render_template("login-form.html", login=login)
+            return render_template("login-form.html", status=status, message=message)
+    return render_template("login-form.html", status=status)
 
 
 @app.route("/logout")
@@ -92,11 +91,10 @@ def route_all_questions():
     else:
         questions = data_manager.get_all_questions_ordered()
     if 'session_id' in session:
-        logged_in = True
-        return render_template("index.html", title="Home page", questions=questions, logged_in=logged_in, is_all=is_all)
+        status = "logged_in"
     else:
-        sign_up = True
-        return render_template("index.html", title="Home page", questions=questions, sign_up=sign_up, is_all=is_all)
+        status = "sign_up"
+    return render_template("index.html", title="Home page", questions=questions, status=status, is_all=is_all)
 
 
 @app.route('/form', methods=['GET', 'POST'])
@@ -124,9 +122,13 @@ def route_question(question_id):
     question_comments = data_manager.get_question_comments(question_id)
     answers = data_manager.get_answers(question_id)
     answer_comments = data_manager.get_answers_comments(question_id)
+    if "session_id" in session:
+        status = "logged_in"
+    else:
+        status = "sign_up"
     return render_template('question.html', chosen_question=chosen_question, answers=answers,
                            title=chosen_question["title"], question_comments=question_comments,
-                           answer_comments=answer_comments)
+                           answer_comments=answer_comments, status=status)
 
 
 @app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])
