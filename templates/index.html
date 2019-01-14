@@ -33,7 +33,7 @@
             </form>
              <ul>
                 {% for item in questions %}
-                    <li><div {% if item['id'] is even %} class="even clearfix" {% else %} class="odd clearfix" {% endif %}>
+                    <li><div {% if loop.index is even %} class="even clearfix" {% else %} class="odd clearfix" {% endif %}>
                         {% if item["image"] %}
                             <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                         {% else %}
