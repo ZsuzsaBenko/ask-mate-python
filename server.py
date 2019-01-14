@@ -32,6 +32,25 @@ def route_index():
         return render_template("index.html", title="Home page", questions=questions, sign_up=sign_up)
 
 
+@app.route("/sign-up", methods=['GET', 'POST'])
+def route_sign_up():
+    sign_up = True
+    if request.method == 'POST':
+        pass_to_hash = request.form['password']
+        hashed_pass = hashing.hash_password(pass_to_hash)
+        username = request.form["username"]
+        item_data = {"username": username, "hashed_pass": hashed_pass}
+        user_data = data_manager.get_user_data(username)
+        if not user_data:
+            data_manager.insert_new_user(item_data)
+            return redirect(url_for('route_login'))
+        else:
+            message = True
+            return render_template("login-form.html", sign_up=sign_up, message=message)
+    else:
+        return render_template("login-form.html", sign_up=sign_up)
+
+
 @app.route("/login", methods=['GET', 'POST'])
 def route_login():
     login = True
@@ -62,18 +81,6 @@ def route_logout():
     session.pop('user_id')
     return redirect(url_for('route_index'))
 
-
-@app.route("/sign-up", methods=['GET', 'POST'])
-def route_sign_up():
-    if request.method == 'POST':
-        pass_to_hash = request.form['password']
-        hashed_pass = hashing.hash_password(pass_to_hash)
-        item_data = {"username": request.form["username"], "hashed_pass": hashed_pass}
-        data_manager.insert_new_user(item_data)
-        return redirect(url_for('route_login'))
-    else:
-        sign_up = True
-        return render_template("login-form.html", sign_up=sign_up)
 
 
 @app.route("/list")
