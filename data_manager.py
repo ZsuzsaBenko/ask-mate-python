@@ -308,13 +308,25 @@ def get_comment_data(cursor, comment_id):
 
 
 @connection.connection_handler
+def get_question_id_from_answer_comment(cursor, comment_id):
+    cursor.execute("""
+                    SELECT a.question_id FROM answer a
+                    INNER JOIN comment c on a.id = c.answer_id
+                    WHERE c.id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
+    question_id = cursor.fetchone()
+    return question_id['question_id']
+
+
+@connection.connection_handler
 def update_comment(cursor, item_data):
     cursor.execute("""
                     UPDATE comment
-                    SET message = %(message)s, edited_count = edited_count + 1
+                    SET message = %(message)s, edited_count = edited_count + %(number)s
                     WHERE id = %(comment_id)s;
                    """,
-                   {'message': item_data['message'], 'comment_id': item_data['comment_id']})
+                   {'message': item_data['message'], 'number': 1, 'comment_id': item_data['comment_id']})
 
 
 @connection.connection_handler

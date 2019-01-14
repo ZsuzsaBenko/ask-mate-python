@@ -30,7 +30,7 @@
                         <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
                         {% else %} (Edited: 0 times) {% endif %}</span></p>
                     <p>{{ comment.message }}</p>
-                    <a href="/comment/{{ comment.id }}/edit">Edit comment</a>
+                    <a href="/question-comment/{{ comment.id }}/edit">Edit comment</a>
                 </div>
             {% endfor %}
             {% if status == "logged_in" %}
@@ -63,10 +63,11 @@
                    {% for comment in answer_comments %}
                         {% if comment.answer_id == item["id"] %}
                             <div class="comment">
-                            <p><span>{{ comment.submission_time }} </span>
-                                <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
-                                {% else %} (Edited: 0 times) {% endif %}</span></p>
-                            <p>{{ comment.message }}</p>
+                                <p><span>{{ comment.submission_time }} </span>
+                                    <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
+                                    {% else %} (Edited: 0 times) {% endif %}</span></p>
+                                <p>{{ comment.message }}</p>
+                                <a href="/answer-comment/{{ comment.id }}/edit">Edit comment</a>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -79,6 +80,6 @@
         </ul>
     </div>
     {% if status == "logged_in" %}
-        <a id="add-answer" class="link" href="answer/{{ chosen_question['id']}}/new_answer">Add your own answer</a>
+        <a id="add-answer" class="link" href="/question/{{ chosen_question['id']}}/new_answer">Add your own answer</a>
     {% endif %}
 {% endblock %}

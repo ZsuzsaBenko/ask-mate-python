@@ -7,7 +7,7 @@
             <h1>Add your comment</h1>
         {% endif %}
         {% if question_comment %}
-            <form {% if current_comment %} action="/comment/{{ comment_data.id }}/edit" {% else %}
+            <form {% if current_comment %} action="/question-comment/{{ comment_data.id }}/edit" {% else %}
                                            action="/question/{{ question_id }}/new_comment" {% endif %}
                     method="POST">
                 <label for="message">Message:</label>
@@ -16,7 +16,7 @@
                 <input type="submit" {% if current_comment %} value="Edit comment" {% else %} value="Submit comment" {% endif %}>
             </form>
         {% else %}
-            <form {% if current_comment %} action="/answer/{{ answer_id }}/edit_comment" {% else %}
+            <form {% if current_comment %} action="/answer-comment/{{ comment_id }}/edit" {% else %}
                                            action="/answer/{{ answer_id }}/new_comment" {% endif %}
                    method="POST">
                 <label for="message">Message:</label>
