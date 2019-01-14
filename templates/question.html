@@ -12,12 +12,14 @@
         <p>{{ chosen_question["message"] }}</p>
 
         <p><span>Views: </span><span>{{ chosen_question["view_number"] }}</span><span>Votes: </span><span>{{ chosen_question["vote_number"] }}</span></p>
-        <div class="question-options">
-            <div><a href="/question/{{ chosen_question["id"] }}/vote-up" class="link">Vote up!</a></div>
-            <div><a href="/question/{{ chosen_question["id"] }}/vote-down" class="link">Vote down!</a></div>
-            <div><a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a></div>
-            <div><a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
-        </div>
+        {% if status == "logged_in" %}
+            <div class="question-options">
+                <div><a href="/question/{{ chosen_question["id"] }}/vote-up" class="link">Vote up!</a></div>
+                <div><a href="/question/{{ chosen_question["id"] }}/vote-down" class="link">Vote down!</a></div>
+                <div><a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a></div>
+                <div><a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
+            </div>
+        {% endif %}
         <div class="question-comments">
             <h3>Comments: </h3>
             {% for comment in question_comments %}
@@ -28,7 +30,9 @@
                     <p>{{ comment.message }}</p>
                 </div>
             {% endfor %}
-            <a class="link" href="/question/{{ chosen_question["id"] }}/new_comment">Add a comment</a>
+            {% if status == "logged_in" %}
+                <a class="link" href="/question/{{ chosen_question["id"] }}/new_comment">Add a comment</a>
+            {% endif %}
         </div>
     </div>
 
@@ -43,12 +47,14 @@
                 <p><span>Date: </span>{{item["submission_time"]}}</p>
                 <p>{{item["message"]}}</p>
                 <p><span>Votes: </span>{{item["vote_number"]}}</p>
-                <div class="answer-options">
-                    <div><a href="/answer/{{ item["id"] }}/vote-up" class="link">Vote up!</a></div>
-                    <div><a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a></div>
-                    <div><a href="/answer/{{ item["id"] }}/edit" class="link">Edit answer</a></div>
-                    <div><a href="/answer/{{ item['id'] }}/delete" class="link">Delete answer</a></div>
-                </div>
+                {% if status == "logged_in" %}
+                    <div class="answer-options">
+                        <div><a href="/answer/{{ item["id"] }}/vote-up" class="link">Vote up!</a></div>
+                        <div><a href="/answer/{{ item["id"] }}/vote-down" class="link">Vote down!</a></div>
+                        <div><a href="/answer/{{ item["id"] }}/edit" class="link">Edit answer</a></div>
+                        <div><a href="/answer/{{ item['id'] }}/delete" class="link">Delete answer</a></div>
+                    </div>
+                {%  endif %}
                 <div class="answer-comments">
                     <h3>Comments:</h3>
                    {% for comment in answer_comments %}
@@ -62,11 +68,14 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <a href="/answer/{{ item.id }}/new_comment" class="link">Add a comment</a>
+                {% if status == "logged_in" %}
+                    <a href="/answer/{{ item.id }}/new_comment" class="link">Add a comment</a>
+                {% endif %}
             </div></li>
         {%  endfor  %}
         </ul>
     </div>
-    <a id="add-answer" class="link" href="answer/{{ chosen_question['id']}}/new_answer">Add your own answer</a>
-
+    {% if status == "logged_in" %}
+        <a id="add-answer" class="link" href="answer/{{ chosen_question['id']}}/new_answer">Add your own answer</a>
+    {% endif %}
 {% endblock %}
