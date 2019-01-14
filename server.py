@@ -1,11 +1,15 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 from werkzeug.utils import secure_filename
+import bcrypt
 import data_manager
+import hashing
 
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static/images"
+print(os.urandom(16))
+app.secret_key = b'y\x16\xa1/\x92\xd6}\xef?Dp\xbd\xcb\x0e^\x8f'
 
 
 @app.route("/")
@@ -19,13 +23,35 @@ def route_index():
         questions = data_manager.get_searched_phrases(search_phrase)
     else:
         questions = data_manager.get_five_questions_ordered()
-    sign_up = True
-    return render_template("index.html", title="Home page", questions=questions, sign_up=sign_up)
+
+    if 'session_id' in session:
+        logged_in = True
+        return render_template("index.html", title="Home page", questions=questions, logged_in=logged_in)
+    else:
+        sign_up = True
+        return render_template("index.html", title="Home page", questions=questions, sign_up=sign_up)
 
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def route_login():
     login = True
+    if request.method == 'POST':
+        username = request.form['username']
+        user_data = data_manager.get_user_data(username)
+        if user_data:
+            password = request.form['password']
+            hashed_password = user_data['password']
+            if hashing.verify_password(password, hashed_password):
+                session['session_id'] = bcrypt.gensalt().decode('UTF-8')
+                session['user_id'] = user_data['id']
+                data_manager.insert_new_session(session)
+                return redirect(url_for('route_index'))
+            else:
+                message = True
+                return render_template("login-form.html", login=login, message=message)
+        else:
+            message = True
+            return render_template("login-form.html", login=login, message=message)
     return render_template("login-form.html", login=login)
 
 

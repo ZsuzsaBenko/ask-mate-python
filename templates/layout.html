@@ -16,7 +16,7 @@
                     {% if logged_in %}
                         <li><a href="#" >Logout</a></li>
                     {% elif sign_up %}
-                        <li><a href="#">Login</a></li>
+                        <li><a href="{{ url_for('route_login') }}">Login</a></li>
                         <li><a href="#">Sign up</a></li>
                     {% endif %}
                 </ul>

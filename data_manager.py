@@ -295,3 +295,23 @@ def insert_new_answer_comment(cursor, item_data):
                    {'answer_id': item_data["answer_id"], 'message': item_data["message"],
                     'submission_time': submission_time})
 
+
+@connection.connection_handler
+def get_user_data(cursor, username):
+    cursor.execute("""
+                    SELECT * FROM users
+                    WHERE username = %(username)s;
+                   """,
+                   {'username': username})
+    user_data = cursor.fetchone()
+    return user_data
+
+
+@connection.connection_handler
+def insert_new_session(cursor, session):
+    last_access = datetime.now()
+    cursor.execute("""
+                    INSERT INTO sessions (session_id, user_id, last_access)
+                    VALUES ( %(session_id)s, %(user_id)s, %(last_access)s); 
+                   """,
+                   {'session_id': session['session_id'], 'user_id': session['user_id'], 'last_access': last_access})

@@ -341,3 +341,10 @@ h2{
 .reg-title {
     padding: 100px;
 }
+.reg-container p {
+    text-align: center;
+    color: darkred;
+    font-size: 22px;
+    margin-top: 50px;
+    margin-bottom: -75px;
+}

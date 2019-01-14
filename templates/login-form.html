@@ -18,5 +18,8 @@
             {% endif %}
             <input type="submit" value="Submit">
         </form>
+        {% if message %}
+        <p>Sorry, your username or password is incorrect.</p>
+        {% endif %}
     </div>
 {% endblock %}
