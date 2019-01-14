@@ -100,7 +100,7 @@ def route_all_questions():
 
 
 @app.route('/form', methods=['GET', 'POST'])
-def route_form():
+def route_new_question():
     if request.method == 'POST':
         item_data = {"title": request.form["title"], "message": request.form["message"]}
         f = request.files.get("file", None)

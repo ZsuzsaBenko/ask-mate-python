@@ -17,7 +17,7 @@
             {% endif %}
         {% endif %}
         <form {% if not add_answer and not current and not current_answer and not question_comment and not answer_comment %}
-                    action="{{ url_for('route_form') }}"
+                    action="{{ url_for('route_new_question') }}"
                 {% elif add_answer %} action="/question/{{ question_id }}/new_answer"
                 {% elif current_answer %} action="/answer/{{ answer_id }}/edit"
                 {% elif question_comment %} action="/question/{{ question_id }}/new_comment"
