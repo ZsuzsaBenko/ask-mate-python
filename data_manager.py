@@ -264,7 +264,7 @@ def get_question_comments(cursor, question_id):
 def get_answers_comments(cursor, question_id):
     cursor.execute("""
                     SELECT answer.id AS answer_id, comment.message, comment.submission_time,
-                    comment.edited_count FROM comment
+                    comment.edited_count, comment.id FROM comment
                     LEFT JOIN answer ON comment.answer_id = answer.id;
                    """,
                    {'question_id': question_id})
@@ -294,6 +294,27 @@ def insert_new_answer_comment(cursor, item_data):
                     """,
                    {'answer_id': item_data["answer_id"], 'message': item_data["message"],
                     'submission_time': submission_time})
+
+
+@connection.connection_handler
+def get_comment_data(cursor, comment_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
+    comment_data = cursor.fetchone()
+    return comment_data
+
+
+@connection.connection_handler
+def update_comment(cursor, item_data):
+    cursor.execute("""
+                    UPDATE comment
+                    SET message = %(message)s, edited_count = edited_count + 1
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'message': item_data['message'], 'comment_id': item_data['comment_id']})
 
 
 @connection.connection_handler

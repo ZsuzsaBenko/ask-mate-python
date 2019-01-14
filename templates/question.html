@@ -30,6 +30,7 @@
                         <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
                         {% else %} (Edited: 0 times) {% endif %}</span></p>
                     <p>{{ comment.message }}</p>
+                    <a href="/comment/{{ comment.id }}/edit">Edit comment</a>
                 </div>
             {% endfor %}
             {% if status == "logged_in" %}

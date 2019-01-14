@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="form">
+        {% if current %}
+            <h1>Edit your question</h1>
+        {% else %}
+            <h1>Add your question</h1>
+        {% endif %}
+        <form {% if current %} action="/question/{{ question_id }}/edit" {% else %}
+                               action="{{ url_for('route_new_question') }}" {% endif %}
+                method="POST" enctype=multipart/form-data>
+            <label for="title">Title:</label>
+            <input  id='title' name="title" type="text" {% if current %} value="{{ current['title'] }}" {% endif %} required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="10" cols="40" required>{% if current %} {{ current['message'] }}
+                {% endif %} </textarea>
+            <label for="file">Image:</label>
+            <input type="file" id="file" name="file" {% if current %} value="{{ current['image'] }}" {% endif %}>
+            <input type="submit" {% if current %} value="Edit question" {% else %} value="Submit question">
+        </form>
+    </div>
+{% endblock %}
