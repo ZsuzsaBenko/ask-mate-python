@@ -16,8 +16,10 @@
             <div class="question-options">
                 <div><a href="/question/{{ chosen_question["id"] }}/vote-up" class="link">Vote up!</a></div>
                 <div><a href="/question/{{ chosen_question["id"] }}/vote-down" class="link">Vote down!</a></div>
-                <div><a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a></div>
-                <div><a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
+                {% if session['user_id'] == chosen_question['user_id'] %}
+                    <div><a href="/question/{{ chosen_question["id"] }}/edit" class="link">Edit question</a></div>
+                    <div><a href="{{ chosen_question['id']}}/delete" class="link">Delete question</a></div>
+                {% endif %}
             </div>
         {% endif %}
         <div class="question-comments">

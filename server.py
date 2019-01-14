@@ -267,7 +267,6 @@ def route_new_answer_comment(answer_id):
                                answer_comment=answer_comment, answer_id=answer_id)
 
 
-
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,
