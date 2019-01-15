@@ -310,7 +310,7 @@ def route_delete_answer_comment(comment_id):
     return redirect(url_for("route_question", question_id=question_id))
 
 
-@app.route("/all-user")
+@app.route("/user")
 def route_all_user():
     user_info = data_manager.get_users()
     return render_template('user.html', user_info=user_info)

@@ -401,7 +401,7 @@ def delete_session(cursor, session_id):
 @connection.connection_handler
 def get_users(cursor):
     cursor.execute("""
-                    SELECT id, username, signup_date as "signup date"
+                    SELECT username, signup_date as "signup_date"
                     FROM users""")
     users_data = cursor.fetchall()
     return users_data

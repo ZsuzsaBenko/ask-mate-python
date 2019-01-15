@@ -380,3 +380,13 @@ tr:nth-child(even):hover {
 .accepted {
     font-size: 30px;
 }
+
+tr:hover a {
+    color: yellow;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: darkslateblue;
+}

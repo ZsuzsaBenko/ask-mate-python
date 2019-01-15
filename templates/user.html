@@ -6,15 +6,13 @@
     {% if user_info %}
     <table>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
+            <th>Username</th>
             <th>Sign up date</th>
         </tr>
          {% for user in user_info %}
         <tr>
-            {% for value in user.values() %}
-                <td>{{ value }}</td>
-            {% endfor %}
+            <td><a href="#">{{ user['username'] }}</a></td>
+            <td>{{ user['signup_date'] }}</td>
         </tr>
         {% endfor %}
     </table>
