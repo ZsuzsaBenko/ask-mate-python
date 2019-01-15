@@ -14,11 +14,11 @@
         <p><span>Views: </span><span>{{ chosen_question["view_number"] }}</span><span>Votes: </span><span>{{ chosen_question["vote_number"] }}</span></p>
         {% if status == "logged_in" %}
             <div class="options">
-                <a href="/question/{{ chosen_question["id"] }}/vote-up"><i class="fas fa-arrow-alt-circle-up"></i></a>
-                <a href="/question/{{ chosen_question["id"] }}/vote-down"><i class="fas fa-arrow-alt-circle-down"></i></a>
+                <a href="/question/{{ chosen_question["id"] }}/vote-up" title="vote-up"><i class="fas fa-arrow-alt-circle-up"></i></a>
+                <a href="/question/{{ chosen_question["id"] }}/vote-down" title="vote-down"><i class="fas fa-arrow-alt-circle-down"></i></a>
                 {% if session['user_id'] == chosen_question['user_id'] %}
-                    <a href="/question/{{ chosen_question["id"] }}/edit"><i class="fas fa-edit"></i></a>
-                    <a href="{{ chosen_question['id']}}/delete"><i class="fas fa-trash-alt"></i></a>
+                    <a href="/question/{{ chosen_question["id"] }}/edit" title="edit"><i class="fas fa-edit"></i></a>
+                    <a href="/{{ chosen_question['id']}}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
                 {% endif %}
             </div>
         {% endif %}
@@ -32,8 +32,8 @@
                     <p>{{ comment.message }}</p>
                     {% if session["user_id"]  == comment.user_id %}
                         <div class="options">
-                            <a href="/question-comment/{{ comment.id }}/edit"><i class="fas fa-edit"></i></a>
-                            <a href="/question-comment/{{ comment.id }}/delete"><i class="fas fa-trash-alt"></i></a>
+                            <a href="/question-comment/{{ comment.id }}/edit" title="edit"><i class="fas fa-edit"></i></a>
+                            <a href="/question-comment/{{ comment.id }}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     {% endif %}
                 </div>
@@ -57,10 +57,10 @@
                 <p><span>Votes: </span>{{item["vote_number"]}}</p>
                 {% if status == "logged_in" %}
                     <div class="options">
-                        <a href="/answer/{{ item["id"] }}/vote-up"><i class="fas fa-arrow-alt-circle-up"></i></a>
-                        <a href="/answer/{{ item["id"] }}/vote-down"><i class="fas fa-arrow-alt-circle-down"></i></a>
-                        <a href="/answer/{{ item["id"] }}/edit"><i class="fas fa-edit"></i></a>
-                        <a href="/answer/{{ item['id'] }}/delete"><i class="fas fa-trash-alt"></i></a>
+                        <a href="/answer/{{ item["id"] }}/vote-up" title="vote-up"><i class="fas fa-arrow-alt-circle-up"></i></a>
+                        <a href="/answer/{{ item["id"] }}/vote-down" title="vote-down"><i class="fas fa-arrow-alt-circle-down"></i></a>
+                        <a href="/answer/{{ item["id"] }}/edit" title="edit"><i class="fas fa-edit"></i></a>
+                        <a href="/answer/{{ item['id'] }}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
                     </div>
                 {%  endif %}
                 <div class="answer-comments">
@@ -74,8 +74,8 @@
                                 <p>{{ comment.message }}</p>
                                 {% if session["user_id"] == comment.user_id %}
                                     <div class="options">
-                                        <a href="/answer-comment/{{ comment.id }}/edit"><i class="fas fa-edit"></i></a>
-                                        <a href="/answer-comment/{{ comment.id }}/delete"><i class="fas fa-trash-alt"></i></a>
+                                        <a href="/answer-comment/{{ comment.id }}/edit" title="edit"><i class="fas fa-edit"></i></a>
+                                        <a href="/answer-comment/{{ comment.id }}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
                                     </div>
                                 {% endif %}
                             </div>
