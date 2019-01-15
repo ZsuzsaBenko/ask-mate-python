@@ -83,7 +83,8 @@ def update_view_number(cursor, question_id, number):
 @connection.connection_handler
 def get_answers(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM answer
+                    SELECT answer.*, u.username AS "username" FROM answer
+                    INNER JOIN users u on answer.user_id = u.id
                     WHERE question_id = %(question_id)s;
                    """,
                    {'question_id': question_id})
@@ -100,11 +101,15 @@ def insert_new_answer(cursor, item_data):
     cursor.execute("""
                     INSERT INTO answer (submission_time, vote_number, question_id, message, image, accepted)
                     VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(accepted)s);
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s,
+                    %(user_id)s);
                    """,
                    {
                        'submission_time': submission_time, 'vote_number': vote_number,
                        'question_id': item_data['question_id'], 'message': item_data['message'],
                        'image': item_data['image'], 'accepted': accepted
+                       'image': item_data['image'], 'user_id': item_data['user_id']
                    })
 
 
