@@ -134,7 +134,7 @@ def route_question(question_id):
 @app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
     if request.method == 'POST':
-        item_data = {"message": request.form["message"], "question_id": question_id}
+        item_data = {"message": request.form["message"], "question_id": question_id, "user_id": session["user_id"]}
         f = request.files.get("file", None)
         if f:
             filename = secure_filename(f.filename)

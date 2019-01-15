@@ -50,7 +50,7 @@
                 {% if item["image"] %}
                     <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                 {% endif %}
-                <p><span>Date: </span>{{item["submission_time"]}}</p>
+                <p><span>Date: {{item["submission_time"]}}</span> by {{ item["username"] }}</p>
                 <p>{{item["message"]}}</p>
                 <p><span>Votes: </span>{{item["vote_number"]}}</p>
                 {% if status == "logged_in" %}
