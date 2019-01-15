@@ -217,7 +217,7 @@ def route_edit_question(question_id):
         current = {"title": question["title"],
                    "message": question["message"],
                    "image": question["image"]}
-        return render_template("form.html", title="Edit question", question_id=question_id, current=current)
+        return render_template("form-question.html", title="Edit question", question_id=question_id, current=current)
 
 
 @app.route("/answer/<answer_id>/edit", methods=["GET", "POST"])
@@ -239,7 +239,7 @@ def route_edit_answer(answer_id):
         question = question[0]
         current_answer = {"message": question["message"],
                           "image": question["image"]}
-        return render_template("form.html", title="Edit Answer", answer_id=answer_id, current_answer=current_answer)
+        return render_template("form-answer.html", title="Edit Answer", answer_id=answer_id, current_answer=current_answer)
 
 
 @app.route("/question/<question_id>/new_comment", methods=["GET", "POST"])

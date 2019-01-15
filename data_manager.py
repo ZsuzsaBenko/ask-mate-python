@@ -99,10 +99,8 @@ def insert_new_answer(cursor, item_data):
     vote_number = 0
     accepted = False
     cursor.execute("""
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, accepted)
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(accepted)s);
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s,
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, accepted, user_id)
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(accepted)s,
                     %(user_id)s);
                    """,
                    {
