@@ -112,7 +112,7 @@ def route_new_question():
         question_id = data_manager.get_question_id()
         return redirect(url_for("route_question", question_id=question_id))
     else:
-        return render_template('form.html', title="Add a question")
+        return render_template('form-question.html', title="Add a question")
 
 
 @app.route('/question/<question_id>')
@@ -145,8 +145,7 @@ def route_new_answer(question_id):
         data_manager.insert_new_answer(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
-        add_answer = True
-        return render_template('form.html', title="Add an answer", question_id=question_id, add_answer=add_answer)
+        return render_template('form-answer.html', title="Add an answer", question_id=question_id)
 
 
 @app.route('/answer/<answer_id>/delete')
@@ -250,7 +249,7 @@ def route_new_question_comment(question_id):
         return redirect(url_for("route_question", question_id=question_id))
     else:
         question_comment = True
-        return render_template('form.html', title="Add a comment", question_id=question_id,
+        return render_template('form-comment.html', title="Add a comment", question_id=question_id,
                                question_comment=question_comment)
 
 
@@ -263,8 +262,38 @@ def route_new_answer_comment(answer_id):
         return redirect(url_for("route_question", question_id=question_id))
     else:
         answer_comment = True
-        return render_template('form.html', title="Add a comment", question_id=question_id,
+        return render_template('form-comment.html', title="Add a comment", question_id=question_id,
                                answer_comment=answer_comment, answer_id=answer_id)
+
+
+@app.route("/question-comment/<comment_id>/edit", methods=["GET", "POST"])
+def route_edit_question_comment(comment_id):
+    comment_data = data_manager.get_comment_data(comment_id)
+    if request.method == "POST":
+        item_data = {"message": request.form["message"], "comment_id": comment_id}
+        data_manager.update_comment(item_data)
+        question_id = comment_data["question_id"]
+        return redirect(url_for("route_question", question_id=question_id))
+    else:
+        current_comment = True
+        question_comment = True
+        return render_template("form-comment.html", title="Edit a comment", comment_id=comment_id,
+                               current_comment=current_comment, comment_data=comment_data,
+                               question_comment=question_comment)
+
+
+@app.route("/answer-comment/<comment_id>/edit", methods=["GET", "POST"])
+def route_edit_answer_comment(comment_id):
+    comment_data = data_manager.get_comment_data(comment_id)
+    if request.method == "POST":
+        item_data = {"message": request.form["message"], "comment_id": comment_id}
+        data_manager.update_comment(item_data)
+        question_id = data_manager.get_question_id_from_answer_comment(comment_id)
+        return redirect(url_for("route_question", question_id=question_id))
+    else:
+        current_comment = True
+        return render_template("form-comment.html", title="Edit a comment", comment_id=comment_id,
+                               current_comment=current_comment, comment_data=comment_data)
 
 
 @app.route("/all-user")
