@@ -122,13 +122,14 @@ def route_question(question_id):
     question_comments = data_manager.get_question_comments(question_id)
     answers = data_manager.get_answers(question_id)
     answer_comments = data_manager.get_answers_comments(question_id)
+    admin_id = data_manager.get_admin_id()
     if "session_id" in session:
         status = "logged_in"
     else:
         status = "sign_up"
     return render_template('question.html', chosen_question=chosen_question, answers=answers,
                            title=chosen_question["title"], question_comments=question_comments,
-                           answer_comments=answer_comments, status=status)
+                           answer_comments=answer_comments, status=status, admin_id=admin_id)
 
 
 @app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])
@@ -208,7 +209,8 @@ def route_edit_question(question_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             updated_data["image"] = "images/" + filename
         else:
-            updated_data["image"] = None
+            image_path = data_manager.get_image_path_question(question_id)
+            updated_data["image"] = image_path
         data_manager.update_question(question_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
@@ -216,7 +218,7 @@ def route_edit_question(question_id):
         current = {"title": question["title"],
                    "message": question["message"],
                    "image": question["image"]}
-        return render_template("form.html", title="Edit question", question_id=question_id, current=current)
+        return render_template("form-question.html", title="Edit question", question_id=question_id, current=current)
 
 
 @app.route("/answer/<answer_id>/edit", methods=["GET", "POST"])
@@ -230,15 +232,16 @@ def route_edit_answer(answer_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             updated_data["image"] = "images/" + filename
         else:
-            updated_data["image"] = None
-            data_manager.update_answer(answer_id, updated_data)
+            image_path = data_manager.get_image_path_answer(answer_id)
+            updated_data["image"] = image_path
+        data_manager.update_answer(answer_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
         question = data_manager.get_answers(question_id)
         question = question[0]
         current_answer = {"message": question["message"],
                           "image": question["image"]}
-        return render_template("form.html", title="Edit Answer", answer_id=answer_id, current_answer=current_answer)
+        return render_template("form-answer.html", title="Edit Answer", answer_id=answer_id, current_answer=current_answer)
 
 
 @app.route("/question/<question_id>/new_comment", methods=["GET", "POST"])

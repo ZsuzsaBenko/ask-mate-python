@@ -84,7 +84,7 @@ def update_view_number(cursor, question_id, number):
 def get_answers(cursor, question_id):
     cursor.execute("""
                     SELECT answer.*, u.username AS "username" FROM answer
-                    INNER JOIN users u on answer.user_id = u.id
+                    LEFT JOIN users u on answer.user_id = u.id
                     WHERE question_id = %(question_id)s;
                    """,
                    {'question_id': question_id})
@@ -99,10 +99,8 @@ def insert_new_answer(cursor, item_data):
     vote_number = 0
     accepted = False
     cursor.execute("""
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, accepted)
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(accepted)s);
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s,
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, accepted, user_id)
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(accepted)s,
                     %(user_id)s);
                    """,
                    {
@@ -415,3 +413,13 @@ def make_answer_accepted(cursor, answer_id):
                     WHERE id = %(answer_id)s;
                    """,
                    {'answer_id': answer_id})
+
+
+@connection.connection_handler
+def get_admin_id(cursor):
+    cursor.execute("""
+                    SELECT id FROM users
+                    WHERE username = 'admin';
+                       """)
+    admin_id = cursor.fetchone()
+    return admin_id["id"]
