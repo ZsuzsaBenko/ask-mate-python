@@ -209,7 +209,8 @@ def route_edit_question(question_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             updated_data["image"] = "images/" + filename
         else:
-            updated_data["image"] = None
+            image_path = data_manager.get_image_path_question(question_id)
+            updated_data["image"] = image_path
         data_manager.update_question(question_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
@@ -231,8 +232,9 @@ def route_edit_answer(answer_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             updated_data["image"] = "images/" + filename
         else:
-            updated_data["image"] = None
-            data_manager.update_answer(answer_id, updated_data)
+            image_path = data_manager.get_image_path_answer(answer_id)
+            updated_data["image"] = image_path
+        data_manager.update_answer(answer_id, updated_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
         question = data_manager.get_answers(question_id)
