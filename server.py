@@ -244,7 +244,7 @@ def route_edit_answer(answer_id):
 @app.route("/question/<question_id>/new_comment", methods=["GET", "POST"])
 def route_new_question_comment(question_id):
     if request.method == 'POST':
-        item_data = {"message": request.form["message"], "question_id": question_id}
+        item_data = {"message": request.form["message"], "question_id": question_id, 'user_id': session['user_id']}
         data_manager.insert_new_question_comment(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
@@ -257,7 +257,7 @@ def route_new_question_comment(question_id):
 def route_new_answer_comment(answer_id):
     question_id = data_manager.get_question_id_from_answer(answer_id)
     if request.method == 'POST':
-        item_data = {"message": request.form["message"], "answer_id": answer_id}
+        item_data = {"message": request.form["message"], "answer_id": answer_id, "user_id": session["user_id"]}
         data_manager.insert_new_answer_comment(item_data)
         return redirect(url_for("route_question", question_id=question_id))
     else:
@@ -300,6 +300,7 @@ def route_edit_answer_comment(comment_id):
 def route_all_user():
     user_info = data_manager.get_users()
     return render_template('user.html', user_info=user_info)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',

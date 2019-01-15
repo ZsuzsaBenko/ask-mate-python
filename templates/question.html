@@ -26,7 +26,7 @@
             <h3>Comments: </h3>
             {% for comment in question_comments %}
                 <div class="comment">
-                    <p><span>{{ comment.submission_time }} </span>
+                    <p><span>{{ comment.submission_time }} </span>by {{ comment.username }}
                         <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
                         {% else %} (Edited: 0 times) {% endif %}</span></p>
                     <p>{{ comment.message }}</p>
@@ -63,7 +63,7 @@
                    {% for comment in answer_comments %}
                         {% if comment.answer_id == item["id"] %}
                             <div class="comment">
-                                <p><span>{{ comment.submission_time }} </span>
+                                <p><span>{{ comment.submission_time }} </span>by {{ comment.username }}
                                     <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
                                     {% else %} (Edited: 0 times) {% endif %}</span></p>
                                 <p>{{ comment.message }}</p>
