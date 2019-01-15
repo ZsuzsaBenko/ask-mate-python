@@ -84,7 +84,7 @@ def update_view_number(cursor, question_id, number):
 def get_answers(cursor, question_id):
     cursor.execute("""
                     SELECT answer.*, u.username AS "username" FROM answer
-                    INNER JOIN users u on answer.user_id = u.id
+                    LEFT JOIN users u on answer.user_id = u.id
                     WHERE question_id = %(question_id)s;
                    """,
                    {'question_id': question_id})
