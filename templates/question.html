@@ -52,6 +52,9 @@
                 {% if item["image"] %}
                     <img src="{{ url_for("static", filename=item['image']) }}" alt="message-image">
                 {% endif %}
+                {% if item.accepted %}
+                    <p class="accept-p"><i class="fas fa-star accepted"></i> Accepted answer</p>
+                {% endif %}
                 <p><span>Date: </span>{{item["submission_time"]}}</p>
                 <p>{{item["message"]}}</p>
                 <p><span>Votes: </span>{{item["vote_number"]}}</p>

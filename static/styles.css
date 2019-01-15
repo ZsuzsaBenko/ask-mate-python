@@ -373,3 +373,13 @@ tr:nth-child(even) {
 tr:nth-child(even):hover {
     background-color: deeppink;
 }
+.accept-p{
+    color: darkslateblue;
+    background-color: orange;
+    font-weight: bold;
+    padding: 3px;
+    margin-right: 5px;
+}
+.accepted {
+    font-size: 30px;
+}
