@@ -8,11 +8,17 @@
         <tr>
             <th>Username</th>
             <th>Sign up date</th>
+            <th>Questions</th>
+            <th>Answers</th>
+            <th>Comments</th>
         </tr>
          {% for user in user_info %}
         <tr>
             <td><a href="#">{{ user['username'] }}</a></td>
             <td>{{ user['signup_date'] }}</td>
+            <td>{{ user['counted_question'] }}</td>
+            <td>{{ user['counted_answer'] }}</td>
+            <td>{{ user['counted_comment'] }}</td>
         </tr>
         {% endfor %}
     </table>

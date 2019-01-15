@@ -399,11 +399,56 @@ def delete_session(cursor, session_id):
 @connection.connection_handler
 def get_users(cursor):
     cursor.execute("""
-                    SELECT username, signup_date as "signup_date"
+                    SELECT id, username, signup_date as "signup_date"
                     FROM users""")
     users_data = cursor.fetchall()
     return users_data
 
+"""
+@connection.connection_handler
+def get_counted(cursor, user_of_id, datatable):
+    cursor.execute(""""""
+                    SELECT COUNT(user_id) 
+                    FROM %(datatable)s
+                    WHERE user_id = %(user_of_id)s;
+                    """""",
+                   {'user_of_id' : user_of_id, 'datatable' : datatable})
+    users_data = cursor.fetchall()
+    return users_data
+"""
+
+@connection.connection_handler
+def get_counted_que(cursor, user_of_id):
+    cursor.execute("""
+                    SELECT COUNT(user_id) 
+                    FROM answer
+                    WHERE user_id = %(user_of_id)s;
+                    """,
+                   {'user_of_id' : user_of_id})
+    users_data = cursor.fetchone()
+    return users_data
+
+@connection.connection_handler
+def get_counted_ans(cursor, user_of_id):
+    cursor.execute("""
+                    SELECT COUNT(user_id) 
+                    FROM question
+                    WHERE user_id = %(user_of_id)s;
+                    """,
+                   {'user_of_id' : user_of_id})
+    users_data = cursor.fetchone()
+    return users_data
+
+@connection.connection_handler
+def get_counted_comm(cursor, user_of_id):
+    cursor.execute("""
+                    SELECT COUNT(user_id) 
+                    FROM comment
+                    WHERE user_id = %(user_of_id)s;
+                    """,
+                   {'user_of_id' : user_of_id})
+    users_data = cursor.fetchone()
+    return users_data
 
 @connection.connection_handler
 def make_answer_accepted(cursor, answer_id):
@@ -412,7 +457,7 @@ def make_answer_accepted(cursor, answer_id):
                     SET accepted = TRUE
                     WHERE id = %(answer_id)s;
                    """,
-                   {'answer_id': answer_id})
+                   {'answer_id': 'answer_id'})
 
 
 @connection.connection_handler
