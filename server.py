@@ -122,13 +122,14 @@ def route_question(question_id):
     question_comments = data_manager.get_question_comments(question_id)
     answers = data_manager.get_answers(question_id)
     answer_comments = data_manager.get_answers_comments(question_id)
+    admin_id = data_manager.get_admin_id()
     if "session_id" in session:
         status = "logged_in"
     else:
         status = "sign_up"
     return render_template('question.html', chosen_question=chosen_question, answers=answers,
                            title=chosen_question["title"], question_comments=question_comments,
-                           answer_comments=answer_comments, status=status)
+                           answer_comments=answer_comments, status=status, admin_id=admin_id)
 
 
 @app.route('/question/<question_id>/new_answer', methods=['GET', 'POST'])

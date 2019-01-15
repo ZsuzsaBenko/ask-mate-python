@@ -415,3 +415,13 @@ def make_answer_accepted(cursor, answer_id):
                     WHERE id = %(answer_id)s;
                    """,
                    {'answer_id': answer_id})
+
+
+@connection.connection_handler
+def get_admin_id(cursor):
+    cursor.execute("""
+                    SELECT id FROM users
+                    WHERE username = 'admin';
+                       """)
+    admin_id = cursor.fetchone()
+    return admin_id["id"]
