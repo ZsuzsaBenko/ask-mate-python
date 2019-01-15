@@ -7,7 +7,7 @@
         <h1 class="reg-title">Login page</h1>
     {% endif %}
     <div class="reg-container">
-        <form {% if status == "sign_up" %} action="#" {% elif status == "login" %} action="#" {% endif %}
+        <form {% if status == "sign_up" %} action="{{ url_for('route_sign_up') }}" {% elif status == "login" %} action="{{ url_for('route_login') }}" {% endif %}
                 method="POST" class="reg">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username">
