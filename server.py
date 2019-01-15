@@ -296,6 +296,20 @@ def route_edit_answer_comment(comment_id):
                                current_comment=current_comment, comment_data=comment_data)
 
 
+@app.route('/question-comment/<comment_id>/delete')
+def route_delete_question_comment(comment_id):
+    question_id = data_manager.get_question_id_from_question_comment(comment_id)
+    data_manager.delete_comment(comment_id)
+    return redirect(url_for("route_question", question_id=question_id))
+
+
+@app.route('/answer-comment/<comment_id>/delete')
+def route_delete_answer_comment(comment_id):
+    question_id = data_manager.get_question_id_from_answer_comment(comment_id)
+    data_manager.delete_comment(comment_id)
+    return redirect(url_for("route_question", question_id=question_id))
+
+
 @app.route("/all-user")
 def route_all_user():
     user_info = data_manager.get_users()

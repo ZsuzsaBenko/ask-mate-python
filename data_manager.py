@@ -310,6 +310,17 @@ def get_comment_data(cursor, comment_id):
 
 
 @connection.connection_handler
+def get_question_id_from_question_comment(cursor, comment_id):
+    cursor.execute("""
+                    SELECT question_id FROM comment
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
+    question_id = cursor.fetchone()
+    return question_id['question_id']
+
+
+@connection.connection_handler
 def get_question_id_from_answer_comment(cursor, comment_id):
     cursor.execute("""
                     SELECT a.question_id FROM answer a
@@ -329,6 +340,15 @@ def update_comment(cursor, item_data):
                     WHERE id = %(comment_id)s;
                    """,
                    {'message': item_data['message'], 'comment_id': item_data['comment_id']})
+
+
+@connection.connection_handler
+def delete_comment(cursor, comment_id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
 
 
 @connection.connection_handler
