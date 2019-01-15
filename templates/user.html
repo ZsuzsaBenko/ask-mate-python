@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <h1>List of Users</h1>
+    {% if user_info %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Sign up date</th>
+        </tr>
+         {% for user in user_info %}
+        <tr>
+            {% for value in user.values() %}
+                <th>{{ value }}</th>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}

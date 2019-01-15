@@ -267,6 +267,11 @@ def route_new_answer_comment(answer_id):
                                answer_comment=answer_comment, answer_id=answer_id)
 
 
+@app.route("/all-user")
+def route_all_user():
+    user_info = data_manager.get_users()
+    return render_template('user.html', user_info=user_info)
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,
