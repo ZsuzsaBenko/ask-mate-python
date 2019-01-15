@@ -13,7 +13,10 @@
             <input type="text" id="username" name="username">
             <label for="password">Password:</label>
             {% if status == "sign_up" %}
-                <input type="text" id="password" name="password">
+                <input type="text" id="password" name="password" onkeyup="measureSafety()">
+                <div class="password-safety">How safe is my password?
+                    <span class="safe" id="safe0"></span><span class="safe" id="safe1"></span><span class="safe" id="safe2"></span><span class="safe" id="safe3"></span><span class="safe" id="safe4"></span>
+                </div>
             {% elif status == "login" %}
                 <input type="password" id="password" name="password">
             {% endif %}
@@ -25,4 +28,69 @@
             <p>Sorry, this username is already taken.</p>
         {% endif %}
     </div>
+    <script>
+        function colorRectangles(color){
+            let safeClass = document.getElementsByClassName('safe');
+            for (let i = 0; i < safeClass.length; i++){
+                    safeClass[i].style.backgroundColor = color;
+                }
+        }
+
+
+        function containsNumber(string){
+            for (let i = 0; i < string.length; i++){
+                if (Number(string[i])){
+                    return true
+                }
+            }
+            return false
+        }
+
+
+        function containsSpecCharacter(string){
+            const specCharacters = ".,;:?!'-_&@#/()*";
+            for (let i = 0; i < string.length; i++){
+                for (let j = 0; j < specCharacters.length; j++){
+                    if (string[i] === specCharacters[j]) {
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+
+
+        function containsLowerAndUpperCase(string){
+            return string.toLowerCase() !== string && string.toUpperCase() !== string
+        }
+
+
+        function measureSafety(){
+            let password = document.getElementById('password');
+            let pswdString = password.value;
+            console.log(pswdString.length);
+
+            if (pswdString.length > 5 && containsLowerAndUpperCase(pswdString) && containsNumber(pswdString)
+                && containsSpecCharacter(pswdString)){
+                colorRectangles("green")
+            }
+            else if (pswdString.length > 5 && containsLowerAndUpperCase(pswdString) && containsNumber(pswdString) ||
+                     pswdString.length > 5 && containsLowerAndUpperCase(pswdString) && containsSpecCharacter(pswdString) ||
+                     pswdString.length > 5 && containsNumber(pswdString) && containsSpecCharacter(pswdString)){
+                colorRectangles("yellowgreen")
+            }
+            else if (pswdString.length > 5 && containsLowerAndUpperCase(pswdString) ||
+                     pswdString.length > 5 && containsNumber(pswdString) ||
+                     pswdString.length > 5 && containsSpecCharacter(pswdString)) {
+                colorRectangles("yellow")
+            }
+            else if (pswdString.length > 5){
+                colorRectangles("darkorange")
+            }
+            else {
+                colorRectangles("red")
+            }
+
+        }
+    </script>
 {% endblock %}
