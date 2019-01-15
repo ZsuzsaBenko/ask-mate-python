@@ -252,7 +252,8 @@ def get_searched_phrases(cursor, phrase):
 @connection.connection_handler
 def get_question_comments(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM comment
+                    SELECT comment.*, u.username AS username FROM comment
+                    INNER JOIN users u on comment.user_id = u.id
                     WHERE question_id = %(question_id)s;
                    """,
                    {'question_id': question_id})
@@ -263,9 +264,10 @@ def get_question_comments(cursor, question_id):
 @connection.connection_handler
 def get_answers_comments(cursor, question_id):
     cursor.execute("""
-                    SELECT answer.id AS answer_id, comment.message, comment.submission_time,
-                    comment.edited_count, comment.id FROM comment
-                    LEFT JOIN answer ON comment.answer_id = answer.id;
+                    SELECT answer.id AS "answer_id", comment.message, comment.submission_time,
+                    comment.edited_count, comment.id, comment.user_id, u.username AS "username" FROM comment
+                    LEFT JOIN answer ON comment.answer_id = answer.id
+                    INNER JOIN users u on comment.user_id = u.id;
                    """,
                    {'question_id': question_id})
     answer_comments = cursor.fetchall()
@@ -277,11 +279,11 @@ def insert_new_question_comment(cursor, item_data):
     submission_time = datetime.now()
     submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
     cursor.execute("""
-                    INSERT INTO comment (question_id, message, submission_time)
-                    VALUES (%(question_id)s, %(message)s, %(submission_time)s); 
+                    INSERT INTO comment (question_id, message, submission_time, user_id)
+                    VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(user_id)s); 
                     """,
                    {'question_id': item_data["question_id"], 'message': item_data["message"],
-                    'submission_time': submission_time})
+                    'submission_time': submission_time, 'user_id': item_data['user_id']})
 
 
 @connection.connection_handler
@@ -289,11 +291,11 @@ def insert_new_answer_comment(cursor, item_data):
     submission_time = datetime.now()
     submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
     cursor.execute("""
-                    INSERT INTO comment (answer_id, message, submission_time)
-                    VALUES (%(answer_id)s, %(message)s, %(submission_time)s); 
+                    INSERT INTO comment (answer_id, message, submission_time, user_id)
+                    VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(user_id)s); 
                     """,
-                   {'answer_id': item_data["answer_id"], 'message': item_data["message"],
-                    'submission_time': submission_time})
+                   {'answer_id': item_data["answer_id"], 'message': item_data['message'],
+                    'submission_time': submission_time, 'user_id': item_data['user_id']})
 
 
 @connection.connection_handler
@@ -305,6 +307,17 @@ def get_comment_data(cursor, comment_id):
                    {'comment_id': comment_id})
     comment_data = cursor.fetchone()
     return comment_data
+
+
+@connection.connection_handler
+def get_question_id_from_question_comment(cursor, comment_id):
+    cursor.execute("""
+                    SELECT question_id FROM comment
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
+    question_id = cursor.fetchone()
+    return question_id['question_id']
 
 
 @connection.connection_handler
@@ -327,6 +340,15 @@ def update_comment(cursor, item_data):
                     WHERE id = %(comment_id)s;
                    """,
                    {'message': item_data['message'], 'comment_id': item_data['comment_id']})
+
+
+@connection.connection_handler
+def delete_comment(cursor, comment_id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id = %(comment_id)s;
+                   """,
+                   {'comment_id': comment_id})
 
 
 @connection.connection_handler
@@ -369,6 +391,7 @@ def delete_session(cursor, session_id):
                     WHERE session_id = %(session_id)s;
                    """,
                    {'session_id': session_id})
+
 
 @connection.connection_handler
 def get_users(cursor):

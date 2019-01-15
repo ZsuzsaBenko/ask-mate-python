@@ -26,11 +26,14 @@
             <h3>Comments: </h3>
             {% for comment in question_comments %}
                 <div class="comment">
-                    <p><span>{{ comment.submission_time }} </span>
+                    <p><span>{{ comment.submission_time }} </span>by {{ comment.username }}
                         <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
                         {% else %} (Edited: 0 times) {% endif %}</span></p>
                     <p>{{ comment.message }}</p>
-                    <a href="/question-comment/{{ comment.id }}/edit">Edit comment</a>
+                    {% if session["user_id"]  == comment.user_id %}
+                        <a href="/question-comment/{{ comment.id }}/edit">Edit comment</a>
+                        <a href="/question-comment/{{ comment.id }}/delete">Delete comment</a>
+                    {% endif %}
                 </div>
             {% endfor %}
             {% if status == "logged_in" %}
@@ -63,11 +66,14 @@
                    {% for comment in answer_comments %}
                         {% if comment.answer_id == item["id"] %}
                             <div class="comment">
-                                <p><span>{{ comment.submission_time }} </span>
+                                <p><span>{{ comment.submission_time }} </span>by {{ comment.username }}
                                     <span>{% if comment.edited_count %} (Edited: {{ comment.edited_count }} times)
                                     {% else %} (Edited: 0 times) {% endif %}</span></p>
                                 <p>{{ comment.message }}</p>
-                                <a href="/answer-comment/{{ comment.id }}/edit">Edit comment</a>
+                                {% if session["user_id"] == comment.user_id %}
+                                    <a href="/answer-comment/{{ comment.id }}/edit">Edit comment</a>
+                                    <a href="/answer-comment/{{ comment.id }}/delete">Delete comment</a>
+                                {% endif %}
                             </div>
                         {% endif %}
                     {% endfor %}
