@@ -18,7 +18,7 @@
                 <a href="/question/{{ chosen_question["id"] }}/vote-down" title="vote-down"><i class="fas fa-arrow-alt-circle-down"></i></a>
                 {% if session['user_id'] == chosen_question['user_id'] %}
                     <a href="/question/{{ chosen_question["id"] }}/edit" title="edit"><i class="fas fa-edit"></i></a>
-                    <a href="/{{ chosen_question['id']}}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
+                    <a href="{{ chosen_question['id']}}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
                 {% endif %}
             </div>
         {% endif %}

@@ -108,8 +108,7 @@ def insert_new_answer(cursor, item_data):
                    {
                        'submission_time': submission_time, 'vote_number': vote_number,
                        'question_id': item_data['question_id'], 'message': item_data['message'],
-                       'image': item_data['image'], 'accepted': accepted
-                       'image': item_data['image'], 'user_id': item_data['user_id']
+                       'image': item_data['image'], 'accepted': accepted, 'user_id': item_data['user_id']
                    })
 
 
