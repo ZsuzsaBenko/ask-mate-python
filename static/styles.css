@@ -239,15 +239,17 @@ h2{
     width: 250px;
     margin: 70px auto;
 }
-.question-options{
-    width: 90%;
+.options {
+    width: 250px;
     height: auto;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
 }
-.question-options div{
-    flex-direction: column;
+.options a {
+    font-size: 32px;
+    color: darkslateblue;
+    padding-right: 20px;
+}
+.option a:hover, li div .options a:hover {
+    color: deeppink;
 }
 .question-comments{
     margin-top: 50px;
