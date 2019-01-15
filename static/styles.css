@@ -240,7 +240,7 @@ h2{
     margin: 70px auto;
 }
 .options {
-    width: 250px;
+    width: 300px;
     height: auto;
 }
 .options a {
@@ -264,16 +264,6 @@ h2{
 .answers ul{
     padding: 0;
     margin: 0;
-}
-.answer-options{
-    width: 90%;
-    height: auto;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-}
-.answer-options div{
-    flex-direction: column;
 }
 
 /* Form page */

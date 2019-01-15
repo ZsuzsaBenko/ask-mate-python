@@ -96,14 +96,15 @@ def insert_new_answer(cursor, item_data):
     submission_time = datetime.now()
     submission_time = datetime.strftime(submission_time, '%Y-%m-%d %H:%M:%S')
     vote_number = 0
+    accepted = False
     cursor.execute("""
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image)
-                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s);
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, accepted)
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(accepted)s);
                    """,
                    {
                        'submission_time': submission_time, 'vote_number': vote_number,
                        'question_id': item_data['question_id'], 'message': item_data['message'],
-                       'image': item_data['image']
+                       'image': item_data['image'], 'accepted': accepted
                    })
 
 
@@ -400,3 +401,13 @@ def get_users(cursor):
                     FROM users""")
     users_data = cursor.fetchall()
     return users_data
+
+
+@connection.connection_handler
+def make_answer_accepted(cursor, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET accepted = TRUE
+                    WHERE id = %(answer_id)s;
+                   """,
+                   {'answer_id': answer_id})

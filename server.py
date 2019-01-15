@@ -316,6 +316,13 @@ def route_all_user():
     return render_template('user.html', user_info=user_info)
 
 
+@app.route('/answer/<answer_id>/accept')
+def route_accept_answer(answer_id):
+    question_id = data_manager.get_question_id_from_answer(answer_id)
+    data_manager.make_answer_accepted(answer_id)
+    return redirect(url_for("route_question", question_id=question_id))
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,
