@@ -8,8 +8,7 @@ import hashing
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static/images"
-print(os.urandom(16))
-app.secret_key = b'y\x16\xa1/\x92\xd6}\xef?Dp\xbd\xcb\x0e^\x8f'
+app.secret_key = os.urandom(16)
 
 
 @app.route("/")
