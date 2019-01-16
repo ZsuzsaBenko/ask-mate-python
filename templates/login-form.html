@@ -13,7 +13,10 @@
             <input type="text" id="username" name="username">
             <label for="password">Password:</label>
             {% if status == "sign_up" %}
-                <input type="text" id="password" name="password">
+                <input type="text" id="password" name="password" onkeyup="measureSafety()">
+                <div class="password-safety">How safe is my password?
+                    <span class="safe" id="safe0"></span><span class="safe" id="safe1"></span><span class="safe" id="safe2"></span><span class="safe" id="safe3"></span><span class="safe" id="safe4"></span>
+                </div>
             {% elif status == "login" %}
                 <input type="password" id="password" name="password">
             {% endif %}
@@ -25,4 +28,5 @@
             <p>Sorry, this username is already taken.</p>
         {% endif %}
     </div>
+    <script src="{{ url_for('static', filename='password_safety.js') }}"></script>
 {% endblock %}
