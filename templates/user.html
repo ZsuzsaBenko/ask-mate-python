@@ -2,19 +2,28 @@
 
 {% block content %}
 
-    <h1>List of Users</h1>
     {% if user_info %}
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Sign up date</th>
-        </tr>
-         {% for user in user_info %}
-        <tr>
-            <td><a href="#">{{ user['username'] }}</a></td>
-            <td>{{ user['signup_date'] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        <h1>List of Users</h1>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Sign up date</th>
+                <th>Questions</th>
+                <th>Answers</th>
+                <th>Comments</th>
+                <th>Reputation</th>
+            </tr>
+             {% for user in user_info %}
+            <tr>
+                <td><a href="/user/{{ user["id"] }}">{{ user['username'] }}</a></td>
+                <td>{{ user['signup_date'] }}</td>
+                <td>{{ user['counted_question'] }}</td>
+                <td>{{ user['counted_answer'] }}</td>
+                <td>{{ user['counted_comment'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    {% if user_activity %}
     {% endif %}
 {% endblock %}

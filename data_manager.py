@@ -399,9 +399,45 @@ def delete_session(cursor, session_id):
 @connection.connection_handler
 def get_users(cursor):
     cursor.execute("""
-                    SELECT username, signup_date as "signup_date"
+                    SELECT id, username, signup_date as "signup_date"
                     FROM users""")
     users_data = cursor.fetchall()
+    return users_data
+
+
+@connection.connection_handler
+def get_counted_que(cursor, user_of_id):
+    cursor.execute("""
+                    SELECT COUNT(user_id) 
+                    FROM answer
+                    WHERE user_id = %(user_of_id)s;
+                    """,
+                   {'user_of_id' : user_of_id})
+    users_data = cursor.fetchone()
+    return users_data
+
+
+@connection.connection_handler
+def get_counted_ans(cursor, user_of_id):
+    cursor.execute("""
+                    SELECT COUNT(user_id) 
+                    FROM question
+                    WHERE user_id = %(user_of_id)s;
+                    """,
+                   {'user_of_id' : user_of_id})
+    users_data = cursor.fetchone()
+    return users_data
+
+
+@connection.connection_handler
+def get_counted_comm(cursor, user_of_id):
+    cursor.execute("""
+                    SELECT COUNT(user_id) 
+                    FROM comment
+                    WHERE user_id = %(user_of_id)s;
+                    """,
+                   {'user_of_id' : user_of_id})
+    users_data = cursor.fetchone()
     return users_data
 
 

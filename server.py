@@ -315,6 +315,13 @@ def route_delete_answer_comment(comment_id):
 @app.route("/user")
 def route_all_user():
     user_info = data_manager.get_users()
+    for user in user_info:
+        counted_question = data_manager.get_counted_que(user['id'])
+        counted_answer = data_manager.get_counted_ans(user['id'])
+        counted_comment = data_manager.get_counted_comm(user['id'])
+        user.update({'counted_question':counted_question['count']})
+        user.update({'counted_answer':counted_answer['count']})
+        user.update({'counted_comment':counted_comment['count']})
     return render_template('user.html', user_info=user_info)
 
 
@@ -323,6 +330,12 @@ def route_accept_answer(answer_id):
     question_id = data_manager.get_question_id_from_answer(answer_id)
     data_manager.make_answer_accepted(answer_id)
     return redirect(url_for("route_question", question_id=question_id))
+
+
+@app.route('/user/<user_id>')
+def route_userpage(user_id):
+    user_activity=True
+    return render_template("user.html", user_activity=user_activity)
 
 
 if __name__ == "__main__":
