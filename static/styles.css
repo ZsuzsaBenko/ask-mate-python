@@ -39,7 +39,9 @@ nav ul li{
     margin-right: 30px;
     line-height: 80px;
 }
-
+nav ul li a {
+    font-size: 27px;
+}
 .left {
     float: left;
 }
@@ -138,14 +140,15 @@ h2{
     text-align: center;
     margin: 35px 10px 10px;
     box-shadow: 3px 3px 3px #333333;
+    font-weight: bold;
 }
 .choices input[type="submit"]:hover, .form input[type="submit"]:hover, .reg input[type='submit']:hover {
     color: deeppink;
     background-color: whitesmoke;
     font-weight: bold;
 }
-.choices :last-child{
-    margin-top: 50px;
+.choices a {
+    margin-top: 30px;
 }
 .search-form{
     width: 600px;
@@ -156,12 +159,14 @@ h2{
     display: inline;
     height: 35px;
     width: 350px;
+    padding: 5px;
     border: 1px solid darkslateblue;
     border-radius: 5px;
 }
 #search-button{
     display: inline;
     margin-top: 10px;
+    font-weight: bold;
 }
 .questions{
     width: 80%;
