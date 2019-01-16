@@ -37,27 +37,22 @@ function containsLowerAndUpperCase(string){
 function measureSafety(){
     let password = document.getElementById('password');
     let pswdString = password.value;
-    console.log(pswdString.length);
 
-    if (pswdString.length > 5 && containsLowerAndUpperCase(pswdString) && containsNumber(pswdString)
-        && containsSpecCharacter(pswdString)){
-        colorRectangles("green")
+    let score = 1;
+    if (containsLowerAndUpperCase(pswdString)){
+        score += 1;
     }
-    else if (pswdString.length > 5 && containsLowerAndUpperCase(pswdString) && containsNumber(pswdString) ||
-             pswdString.length > 5 && containsLowerAndUpperCase(pswdString) && containsSpecCharacter(pswdString) ||
-             pswdString.length > 5 && containsNumber(pswdString) && containsSpecCharacter(pswdString)){
-        colorRectangles("yellowgreen")
+    if (containsSpecCharacter(pswdString)){
+        score += 1;
     }
-    else if (pswdString.length > 5 && containsLowerAndUpperCase(pswdString) ||
-             pswdString.length > 5 && containsNumber(pswdString) ||
-             pswdString.length > 5 && containsSpecCharacter(pswdString)) {
-        colorRectangles("yellow")
-    }
-    else if (pswdString.length > 5){
-        colorRectangles("darkorange")
-    }
-    else {
-        colorRectangles("red")
+    if (containsNumber(pswdString)){
+        score += 1;
     }
 
+    const colors = {0: "red", 1: "darkorange", 2: "yellow", 3: "yellowgreen", 4: "green"};
+    if (pswdString.length > 5) {
+        colorRectangles(colors[score])
+    } else {
+        colorRectangles(colors[0])
+    }
 }

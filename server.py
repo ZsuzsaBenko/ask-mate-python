@@ -16,6 +16,7 @@ def route_index():
     order_by = request.args.get("order_by")
     order_direction = request.args.get("order_direction")
     search_phrase = request.args.get("search")
+    session['something'] = 234;
     if order_by and order_direction:
         questions = data_manager.get_five_questions_ordered(order_by, order_direction)
     elif search_phrase:
@@ -68,7 +69,6 @@ def route_login():
             if hashing.verify_password(password, hashed_password):
                 session['session_id'] = bcrypt.gensalt().decode('UTF-8')
                 session['user_id'] = user_data['id']
-                data_manager.insert_new_session(session)
                 return redirect(url_for('route_index'))
             else:
                 message = True
