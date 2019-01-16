@@ -333,6 +333,12 @@ def route_accept_answer(answer_id):
     return redirect(url_for("route_question", question_id=question_id))
 
 
+@app.route('/user/<user_id>')
+def route_userpage(user_id):
+    user_activity=True
+    return render_template("user.html", user_activity=user_activity)
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
             port=8000,

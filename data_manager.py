@@ -404,18 +404,6 @@ def get_users(cursor):
     users_data = cursor.fetchall()
     return users_data
 
-"""
-@connection.connection_handler
-def get_counted(cursor, user_of_id, datatable):
-    cursor.execute(""""""
-                    SELECT COUNT(user_id) 
-                    FROM %(datatable)s
-                    WHERE user_id = %(user_of_id)s;
-                    """""",
-                   {'user_of_id' : user_of_id, 'datatable' : datatable})
-    users_data = cursor.fetchall()
-    return users_data
-"""
 
 @connection.connection_handler
 def get_counted_que(cursor, user_of_id):
@@ -428,6 +416,7 @@ def get_counted_que(cursor, user_of_id):
     users_data = cursor.fetchone()
     return users_data
 
+
 @connection.connection_handler
 def get_counted_ans(cursor, user_of_id):
     cursor.execute("""
@@ -438,6 +427,7 @@ def get_counted_ans(cursor, user_of_id):
                    {'user_of_id' : user_of_id})
     users_data = cursor.fetchone()
     return users_data
+
 
 @connection.connection_handler
 def get_counted_comm(cursor, user_of_id):
@@ -450,6 +440,7 @@ def get_counted_comm(cursor, user_of_id):
     users_data = cursor.fetchone()
     return users_data
 
+
 @connection.connection_handler
 def make_answer_accepted(cursor, answer_id):
     cursor.execute("""
@@ -457,7 +448,7 @@ def make_answer_accepted(cursor, answer_id):
                     SET accepted = TRUE
                     WHERE id = %(answer_id)s;
                    """,
-                   {'answer_id': 'answer_id'})
+                   {'answer_id': answer_id})
 
 
 @connection.connection_handler
