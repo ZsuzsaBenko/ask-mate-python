@@ -409,7 +409,7 @@ def get_users(cursor):
 def get_counted_que(cursor, user_of_id):
     cursor.execute("""
                     SELECT COUNT(user_id) 
-                    FROM answer
+                    FROM question
                     WHERE user_id = %(user_of_id)s;
                     """,
                    {'user_of_id' : user_of_id})
@@ -421,7 +421,7 @@ def get_counted_que(cursor, user_of_id):
 def get_counted_ans(cursor, user_of_id):
     cursor.execute("""
                     SELECT COUNT(user_id) 
-                    FROM question
+                    FROM answer
                     WHERE user_id = %(user_of_id)s;
                     """,
                    {'user_of_id' : user_of_id})
