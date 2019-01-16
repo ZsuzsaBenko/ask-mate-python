@@ -8,7 +8,7 @@
     {% endif %}
     <div class="reg-container">
         <form {% if status == "sign_up" %} action="{{ url_for('route_sign_up') }}" {% elif status == "login" %} action="{{ url_for('route_login') }}" {% endif %}
-                method="POST" class="reg">
+                method="POST" class="reg" enctype=multipart/form-data>
             <label for="username">*Username:</label>
             <input type="text" id="username" name="username">
             <label for="password">*Password:</label>
