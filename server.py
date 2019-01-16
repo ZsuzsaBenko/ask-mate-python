@@ -172,13 +172,16 @@ def route_delete_question(question_id):
 def route_vote_up_question(question_id):
     data_manager.update_question_vote(question_id, 1)
     data_manager.update_view_number(question_id, -1)
+    user_id = data_manager.get_user_from_question_id(question_id)
+    data_manager.change_reputation(user_id, 5)
     return redirect(url_for("route_question", question_id=question_id))
 
 
 @app.route("/question/<question_id>/vote-down")
 def route_vote_down_question(question_id):
     data_manager.update_question_vote(question_id, -1)
-    data_manager.update_view_number(question_id, -1)
+    user_id = data_manager.get_user_from_question_id(question_id)
+    data_manager.change_reputation(user_id, -2)
     return redirect(url_for("route_question", question_id=question_id))
 
 
@@ -187,6 +190,8 @@ def route_vote_up_answer(answer_id):
     data_manager.update_answer_vote(answer_id, 1)
     question_id = data_manager.get_question_id_from_answer(answer_id)
     data_manager.update_view_number(question_id, -1)
+    user_id = data_manager.get_user_id_from_answer_id(answer_id)
+    data_manager.change_reputation(user_id, 10)
     return redirect(url_for("route_question", question_id=question_id))
 
 
@@ -195,6 +200,8 @@ def route_vote_down_answer(answer_id):
     data_manager.update_answer_vote(answer_id, -1)
     question_id = data_manager.get_question_id_from_answer(answer_id)
     data_manager.update_view_number(question_id, -1)
+    user_id = data_manager.get_user_id_from_answer_id(answer_id)
+    data_manager.change_reputation(user_id, -2)
     return redirect(url_for("route_question", question_id=question_id))
 
 
@@ -319,9 +326,9 @@ def route_all_user():
         counted_question = data_manager.get_counted_que(user['id'])
         counted_answer = data_manager.get_counted_ans(user['id'])
         counted_comment = data_manager.get_counted_comm(user['id'])
-        user.update({'counted_question':counted_question['count']})
-        user.update({'counted_answer':counted_answer['count']})
-        user.update({'counted_comment':counted_comment['count']})
+        user.update({'counted_question': counted_question['count']})
+        user.update({'counted_answer': counted_answer['count']})
+        user.update({'counted_comment': counted_comment['count']})
     return render_template('user.html', user_info=user_info)
 
 
@@ -329,12 +336,14 @@ def route_all_user():
 def route_accept_answer(answer_id):
     question_id = data_manager.get_question_id_from_answer(answer_id)
     data_manager.make_answer_accepted(answer_id)
+    user_id = data_manager.get_user_id_from_answer_id(answer_id)
+    data_manager.change_reputation(user_id, 15)
     return redirect(url_for("route_question", question_id=question_id))
 
 
 @app.route('/user/<user_id>')
 def route_userpage(user_id):
-    user_activity=True
+    user_activity = True
     return render_template("user.html", user_activity=user_activity)
 
 

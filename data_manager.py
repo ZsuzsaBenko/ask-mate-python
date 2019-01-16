@@ -85,7 +85,8 @@ def get_answers(cursor, question_id):
     cursor.execute("""
                     SELECT answer.*, u.username AS "username" FROM answer
                     LEFT JOIN users u on answer.user_id = u.id
-                    WHERE question_id = %(question_id)s;
+                    WHERE question_id = %(question_id)s
+                    ORDER BY accepted DESC, submission_time DESC;
                    """,
                    {'question_id': question_id})
     answers = cursor.fetchall()
@@ -359,11 +360,11 @@ def insert_new_user(cursor, item_data):
     signup_date = datetime.now()
     signup_date = datetime.strftime(signup_date, '%Y-%m-%d %H:%M:%S')
     cursor.execute("""
-                    INSERT INTO users (username, password, signup_date)
-                    VALUES (%(username)s, %(password)s, %(signup_date)s);
+                    INSERT INTO users (username, password, signup_date, reputation)
+                    VALUES (%(username)s, %(password)s, %(signup_date)s, %(reputation)s);
                     """,
                    {'username': item_data['username'], 'password': item_data['hashed_pass'],
-                    'signup_date': signup_date})
+                    'signup_date': signup_date, 'reputation': 0})
 
 
 @connection.connection_handler
@@ -399,8 +400,10 @@ def delete_session(cursor, session_id):
 @connection.connection_handler
 def get_users(cursor):
     cursor.execute("""
-                    SELECT id, username, signup_date as "signup_date"
-                    FROM users""")
+                    SELECT id, username, signup_date as "signup_date", reputation
+                    FROM users
+                    ORDER BY reputation DESC;
+                    """)
     users_data = cursor.fetchall()
     return users_data
 
@@ -412,7 +415,7 @@ def get_counted_que(cursor, user_of_id):
                     FROM question
                     WHERE user_id = %(user_of_id)s;
                     """,
-                   {'user_of_id' : user_of_id})
+                   {'user_of_id': user_of_id})
     users_data = cursor.fetchone()
     return users_data
 
@@ -424,7 +427,7 @@ def get_counted_ans(cursor, user_of_id):
                     FROM answer
                     WHERE user_id = %(user_of_id)s;
                     """,
-                   {'user_of_id' : user_of_id})
+                   {'user_of_id': user_of_id})
     users_data = cursor.fetchone()
     return users_data
 
@@ -459,3 +462,35 @@ def get_admin_id(cursor):
                        """)
     admin_id = cursor.fetchone()
     return admin_id["id"]
+
+
+@connection.connection_handler
+def get_user_from_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT user_id FROM question
+                    WHERE id = %(question_id)s;
+                   """,
+                   {'question_id': question_id})
+    user_id = cursor.fetchone()
+    return user_id['user_id']
+
+
+@connection.connection_handler
+def get_user_id_from_answer_id(cursor, answer_id):
+    cursor.execute("""
+                      SELECT user_id FROM answer
+                      WHERE id = %(answer_id)s;
+                      """,
+                   {'answer_id': answer_id})
+    user_id = cursor.fetchone()
+    return user_id['user_id']
+
+
+@connection.connection_handler
+def change_reputation(cursor, user_id, number):
+    cursor.execute("""
+                    UPDATE users
+                    SET reputation = reputation + %(number)s
+                    WHERE id = %(user_id)s;
+                   """,
+                   {'user_id': user_id, 'number': number})
