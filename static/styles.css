@@ -327,16 +327,17 @@ h2{
     font-size: 22px;
     font-weight: bold;
 }
+
 .reg input {
     width: 400px;
     margin: 0 auto;
 }
 .reg input[type='submit']{
     box-sizing: content-box;
-    margin: 40px auto;
+    margin: 80px auto;
 }
 .reg-title {
-    padding: 100px;
+    padding: 80px;
 }
 .reg-container p {
     text-align: center;
@@ -345,7 +346,21 @@ h2{
     margin-top: 50px;
     margin-bottom: -75px;
 }
-
+.password-safety {
+    width: 350px;
+    margin: 20px auto 50px;
+    text-align: center;
+}
+.safe{
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+    margin-right: 2px;
+    border: 1px solid black;
+}
+.reg-container #file {
+    text-align: center;
+}
 table {
     margin:40px auto ;
     width: 700px;
@@ -394,16 +409,4 @@ a {
     text-decoration: none;
     font-weight: bold;
     color: darkslateblue;
-}
-.password-safety {
-    width: 350px;
-    margin: 20px auto;
-    text-align: center;
-}
-.safe{
-    display: inline-block;
-    width: 20px;
-    height: 15px;
-    margin-right: 2px;
-    border: 1px solid black;
 }

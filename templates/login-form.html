@@ -9,14 +9,16 @@
     <div class="reg-container">
         <form {% if status == "sign_up" %} action="{{ url_for('route_sign_up') }}" {% elif status == "login" %} action="{{ url_for('route_login') }}" {% endif %}
                 method="POST" class="reg">
-            <label for="username">Username:</label>
+            <label for="username">*Username:</label>
             <input type="text" id="username" name="username">
-            <label for="password">Password:</label>
+            <label for="password">*Password:</label>
             {% if status == "sign_up" %}
                 <input type="text" id="password" name="password" onkeyup="measureSafety()">
                 <div class="password-safety">How safe is my password?
                     <span class="safe" id="safe0"></span><span class="safe" id="safe1"></span><span class="safe" id="safe2"></span><span class="safe" id="safe3"></span><span class="safe" id="safe4"></span>
                 </div>
+                <label for="file">Profile picture:</label>
+                <input type="file" id="file" name="file">
             {% elif status == "login" %}
                 <input type="password" id="password" name="password">
             {% endif %}

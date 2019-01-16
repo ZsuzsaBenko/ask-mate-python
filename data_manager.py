@@ -360,11 +360,11 @@ def insert_new_user(cursor, item_data):
     signup_date = datetime.now()
     signup_date = datetime.strftime(signup_date, '%Y-%m-%d %H:%M:%S')
     cursor.execute("""
-                    INSERT INTO users (username, password, signup_date, reputation)
-                    VALUES (%(username)s, %(password)s, %(signup_date)s, %(reputation)s);
+                    INSERT INTO users (username, password, signup_date, reputation, image)
+                    VALUES (%(username)s, %(password)s, %(signup_date)s, %(reputation)s, %(image)s);
                     """,
                    {'username': item_data['username'], 'password': item_data['hashed_pass'],
-                    'signup_date': signup_date, 'reputation': 0})
+                    'signup_date': signup_date, 'reputation': 0, 'image': item_data['image']})
 
 
 @connection.connection_handler

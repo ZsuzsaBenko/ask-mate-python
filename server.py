@@ -37,7 +37,14 @@ def route_sign_up():
         pass_to_hash = request.form['password']
         hashed_pass = hashing.hash_password(pass_to_hash)
         username = request.form["username"]
+        f = request.files.get("file", None)
         item_data = {"username": username, "hashed_pass": hashed_pass}
+        if f:
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            item_data["image"] = "images/" + filename
+        else:
+            item_data["image"] = None
         user_data = data_manager.get_user_data(username)
         if not user_data:
             data_manager.insert_new_user(item_data)
