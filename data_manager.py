@@ -499,7 +499,7 @@ def change_reputation(cursor, user_id, number):
 @connection.connection_handler
 def get_userprofile(cursor, user_id):
     cursor.execute("""
-                    SELECT id, username, signup_date, reputation 
+                    SELECT id, username, signup_date, reputation, image 
                     FROM users
                     WHERE id = %(user_id)s;
                     """,
@@ -522,7 +522,8 @@ def get_users_questions(cursor, user_id):
 @connection.connection_handler
 def get_users_answer(cursor, user_id):
     cursor.execute("""
-                    SELECT answer.submission_time, answer.vote_number, answer.message, question.title
+                    SELECT answer.submission_time, answer.vote_number, answer.message, 
+                           answer.question_id, answer.accepted, question.title 
                     FROM answer
                     LEFT JOIN question ON answer.question_id = question.id
                     WHERE answer.user_id = %(user_id)s
@@ -536,7 +537,7 @@ def get_users_answer(cursor, user_id):
 @connection.connection_handler
 def get_users_question_comment(cursor, user_id):
     cursor.execute("""
-                    SELECT comment.submission_time, comment.message, question.title
+                    SELECT comment.submission_time, comment.message, comment.question_id, question.title
                     FROM comment
                     INNER JOIN question ON comment.question_id = question.id
                     WHERE comment.user_id = %(user_id)s
@@ -550,7 +551,7 @@ def get_users_question_comment(cursor, user_id):
 @connection.connection_handler
 def get_users_answer_comment(cursor, user_id):
     cursor.execute("""
-                    SELECT comment.submission_time, comment.message, answer.message AS "answer", answer.question_id
+                    SELECT comment.submission_time, comment.message, answer.question_id, answer.message AS "answer"
                     FROM comment
                     INNER JOIN answer ON comment.answer_id = answer.id
                     WHERE comment.user_id = %(user_id)s
