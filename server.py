@@ -349,17 +349,15 @@ def route_accept_answer(answer_id):
 
 @app.route('/user/<user_id>')
 def route_userpage(user_id):
-    user_activity = True
-    return render_template("user.html", user_activity=user_activity)
-
     user_profile = data_manager.get_userprofile(user_id)
     user_questions = data_manager.get_users_questions(user_id)
     user_answers = data_manager.get_users_answer(user_id)
     question_comments = data_manager.get_users_question_comment(user_id)
     answer_comments = data_manager.get_users_answer_comment(user_id)
     return render_template("user.html", user_profile=user_profile,
-                            user_questions=user_questions, user_answers=user_answers,
+                           user_questions=user_questions, user_answers=user_answers,
                            question_comments=question_comments, answer_comments=answer_comments)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',
