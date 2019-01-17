@@ -409,7 +409,7 @@ def get_users(cursor):
 def get_counted_que(cursor, user_of_id):
     cursor.execute("""
                     SELECT COUNT(user_id) 
-                    FROM answer
+                    FROM question
                     WHERE user_id = %(user_of_id)s;
                     """,
                    {'user_of_id' : user_of_id})
@@ -421,7 +421,7 @@ def get_counted_que(cursor, user_of_id):
 def get_counted_ans(cursor, user_of_id):
     cursor.execute("""
                     SELECT COUNT(user_id) 
-                    FROM question
+                    FROM answer
                     WHERE user_id = %(user_of_id)s;
                     """,
                    {'user_of_id' : user_of_id})
@@ -459,3 +459,68 @@ def get_admin_id(cursor):
                        """)
     admin_id = cursor.fetchone()
     return admin_id["id"]
+
+
+@connection.connection_handler
+def get_userprofile(cursor, user_id):
+    cursor.execute("""
+                    SELECT id, username, signup_date, reputation 
+                    FROM users
+                    WHERE id = %(user_id)s;
+                    """,
+                   {'user_id' : user_id})
+    user_profile = cursor.fetchone()
+    return user_profile
+
+
+@connection.connection_handler
+def get_users_questions(cursor, user_id):
+   cursor.execute("""
+                    SELECT * FROM question
+                    WHERE user_id=%(user_id)s;
+                    """,
+                  {'user_id': user_id})
+   user_questions = cursor.fetchall()
+   return user_questions
+
+
+@connection.connection_handler
+def get_users_answer(cursor,user_id):
+    cursor.execute("""
+                    SELECT answer.submission_time, answer.vote_number, answer.message, question.title
+                    FROM answer
+                    LEFT JOIN question ON answer.question_id = question.id
+                    WHERE answer.user_id = %(user_id)s
+                    ORDER BY answer.submission_time;
+                    """,
+                   {'user_id':user_id})
+    user_answers = cursor.fetchall()
+    return user_answers
+
+
+@connection.connection_handler
+def get_users_question_comment(cursor,user_id):
+    cursor.execute("""
+                    SELECT comment.submission_time, comment.message, question.title
+                    FROM comment
+                    LEFT JOIN question ON comment.question_id = question.id
+                    WHERE comment.user_id = %(user_id)s
+                    ORDER BY comment.submission_time;
+                    """,
+                   {'user_id':user_id})
+    question_comments = cursor.fetchall()
+    return question_comments
+
+
+@connection.connection_handler
+def get_users_answer_comment(cursor,user_id):
+    cursor.execute("""
+                    SELECT comment.submission_time, comment.message, answer.message, answer.question_id
+                    FROM comment
+                    LEFT JOIN answer ON comment.answer_id = answer.id
+                    WHERE comment.user_id = %(user_id)s
+                    ORDER BY comment.submission_time;
+                    """,
+                   {'user_id':user_id})
+    answers_comments = cursor.fetchall()
+    return answers_comments
