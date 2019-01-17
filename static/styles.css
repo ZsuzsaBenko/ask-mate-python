@@ -5,6 +5,7 @@ html, body{
     padding:0;
     box-sizing: border-box;
     background-image: url("images/background.png");
+    font-family: 'Domine', serif;
 }
 .container{
     width: 80%;
@@ -146,6 +147,7 @@ h2{
     text-align: center;
     margin: 35px 10px 10px;
     box-shadow: 3px 3px 3px #333333;
+    font-family: 'Domine', serif;
     font-weight: bold;
 }
 .choices input[type="submit"]:hover, .form input[type="submit"]:hover, .reg input[type='submit']:hover {
@@ -423,7 +425,7 @@ tr:nth-child(even):hover {
 .user-info img {
     float: left;
     width: 200px;
-    height: 200px;
+    height: auto;
     border-radius: 10px;
 }
 .user-info p {
