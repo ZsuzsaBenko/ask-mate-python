@@ -13,7 +13,7 @@
                 <th>Comments</th>
                 <th>Reputation</th>
             </tr>
-             {% for user in user_info %}
+            {% for user in user_info %}
             <tr>
                 <td><a href="/user/{{ user["id"] }}">{{ user['username'] }}</a></td>
                 <td>{{ user['signup_date'] }}</td>
@@ -25,6 +25,86 @@
             {% endfor %}
         </table>
     {% endif %}
-    {% if user_activity %}
+    {% if user_profile %}
+        <h1>{{ user_profile['username'] }}'s User Profile</h1>
+        <h3>Username: {{ user_profile['username'] }}</h3>
+        <h3>Sign up date: {{ user_profile['signup_date'] }} </h3>
+        <h3>Reputation: {{ user_profile['reputation'] }}</h3>
+    {% if user_questions != [] %}
+        <h2>Asked questions:</h2>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Submission time</th>
+                <th>Vote number</th>
+                <th>View number</th>
+            </tr>
+        {% endif %}
+            <tr>
+            {% for question in user_questions %}
+                <td>{{ question["title"] }}</td>
+                <td>{{ question["submission_time"] }}</td>
+                <td>{{ question["vote_number"] }}</td>
+                <td>{{ question["view_number"] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% if user_answers != [] %}
+            <h2>Answered questions:</h2>
+            <table>
+                <tr>
+                    <th>Question's Title</th>
+                    <th>Message</th>
+                    <th>Submission time</th>
+                    <th>Vote number</th>
+                </tr>
+                <tr>
+                {% for answer in user_answers %}
+                    <td>{{ answer["title"] }}</td>
+                    <td>{{ answer["message"] }}</td>
+                    <td>{{ answer["submission_time"] }}</td>
+                    <td>{{ answer["vote_number"] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if question_comments != [] %}
+            <h2>Commented questions:</h2>
+            <table>
+                <tr>
+                    <th>Question's Title</th>
+                    <th>Comment</th>
+                    <th>Submission time</th>
+                </tr>
+                <tr>
+                {% for comment in question_comments %}
+                    <td>{{ comment["title"] }}</td>
+                    <td>{{ comment["message"] }}</td>
+                    <td>{{ comment["submission_time"] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if answer_comments != [] %}
+            <h2>Commented questions:</h2>
+            <table>
+                <tr>
+                    <th>Answer's message</th>
+                    <th>Comment</th>
+                    <th>Submission time</th>
+                </tr>
+                <tr>
+                {% for comment in answers_comments %}
+                    <td>{{ comment["title"] }}</td>
+                    <td>{{ comment["message"] }}</td>
+                    <td>{{ comment["submission_time"] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if answer_comments == [] and question_comments == [] and user_answers == [] and user_questions == [] %}
+          <h2>404! Your activity is not found!</h2>
+        {% endif %}
     {% endif %}
+
 {% endblock %}
