@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    {% if status == "sign_up" %}
+        <h1 class="reg-title">Registration page</h1>
+    {% elif status == "login" %}
+        <h1 class="reg-title">Login page</h1>
+    {% endif %}
+    <div class="reg-container">
+        <form {% if status == "sign_up" %} action="{{ url_for('route_sign_up') }}" {% elif status == "login" %} action="{{ url_for('route_login') }}" {% endif %}
+                method="POST" class="reg" enctype=multipart/form-data>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            {% if status == "sign_up" %}
+                <input type="text" id="password" name="password" onkeyup="measureSafety()" required>
+                <div class="password-safety">How safe is my password?
+                    <span class="safe" id="safe0"></span><span class="safe" id="safe1"></span><span class="safe" id="safe2"></span><span class="safe" id="safe3"></span><span class="safe" id="safe4"></span>
+                </div>
+                <label for="file">Profile picture:</label>
+                <input type="file" id="file" name="file">
+            {% elif status == "login" %}
+                <input type="password" id="password" name="password" required>
+            {% endif %}
+            <input type="submit" value="Submit">
+        </form>
+        {% if message and status == "login" %}
+            <p>Sorry, your username or password is incorrect.</p>
+        {% elif message and status == "sign_up" %}
+            <p>Sorry, this username is already taken.</p>
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='password_safety.js') }}"></script>
+{% endblock %}

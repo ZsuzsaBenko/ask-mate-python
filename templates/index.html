@@ -2,7 +2,9 @@
 {% block content %}
     <h1>Ask Mate!</h1>
     <h2>Questions</h2>
-    <a class="link" href="{{ url_for('route_form') }}">Ask a question</a>
+    {% if status == "logged_in" %}
+        <a class="link" href="{{ url_for('route_new_question') }}">Ask a question</a>
+    {% endif %}
     <div class="flex-container">
         <div class="choices">
             <form {% if is_all %} action="{{ url_for('route_all_questions') }}" {% else %} action="{{ url_for('route_index') }}"
@@ -22,11 +24,14 @@
                 <input type="submit" value="Sort questions">
             </form>
             <a class="link" href="{{ url_for('route_all_questions') }}">See all questions</a>
+            {% if status == "logged_in" %}
+                <a class="link" href="{{ url_for('route_all_user') }}">User list</a>
+            {% endif %}
         </div>
         <div class="questions">
             <form class="choices search-form" action="{{ url_for('route_index') }}" method="get">
                 <label for="search"></label>
-                <input type="search" id="search" name="search" placeholder="Write a word of phrase to search for">
+                <input type="search" id="search" name="search" placeholder=" Write a word or phrase to search for">
                 <input type="submit" value="Search" id="search-button">
             </form>
              <ul>
@@ -37,7 +42,7 @@
                         {% else %}
                             <img src="{{ url_for("static", filename="images/question-mark.jpeg") }}" alt="message-image">
                         {% endif %}
-                        <p>{{ item["submission_time"] }}</p>
+                        <p>{{ item["submission_time"] }} by {{ item["username"] }}</p>
                         <p><a href="question/{{ item['id'] }}">{{ item["title"] }}</a></p>
                         <p>{{ item["message"] }}</p>
                     </div></li>

@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    {% if user_info %}
+        <h1>List of Users</h1>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Sign up date</th>
+                <th>Questions</th>
+                <th>Answers</th>
+                <th>Comments</th>
+                <th>Reputation</th>
+            </tr>
+            {% for user in user_info %}
+            <tr>
+                <td><a class="user-a" href="/user/{{ user["id"] }}">{{ user['username'] }}</a></td>
+                <td>{{ user['signup_date'] }}</td>
+                <td>{{ user['counted_question'] }}</td>
+                <td>{{ user['counted_answer'] }}</td>
+                <td>{{ user['counted_comment'] }}</td>
+                <td>{{ user['reputation'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    {% if user_profile %}
+        <div class="user-info">
+            <h1>{{ user_profile['username'] }}'s User Profile</h1>
+            <img src="{{ url_for('static', filename=user_profile['image']) }}" alt="profile_picture" class="clearfix">
+            <p><span>Username: </span>{{ user_profile['username'] }}</p>
+            <p><span>Sign up date: </span>{{ user_profile['signup_date'] }} </p>
+            <p><span>Reputation: </span>{{ user_profile['reputation'] }}</p>
+        </div>
+
+        {% if user_questions %}
+            <h2>Asked questions:</h2>
+            <table id="user-questions">
+                <tr>
+                    <th>Title</th>
+                    <th>Vote number</th>
+                    <th>View number</th>
+                    <th>Submission time</th>
+                </tr>
+                {% for question in user_questions %}
+                    <tr>
+                        <td><a class="user-a" href="{{  url_for('route_question', question_id=question['id'])  }}">{{ question["title"] }}</a></td>
+                        <td>{{ question["vote_number"] }}</td>
+                        <td>{{ question["view_number"] }}</td>
+                        <td>{{ question["submission_time"] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if user_answers %}
+            <h2>Answered questions:</h2>
+            <table id="user-answers">
+                <tr>
+                    <th>Question's Title</th>
+                    <th>Answer</th>
+                    <th>Vote number</th>
+                    <th>Accepted</th>
+                    <th>Submission time</th>
+                </tr>
+                {% for answer in user_answers %}
+                    <tr>
+                    <td><a class="user-a" href="{{  url_for('route_question', question_id=answer['question_id'])  }}">{{ answer["title"] }}</a></td>
+                        <td>{{ answer["message"] }}</td>
+                        <td>{{ answer["vote_number"] }}</td>
+                        {% if answer["accepted"]  %}
+                            <td><i class="fas fa-check-square"></i></td>
+                        {% else %}
+                            <td><i class="fas fa-question-circle"></i></td>
+                        {% endif %}
+                        <td>{{ answer["submission_time"] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if question_comments %}
+            <h2>Commented questions:</h2>
+            <table class="user-comments">
+                <tr>
+                    <th>Question's Title</th>
+                    <th>Comment</th>
+                    <th>Submission time</th>
+                </tr>
+                {% for comment in question_comments %}
+                    <tr>
+                        <td><a class="user-a" href="{{  url_for('route_question', question_id=comment['question_id'])  }}">{{ comment["title"] }}</a></td>
+                        <td>{{ comment["message"] }}</td>
+                        <td>{{ comment["submission_time"] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if answer_comments %}
+            <h2>Commented answers:</h2>
+            <table class="user-comments">
+                <tr>
+                    <th>Answer's message</th>
+                    <th>Comment</th>
+                    <th>Submission time</th>
+                </tr>
+                {% for comment in answer_comments %}
+                    <tr>
+                        <td><a class="user-a" href="{{  url_for('route_question', question_id=comment['question_id'])  }}">{{ comment["answer"] }}</a></td>
+                        <td>{{ comment["message"] }}</td>
+                        <td>{{ comment["submission_time"] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if answer_comments == [] and question_comments == [] and user_answers == [] and user_questions == [] %}
+          <h2>404! Your activity is not found! <i class="fas fa-heart-broken"></i></h2>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

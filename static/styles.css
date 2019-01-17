@@ -5,6 +5,7 @@ html, body{
     padding:0;
     box-sizing: border-box;
     background-image: url("images/background.png");
+    font-family: 'Domine', serif;
 }
 .container{
     width: 80%;
@@ -25,7 +26,11 @@ footer{
     font-size: 20px;
     padding-top: 10px;
 }
-
+nav {
+    position: fixed;
+    top: 0;
+    width: 80%;
+}
 nav ul{
     margin: 0;
     padding: 0;
@@ -33,20 +38,25 @@ nav ul{
 }
 nav ul li{
     padding: 0;
-    float: left;
     list-style: none;
     font-size: 30px;
+    float: right;
+    margin-right: 30px;
+    line-height: 80px;
 }
+nav ul li a {
+    font-size: 27px;
+}
+.left {
+    float: left;
+}
+
 nav ul li:nth-child(2){
     font-size: 18px;
     color: yellow;
     line-height: 60px;
 }
-nav ul li:last-child{
-    float: right;
-    margin-right: 30px;
-    line-height: 80px;
-}
+
 nav ul li img{
     width: 90px;
     height: 80px;
@@ -66,15 +76,17 @@ main{
     background-color: #cccccc;
     color: #333333;
     padding-bottom: 30px;
+    margin-top: 80px;
 }
 h1{
-    padding-top: 30px;
+    padding: 70px 0 20px;
     margin: 0;
     text-align: center;
     font-size: 40px;
 }
 h2{
     text-align: center;
+    padding-top: 30px;
     margin-bottom: 50px;
     font-size: 28px;
 }
@@ -92,6 +104,7 @@ h2{
     border-radius: 5px;
     box-sizing: border-box;
     box-shadow: 3px 3px 3px #333333;
+    font-weight: bold;
 }
 .link:hover{
     color: deeppink;
@@ -123,7 +136,7 @@ h2{
     border: 1px solid darkslateblue;
     border-radius: 5px;
 }
-.choices input[type="submit"], .form input[type="submit"]{
+.choices input[type="submit"], .form input[type="submit"], .reg input[type='submit']{
     font-size: 18px;
     border: 1px solid darkslateblue;
     border-radius: 5px;
@@ -135,14 +148,16 @@ h2{
     text-align: center;
     margin: 35px 10px 10px;
     box-shadow: 3px 3px 3px #333333;
+    font-family: 'Domine', serif;
+    font-weight: bold;
 }
-.choices input[type="submit"]:hover, .form input[type="submit"]:hover{
+.choices input[type="submit"]:hover, .form input[type="submit"]:hover, .reg input[type='submit']:hover {
     color: deeppink;
     background-color: whitesmoke;
     font-weight: bold;
 }
-.choices :last-child{
-    margin-top: 50px;
+.choices a {
+    margin-top: 30px;
 }
 .search-form{
     width: 600px;
@@ -153,12 +168,14 @@ h2{
     display: inline;
     height: 35px;
     width: 350px;
+    padding: 5px;
     border: 1px solid darkslateblue;
     border-radius: 5px;
 }
 #search-button{
     display: inline;
     margin-top: 10px;
+    font-weight: bold;
 }
 .questions{
     width: 80%;
@@ -236,15 +253,17 @@ h2{
     width: 250px;
     margin: 70px auto;
 }
-.question-options{
-    width: 90%;
+.options {
+    width: 300px;
     height: auto;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
 }
-.question-options div{
-    flex-direction: column;
+.options a {
+    font-size: 32px;
+    color: darkslateblue;
+    padding-right: 20px;
+}
+.option a:hover, li div .options a:hover {
+    color: deeppink;
 }
 .question-comments{
     margin-top: 50px;
@@ -260,15 +279,15 @@ h2{
     padding: 0;
     margin: 0;
 }
-.answer-options{
-    width: 90%;
-    height: auto;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
+.accept-p{
+    color: darkslateblue;
+    background-color: orange;
+    font-weight: bold;
+    padding: 3px;
+    margin-right: 5px;
 }
-.answer-options div{
-    flex-direction: column;
+.accepted {
+    font-size: 30px;
 }
 .del-comm{
     color: darkslateblue;
@@ -280,7 +299,7 @@ i{
     font-size: 20px;
 }
 
-/* Form page */
+/* Form-question.html, form.answer.html, form-comment.html */
 
 .form{
     width: 80%;
@@ -317,4 +336,132 @@ i{
 }
 .form input[type="submit"]{
     margin: 50px auto;
+}
+
+/* Registration / login form */
+
+.reg-container {
+   margin: 50px auto 200px;
+}
+
+.reg label, .reg input {
+    display: block;
+    font-size: 18px;
+    padding: 5px;
+}
+.reg label {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.reg input {
+    width: 400px;
+    margin: 0 auto;
+}
+.reg input[type='submit']{
+    box-sizing: content-box;
+    margin: 80px auto;
+}
+.reg-title {
+    padding: 80px;
+}
+.reg-container p {
+    text-align: center;
+    color: darkred;
+    font-size: 22px;
+    margin-top: 50px;
+    margin-bottom: -75px;
+}
+.password-safety {
+    width: 350px;
+    margin: 20px auto 50px;
+    text-align: center;
+}
+.safe{
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+    margin-right: 2px;
+    border: 1px solid black;
+}
+.reg-container #file {
+    text-align: center;
+}
+
+/* User page */
+
+table {
+    margin:40px auto ;
+    width: 1100px;
+    border: 1px solid #485F6E;
+    border-collapse: collapse;
+}
+th, td {
+    border-bottom: 1px solid #485F6E;
+    padding: 15px;
+    text-align: left;
+}
+tr:hover {
+    background-color: deeppink;
+}
+tr:hover a {
+    color: yellow;
+}
+th {
+    color: whitesmoke;
+    background-color: #333333;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:nth-child(even):hover {
+    background-color: deeppink;
+}
+.user-a {
+    text-decoration: none;
+    font-weight: bold;
+    color: darkslateblue;
+}
+.user-info {
+    width: 700px;
+    padding: 50px;
+    margin: 0 auto 100px;
+}
+.user-info h1 {
+    padding: 40px 0 100px;
+}
+.user-info img {
+    float: left;
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+}
+.user-info p {
+    font-size: 22px;
+    color: darkslateblue;
+    margin-left: 250px;
+}
+.user-info p span {
+    font-weight: bold;
+}
+#user-questions, #user-answers, .user-comments {
+    margin-bottom: 90px;
+}
+#user-questions th:nth-child(4), #user-answers th:nth-child(5), .user-comments th:nth-child(3) {
+    width: 20%;
+}
+#user-questions th:first-child {
+    width: 40%;
+}
+#user-answers th:first-child {
+    width: 30%;
+}
+.user-comments th:first-child, .user-comments th:nth-child(2) {
+    width: 40%;
+}
+
+.fa-heart-broken {
+    color:deeppink;
 }
