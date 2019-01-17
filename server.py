@@ -349,9 +349,6 @@ def route_accept_answer(answer_id):
 
 @app.route('/user/<user_id>')
 def route_userpage(user_id):
-    user_activity = True
-    return render_template("user.html", user_activity=user_activity)
-
     user_profile = data_manager.get_userprofile(user_id)
     user_questions = data_manager.get_users_questions(user_id)
     user_answers = data_manager.get_users_answer(user_id)

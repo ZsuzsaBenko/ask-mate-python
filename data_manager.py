@@ -552,7 +552,7 @@ def get_users_answer_comment(cursor,user_id):
     cursor.execute("""
                     SELECT comment.submission_time, comment.message, answer.message, answer.question_id
                     FROM comment
-                    LEFT JOIN answer ON comment.answer_id = answer.id
+                    INNER JOIN answer ON comment.answer_id = answer.id
                     WHERE comment.user_id = %(user_id)s
                     ORDER BY comment.submission_time;
                     """,
