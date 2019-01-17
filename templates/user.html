@@ -45,7 +45,7 @@
                 </tr>
                 {% for question in user_questions %}
                     <tr>
-                        <td>{{ question["title"] }}</td>
+                        <td><a href="{{  url_for('route_question', question_id=question['id'])  }}">{{ question["title"] }}</a></td>
                         <td>{{ question["vote_number"] }}</td>
                         <td>{{ question["view_number"] }}</td>
                         <td>{{ question["submission_time"] }}</td>
@@ -61,13 +61,19 @@
                     <th>Answer</th>
                     <th>Vote number</th>
                     <th>Submission time</th>
+                    <th>Accepted</th>
                 </tr>
                 {% for answer in user_answers %}
                     <tr>
-                        <td>{{ answer["title"] }}</td>
+                    <td><a href="{{  url_for('route_question', question_id=answer['question_id'])  }}">{{ answer["title"] }}</a></td>
                         <td>{{ answer["message"] }}</td>
                         <td>{{ answer["vote_number"] }}</td>
                         <td>{{ answer["submission_time"] }}</td>
+                    {% if answer["accepted"]  %}
+                        <td><i class="fas fa-check-square"></i></td>
+                    {% else %}
+                        <td><i class="fas fa-question-circle"></i></td>
+                    {% endif %}
                     </tr>
                 {% endfor %}
             </table>
@@ -82,7 +88,7 @@
                 </tr>
                 {% for comment in question_comments %}
                     <tr>
-                        <td>{{ comment["title"] }}</td>
+                        <td><a href="{{  url_for('route_question', question_id=comment['question_id'])  }}">{{ comment["title"] }}</a></td>
                         <td>{{ comment["message"] }}</td>
                         <td>{{ comment["submission_time"] }}</td>
                     </tr>
@@ -99,7 +105,7 @@
                 </tr>
                 {% for comment in answer_comments %}
                     <tr>
-                        <td>{{ comment["answer"] }}</td>
+                        <td><a href="{{  url_for('route_question', question_id=comment['question_id'])  }}">{{ comment["answer"] }}</a></td>
                         <td>{{ comment["message"] }}</td>
                         <td>{{ comment["submission_time"] }}</td>
                     </tr>
@@ -107,7 +113,7 @@
             </table>
         {% endif %}
         {% if answer_comments == [] and question_comments == [] and user_answers == [] and user_questions == [] %}
-          <h2>404! Your activity is not found!</h2>
+          <h2>404! Your activity is not found! :(</h2>
         {% endif %}
     {% endif %}
 
