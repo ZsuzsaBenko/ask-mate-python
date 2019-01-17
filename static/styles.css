@@ -440,3 +440,7 @@ tr:nth-child(even):hover {
 .user-comments th:first-child, .user-comments th:nth-child(2) {
     width: 40%;
 }
+
+.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   fa-heart-broken {
+    color: deeppink;
+}
