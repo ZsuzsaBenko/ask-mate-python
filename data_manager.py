@@ -499,7 +499,7 @@ def change_reputation(cursor, user_id, number):
 @connection.connection_handler
 def get_userprofile(cursor, user_id):
     cursor.execute("""
-                    SELECT id, username, signup_date, reputation 
+                    SELECT id, username, signup_date, reputation, image 
                     FROM users
                     WHERE id = %(user_id)s;
                     """,

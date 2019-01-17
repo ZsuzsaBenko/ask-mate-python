@@ -26,30 +26,34 @@
         </table>
     {% endif %}
     {% if user_profile %}
-        <h1>{{ user_profile['username'] }}'s User Profile</h1>
-        <h3>Username: {{ user_profile['username'] }}</h3>
-        <h3>Sign up date: {{ user_profile['signup_date'] }} </h3>
-        <h3>Reputation: {{ user_profile['reputation'] }}</h3>
-    {% if user_questions != [] %}
-        <h2>Asked questions:</h2>
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Submission time</th>
-                <th>Vote number</th>
-                <th>View number</th>
-            </tr>
+        <div>
+            <h1>{{ user_profile['username'] }}'s User Profile</h1>
+            <img src="{{ url_for('static', filename=user_profile['image']) }}" alt="profile_picture">
+            <p>Username: {{ user_profile['username'] }}</p>
+            <p>Sign up date: {{ user_profile['signup_date'] }} </p>
+            <p>Reputation: {{ user_profile['reputation'] }}</p>
+        </div>
+
+        {% if user_questions %}
+            <h2>Asked questions:</h2>
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Submission time</th>
+                    <th>Vote number</th>
+                    <th>View number</th>
+                </tr>
+                <tr>
+                {% for question in user_questions %}
+                    <td>{{ question["title"] }}</td>
+                    <td>{{ question["submission_time"] }}</td>
+                    <td>{{ question["vote_number"] }}</td>
+                    <td>{{ question["view_number"] }}</td>
+                </tr>
+                {% endfor %}
         {% endif %}
-            <tr>
-            {% for question in user_questions %}
-                <td>{{ question["title"] }}</td>
-                <td>{{ question["submission_time"] }}</td>
-                <td>{{ question["vote_number"] }}</td>
-                <td>{{ question["view_number"] }}</td>
-            </tr>
-            {% endfor %}
         </table>
-        {% if user_answers != [] %}
+        {% if user_answers %}
             <h2>Answered questions:</h2>
             <table>
                 <tr>
@@ -68,7 +72,7 @@
                 {% endfor %}
             </table>
         {% endif %}
-        {% if question_comments != [] %}
+        {% if question_comments %}
             <h2>Commented questions:</h2>
             <table>
                 <tr>
@@ -85,7 +89,7 @@
                 {% endfor %}
             </table>
         {% endif %}
-        {% if answer_comments != [] %}
+        {% if answer_comments %}
             <h2>Commented answers:</h2>
             <table>
                 <tr>
