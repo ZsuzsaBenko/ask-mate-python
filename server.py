@@ -355,8 +355,9 @@ def route_userpage(user_id):
     question_comments = data_manager.get_users_question_comment(user_id)
     answer_comments = data_manager.get_users_answer_comment(user_id)
     return render_template("user.html", user_profile=user_profile,
-                            user_questions=user_questions, user_answers=user_answers,
+                           user_questions=user_questions, user_answers=user_answers,
                            question_comments=question_comments, answer_comments=answer_comments)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',

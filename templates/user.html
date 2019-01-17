@@ -86,7 +86,7 @@
             </table>
         {% endif %}
         {% if answer_comments != [] %}
-            <h2>Commented Answers:</h2>
+            <h2>Commented questions:</h2>
             <table>
                 <tr>
                     <th>Answer's message</th>
@@ -94,7 +94,7 @@
                     <th>Submission time</th>
                 </tr>
                 <tr>
-                {% for comment in answer_comments %}
+                {% for comment in answers_comments %}
                     <td>{{ comment["title"] }}</td>
                     <td>{{ comment["message"] }}</td>
                     <td>{{ comment["submission_time"] }}</td>
