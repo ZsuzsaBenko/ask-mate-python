@@ -15,7 +15,7 @@
             </tr>
             {% for user in user_info %}
             <tr>
-                <td><a href="/user/{{ user["id"] }}">{{ user['username'] }}</a></td>
+                <td><a class="user-a" href="/user/{{ user["id"] }}">{{ user['username'] }}</a></td>
                 <td>{{ user['signup_date'] }}</td>
                 <td>{{ user['counted_question'] }}</td>
                 <td>{{ user['counted_answer'] }}</td>
@@ -26,83 +26,83 @@
         </table>
     {% endif %}
     {% if user_profile %}
-        <div>
+        <div class="user-info">
             <h1>{{ user_profile['username'] }}'s User Profile</h1>
-            <img src="{{ url_for('static', filename=user_profile['image']) }}" alt="profile_picture">
-            <p>Username: {{ user_profile['username'] }}</p>
-            <p>Sign up date: {{ user_profile['signup_date'] }} </p>
-            <p>Reputation: {{ user_profile['reputation'] }}</p>
+            <img src="{{ url_for('static', filename=user_profile['image']) }}" alt="profile_picture" class="clearfix">
+            <p><span>Username: </span>{{ user_profile['username'] }}</p>
+            <p><span>Sign up date: </span>{{ user_profile['signup_date'] }} </p>
+            <p><span>Reputation: </span>{{ user_profile['reputation'] }}</p>
         </div>
 
         {% if user_questions %}
             <h2>Asked questions:</h2>
-            <table>
+            <table id="user-questions">
                 <tr>
                     <th>Title</th>
-                    <th>Submission time</th>
                     <th>Vote number</th>
                     <th>View number</th>
+                    <th>Submission time</th>
                 </tr>
-                <tr>
                 {% for question in user_questions %}
-                    <td>{{ question["title"] }}</td>
-                    <td>{{ question["submission_time"] }}</td>
-                    <td>{{ question["vote_number"] }}</td>
-                    <td>{{ question["view_number"] }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ question["title"] }}</td>
+                        <td>{{ question["vote_number"] }}</td>
+                        <td>{{ question["view_number"] }}</td>
+                        <td>{{ question["submission_time"] }}</td>
+                    </tr>
                 {% endfor %}
+            </table>
         {% endif %}
-        </table>
         {% if user_answers %}
             <h2>Answered questions:</h2>
-            <table>
+            <table id="user-answers">
                 <tr>
                     <th>Question's Title</th>
-                    <th>Message</th>
-                    <th>Submission time</th>
+                    <th>Answer</th>
                     <th>Vote number</th>
+                    <th>Submission time</th>
                 </tr>
-                <tr>
                 {% for answer in user_answers %}
-                    <td>{{ answer["title"] }}</td>
-                    <td>{{ answer["message"] }}</td>
-                    <td>{{ answer["submission_time"] }}</td>
-                    <td>{{ answer["vote_number"] }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ answer["title"] }}</td>
+                        <td>{{ answer["message"] }}</td>
+                        <td>{{ answer["vote_number"] }}</td>
+                        <td>{{ answer["submission_time"] }}</td>
+                    </tr>
                 {% endfor %}
             </table>
         {% endif %}
         {% if question_comments %}
             <h2>Commented questions:</h2>
-            <table>
+            <table class="user-comments">
                 <tr>
                     <th>Question's Title</th>
                     <th>Comment</th>
                     <th>Submission time</th>
                 </tr>
-                <tr>
                 {% for comment in question_comments %}
-                    <td>{{ comment["title"] }}</td>
-                    <td>{{ comment["message"] }}</td>
-                    <td>{{ comment["submission_time"] }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ comment["title"] }}</td>
+                        <td>{{ comment["message"] }}</td>
+                        <td>{{ comment["submission_time"] }}</td>
+                    </tr>
                 {% endfor %}
             </table>
         {% endif %}
         {% if answer_comments %}
             <h2>Commented answers:</h2>
-            <table>
+            <table class="user-comments">
                 <tr>
                     <th>Answer's message</th>
                     <th>Comment</th>
                     <th>Submission time</th>
                 </tr>
-                <tr>
                 {% for comment in answer_comments %}
-                    <td>{{ comment["answer"] }}</td>
-                    <td>{{ comment["message"] }}</td>
-                    <td>{{ comment["submission_time"] }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ comment["answer"] }}</td>
+                        <td>{{ comment["message"] }}</td>
+                        <td>{{ comment["submission_time"] }}</td>
+                    </tr>
                 {% endfor %}
             </table>
         {% endif %}
