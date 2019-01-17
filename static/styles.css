@@ -25,7 +25,11 @@ footer{
     font-size: 20px;
     padding-top: 10px;
 }
-
+nav {
+    position: fixed;
+    top: 0;
+    width: 80%;
+}
 nav ul{
     margin: 0;
     padding: 0;
@@ -71,6 +75,7 @@ main{
     background-color: #cccccc;
     color: #333333;
     padding-bottom: 30px;
+    margin-top: 80px;
 }
 h1{
     padding-top: 30px;
@@ -97,6 +102,7 @@ h2{
     border-radius: 5px;
     box-sizing: border-box;
     box-shadow: 3px 3px 3px #333333;
+    font-weight: bold;
 }
 .link:hover{
     color: deeppink;
@@ -431,11 +437,14 @@ tr:nth-child(even):hover {
 #user-questions, #user-answers, .user-comments {
     margin-bottom: 90px;
 }
-#user-questions th:first-child, #user-answers th:first-child {
+#user-questions th:nth-child(4), #user-answers th:nth-child(5), .user-comments th:nth-child(3) {
+    width: 20%;
+}
+#user-questions th:first-child {
     width: 40%;
 }
-#user-questions th:nth-child(4), #user-answers th:nth-child(4) {
-    width: 20%;
+#user-answers th:first-child {
+    width: 30%;
 }
 .user-comments th:first-child, .user-comments th:nth-child(2) {
     width: 40%;
