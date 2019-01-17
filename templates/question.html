@@ -17,8 +17,7 @@
                 {% if session['user_id'] != chosen_question['user_id'] or session['user_id'] == admin_id %}
                     <a href="/question/{{ chosen_question["id"] }}/vote-up" title="vote-up"><i class="fas fa-arrow-alt-circle-up"></i></a>
                     <a href="/question/{{ chosen_question["id"] }}/vote-down" title="vote-down"><i class="fas fa-arrow-alt-circle-down"></i></a>
-                {% endif %}
-                {% if session['user_id'] == chosen_question['user_id'] or session['user_id'] == admin_id %}
+                {% elif session['user_id'] == chosen_question['user_id'] or session['user_id'] == admin_id %}
                     <a href="/question/{{ chosen_question["id"] }}/edit" title="edit"><i class="fas fa-edit"></i></a>
                     <a href="{{ chosen_question['id']}}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
                 {% endif %}
@@ -65,10 +64,11 @@
                         {% if session["user_id"] != item.user_id or session['user_id'] == admin_id %}
                             <a href="/answer/{{ item["id"] }}/vote-up" title="vote-up"><i class="fas fa-arrow-alt-circle-up"></i></a>
                             <a href="/answer/{{ item["id"] }}/vote-down" title="vote-down"><i class="fas fa-arrow-alt-circle-down"></i></a>
-                        {% endif %}
-                        {% if session["user_id"] == item.user_id or session['user_id'] == admin_id %}
+                        {% elif session["user_id"] == item.user_id or session['user_id'] == admin_id %}
                             <a href="/answer/{{ item["id"] }}/edit" title="edit"><i class="fas fa-edit"></i></a>
                             <a href="/answer/{{ item['id'] }}/delete" title="delete"><i class="fas fa-trash-alt"></i></a>
+                        {% endif %}
+                        {% if session['user_id'] == chosen_question['user_id'] or session['user_id'] == admin_id %}
                             <a href="/answer/{{ item['id'] }}/accept" title="accept"><i class="fas fa-star"></i></a>
                         {% endif %}
                     </div>
